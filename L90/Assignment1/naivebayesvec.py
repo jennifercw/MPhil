@@ -2,12 +2,12 @@ from collections import Counter
 import os
 import math
 
-# TODO: Comment
 # TODO: Bigrams + Unigrams:
 # TODO: Sign test pairs
 # TODO: Same freq cutoff?
 
 def read_round_robin_groups(k = 10):
+    # Returns k lists of file names, divided up round robin style.
     pos_file_list = os.listdir(os.path.join("/usr", "groups", "mphil", "L90", "data", "POS"))
     neg_file_list = os.listdir(os.path.join("/usr", "groups", "mphil", "L90", "data", "NEG"))
     assert(len(pos_file_list) == len(neg_file_list))
@@ -29,6 +29,8 @@ def read_round_robin_groups(k = 10):
     return pos_round_robins, neg_round_robins
 
 def read_files(pos, neg):
+    # Given a list of positive file names and negative file names, reads in the text data from 
+    # each file.
     pos_text = []
     neg_text = []
     for pos_f in pos:
@@ -41,6 +43,9 @@ def read_files(pos, neg):
 
 
 def build_vocab(pos_files, neg_files, n = 1):
+    # Counts how many times every word appears in the files and determines
+    # an appropriate cutoff for the vocabulary size based on word frequency.
+    # Creates a mapping from vocab words to integers and a reverse mapping.
     all_files = pos_files + neg_files
     all_vocab = Counter()
     for f in all_files:
@@ -49,13 +54,17 @@ def build_vocab(pos_files, neg_files, n = 1):
             all_vocab[w] += 1
     cutoff = sum([1 for i in all_vocab.items() if i[1] >= 5])
     top_vocab = [v[0] for v in all_vocab.most_common(cutoff)]
+    # Unknown word token to capture anything that falls outside of the vocabulary.
     top_vocab.append(" ".join(["UNK"] * n))
-    #vocab_set = set((top_vocab[i] for i in range(len(top_vocab))))
     vocab_dict = {top_vocab[i] : i for i in range(len(top_vocab))}
     reverse_dict = {c : v for v, c in vocab_dict.items()}
     return vocab_dict, reverse_dict
 
 def get_stats(pos_files, neg_files, vocab_dict, n = 1, smoothing_k = 1):
+    # Calculates statistic for files that will allow us to determine probabilities
+    # to use in our Naive Bayes model.
+
+    # Prior probabilities for the categories.
     pos_neg_likelihood = {}
     total_pos = len(pos_files)
     total_neg = len(neg_files)
@@ -67,24 +76,30 @@ def get_stats(pos_files, neg_files, vocab_dict, n = 1, smoothing_k = 1):
     word_counts = {"pos" : {}, "neg" : {}}
     word_probs = {"pos" : {}, "neg" : {}}
 
+    # Laplace smoothing
     for w in vocab_dict.keys():
         word_counts["pos"][w] = smoothing_k
         word_counts["neg"][w] = smoothing_k
+
+    # Counting every appearance of the word within positive files.    
     for p in pos_files:
         for i in range(len(p) - n + 1):
             w = " ".join([p[i + j] for j in range(n)])
             if w not in vocab_dict:
                 w = " ".join(["UNK"] * n)
             word_counts["pos"][w] += 1
+    # Calculating probability of word appearing in positive document.
     for w, count in word_counts["pos"].items():
         word_probs["pos"][w] = count / (pos_count + (smoothing_k * len(vocab_dict)))
 
+    # Counting every appearance of the word within negative files.    
     for ng in neg_files:
         for i in range(len(ng) - n + 1):
             w = " ".join([ng[i + j] for j in range(n)])
             if w not in vocab_dict:
                 w = " ".join(["UNK"] * n)
             word_counts["neg"][w] += 1
+    # Calculating probability of word appearing in negative document.
     for w, count in word_counts["neg"].items():
         word_probs["neg"][w] = count / (neg_count + (smoothing_k * len(vocab_dict)))
 
@@ -92,6 +107,9 @@ def get_stats(pos_files, neg_files, vocab_dict, n = 1, smoothing_k = 1):
 
 
 def vectorise(rev, vocab_dict, n = 1, freq = True):
+    # Takes tokenised review in text form and encodes it as a Bag of Words vector.
+    # If freq is true, the ith element shows the frequency of word w_i, if freq is False
+    # it indicates its presence with a 1 or 0.
     vec = [0] * len(vocab_dict)
     for i in range(len(rev) - n + 1):
         w = " ".join([rev[i + j] for j in range(n)])
@@ -104,6 +122,9 @@ def vectorise(rev, vocab_dict, n = 1, freq = True):
     return vec
 
 def classify(rev_vec, class_probs, word_probs, reverse_dict):
+    # Calculates the log probability of a document being positive or negative.
+    # Log probability simplifies the calculations as otherwise we would be multiplying
+    # very small numbers
     pos_prob = math.log(class_probs["pos"])
     neg_prob = math.log(class_probs["neg"])
     for i in range(len(rev_vec)):
@@ -124,10 +145,12 @@ def classify(rev_vec, class_probs, word_probs, reverse_dict):
         return "neg"
 
 def binom_coeff(n, k):
+    # Calculates binomial coefficient nCk
     return fact(n)/(fact(k) * fact(n - k))
 
 
 def fact(x):
+    # Calculates x!
     if x == 1 or x == 0:
         return 1
     else:
@@ -135,6 +158,8 @@ def fact(x):
 
 
 def sign_test(acc1, acc2, q = 0.5):
+    # Performs sign test to determine whether the methods used in acc1 and acc2 differ in a statistically
+    # significant way.
     high = 0
     low = 0
     same = 0
@@ -148,9 +173,11 @@ def sign_test(acc1, acc2, q = 0.5):
             same += 1
     k = min(high, low)
     sign_test = 2 * sum([binom_coeff(N, i) * q**i * (1 - q)**(N-i)  for i in range(k + 1)])
-    print(sign_test)
+    return sign_test
 
 def train_and_test_model(pos, neg, pos_test, neg_test, n = 1, smoothing_k = 1, freq = True):
+    # Performs all the steps to train a model and then tests it and determines the accuracy on a held
+    # out test set.
     vocab, reverse = build_vocab(pos, neg, n)
     class_p, word_p = get_stats(pos, neg, vocab, n, smoothing_k)
     pos_tot = len(pos_test)
@@ -172,11 +199,13 @@ def train_and_test_model(pos, neg, pos_test, neg_test, n = 1, smoothing_k = 1, f
     return(acc)
 
 def calc_mean_variance(acc):
+    # Given a list of accuracy values, calulcates their mean and variance.
     m = sum(acc)/len(acc)
     v = sum((x-m)**2 for x in acc)/len(acc)
     return m, v
 
 def run_tests(k = 10):
+    # RUns tests for different regimes of naive Bayes model.
     pos_robins, neg_robins = read_round_robin_groups()
     uni_no_smooth_freq = []
     uni_smooth_freq = []
@@ -188,7 +217,6 @@ def run_tests(k = 10):
     bi_smooth_pres = []
 
     for i in range(k):
-        # Divide train and test sets
         test_set_pos = pos_robins[i]  
         test_set_neg = neg_robins[i]
         train_set_pos = []
@@ -212,6 +240,9 @@ def run_tests(k = 10):
         bi_no_smooth_pres.append(train_and_test_model(pos_train_text, neg_train_text, pos_test_text, neg_test_text, n = 2, smoothing_k = 0, freq = False))
         bi_smooth_pres.append(train_and_test_model(pos_train_text, neg_train_text, pos_test_text, neg_test_text, n = 2, smoothing_k = 1, freq = False))
 
+
+
+
     print("Mean accuracy and variance for:")
     print("Uni, no smooth, freq")
     print(calc_mean_variance(uni_no_smooth_freq))
@@ -231,5 +262,41 @@ def run_tests(k = 10):
     print("Bi, smooth, pres")
     print(calc_mean_variance(bi_smooth_pres))
 
+    print("Sign tests")
+    print("Smooth vs No Smooth")
+    print("Unigrams")
+    print("Frequency")
+    print(sign_test(uni_no_smooth_freq, uni_smooth_freq))
+    print("Presence")
+    print(sign_test(uni_no_smooth_pres, uni_smooth_pres))
+    print("Bigrams")
+    print("Frequency")
+    print(sign_test(bi_no_smooth_freq, bi_smooth_freq))
+    print("Presence")
+    print(sign_test(bi_no_smooth_pres, bi_smooth_pres))
+
+    print("Bigrams vs Unigrams")
+    print("No Smoothing")
+    print("Frequency")
+    print(sign_test(uni_no_smooth_freq, bi_no_smooth_freq))
+    print("Presence")
+    print(sign_test(uni_no_smooth_pres, bi_no_smooth_pres))
+    print("Smoothing")
+    print("Frequency")
+    print(sign_test(uni_smooth_freq, bi_smooth_freq))
+    print("Presence")
+    print(sign_test(uni_smooth_pres, bi_smooth_pres))
+
+    print("Freq vs Pres")
+    print("Unigrams")
+    print("No Smoothing")
+    print(sign_test(uni_no_smooth_pres, uni_no_smooth_freq))
+    print("Smoothing")
+    print(sign_test(uni_smooth_pres, uni_smooth_freq))
+    print("Bigrams")
+    print("No Smoothing")
+    print(sign_test(bi_no_smooth_pres, bi_no_smooth_freq))
+    print("Smoothing")
+    print(sign_test(bi_smooth_pres, bi_smooth_freq))
 
 run_tests(10)
