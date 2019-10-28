@@ -2,7 +2,10 @@ from collections import Counter
 import os
 import math
 
-# TODO: SOMETHING IS BROKEN FOR NO SMOOTHING.
+# TODO: Comment
+# TODO: Bigrams + Unigrams:
+# TODO: Sign test pairs
+# TODO: Same freq cutoff?
 
 def read_round_robin_groups(k = 10):
     pos_file_list = os.listdir(os.path.join("/usr", "groups", "mphil", "L90", "data", "POS"))
