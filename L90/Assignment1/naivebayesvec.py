@@ -3,8 +3,6 @@ import os
 import math
 
 # TODO: Bigrams + Unigrams:
-# TODO: Sign test pairs
-# TODO: Same freq cutoff?
 
 def read_round_robin_groups(k = 10):
     # Returns k lists of file names, divided up round robin style.
@@ -172,6 +170,8 @@ def sign_test(acc1, acc2, q = 0.5):
         else:
             same += 1
     k = min(high, low)
+    if same > 0:
+        N = N - same
     sign_test = 2 * sum([binom_coeff(N, i) * q**i * (1 - q)**(N-i)  for i in range(k + 1)])
     return sign_test
 
@@ -195,8 +195,64 @@ def train_and_test_model(pos, neg, pos_test, neg_test, n = 1, smoothing_k = 1, f
         if res == "neg":
             neg_corr += 1
     acc = (neg_corr + pos_corr)/(pos_tot + neg_tot)
-    print(acc)
     return(acc)
+
+def train_and_test_unigrams_and_bigrams(pos, neg, pos_test, neg_test, smoothing_k = 1, freq = True):
+    uni_vocab, uni_reverse = build_vocab(pos, neg,1)
+    bi_vocab, bi_reverse = build_vocab(pos, neg, 2)
+    uni_class_p, uni_word_p = get_stats(pos, neg, uni_vocab, 1, smoothing_k)
+    bi_class_p, bi_word_p = get_stats(pos, neg, bi_vocab, 2, smoothing_k)
+    pos_tot = len(pos_test)
+    neg_tot = len(neg_test)
+    pos_corr = 0
+    neg_corr = 0
+    for p in pos_test:
+        uni_vec = vectorise(p, uni_vocab, 1, freq)
+        bi_vec = vectorise(p, bi_vocab, 2, freq)
+        res = classify_uni_and_bi(uni_vec, bi_vec, uni_class_p, uni_word_p, bi_word_p, uni_reverse, bi_reverse)
+        if res == "pos":
+            pos_corr += 1
+    for ng in neg_test:
+        uni_vec = vectorise(ng, uni_vocab, 1, freq)
+        bi_vec = vectorise(ng, bi_vocab, 2, freq)
+        res = classify_uni_and_bi(uni_vec, bi_vec, uni_class_p, uni_word_p, bi_word_p, uni_reverse, bi_reverse)
+        if res == "neg":
+            neg_corr += 1
+    acc = (neg_corr + pos_corr)/(pos_tot + neg_tot)
+    return(acc)
+
+def classify_uni_and_bi(uni_vec, bi_vec, uni_class_p, uni_word_p, bi_word_p, uni_reverse, bi_reverse):
+    # Calculates probability of each class using both unigram and bigram vectors
+    pos_prob = math.log(uni_class_p["pos"])
+    neg_prob = math.log(uni_class_p["neg"])
+    for i in range(len(uni_vec)):
+        if uni_vec[i] == 0:
+            continue
+        else:
+            if uni_word_p["pos"][uni_reverse[i]] == 0:
+                pos_prob += -float("inf")
+            else:
+                pos_prob += uni_vec[i] * math.log(uni_word_p["pos"][uni_reverse[i]])
+            if uni_word_p["neg"][uni_reverse[i]] == 0:
+                neg_prob += -float("inf")
+            else:
+                neg_prob += uni_vec[i] * math.log(uni_word_p["neg"][uni_reverse[i]])
+    for i in range(len(bi_vec)):
+        if bi_vec[i] == 0:
+            continue
+        else:
+            if bi_word_p["pos"][bi_reverse[i]] == 0:
+                pos_prob += -float("inf")
+            else:
+                pos_prob += bi_vec[i] * math.log(bi_word_p["pos"][bi_reverse[i]])
+            if bi_word_p["neg"][bi_reverse[i]] == 0:
+                neg_prob += -float("inf")
+            else:
+                neg_prob += bi_vec[i] * math.log(bi_word_p["neg"][bi_reverse[i]])
+    if pos_prob >= neg_prob:
+        return "pos"
+    else:
+        return "neg"    
 
 def calc_mean_variance(acc):
     # Given a list of accuracy values, calulcates their mean and variance.
@@ -215,6 +271,8 @@ def run_tests(k = 10):
     bi_smooth_freq = []
     bi_no_smooth_pres = []
     bi_smooth_pres = []
+    both_smooth_freq = []
+    both_smooth_pres = []
 
     for i in range(k):
         test_set_pos = pos_robins[i]  
@@ -239,6 +297,8 @@ def run_tests(k = 10):
         bi_smooth_freq.append(train_and_test_model(pos_train_text, neg_train_text, pos_test_text, neg_test_text, n = 2, smoothing_k = 1, freq = True))
         bi_no_smooth_pres.append(train_and_test_model(pos_train_text, neg_train_text, pos_test_text, neg_test_text, n = 2, smoothing_k = 0, freq = False))
         bi_smooth_pres.append(train_and_test_model(pos_train_text, neg_train_text, pos_test_text, neg_test_text, n = 2, smoothing_k = 1, freq = False))
+        both_smooth_freq.append(train_and_test_unigrams_and_bigrams(pos_train_text, neg_train_text, pos_test_text, neg_test_text, smoothing_k = 1, freq = True))
+        both_smooth_pres.append(train_and_test_unigrams_and_bigrams(pos_train_text, neg_train_text, pos_test_text, neg_test_text, smoothing_k = 1, freq = False))
 
 
 
@@ -262,41 +322,83 @@ def run_tests(k = 10):
     print("Bi, smooth, pres")
     print(calc_mean_variance(bi_smooth_pres))
 
+    print("Both, smooth, freq")
+    print(calc_mean_variance(both_smooth_freq))
+    print("Both, smooth, pres")
+    print(calc_mean_variance(both_smooth_pres))
+
+
     print("Sign tests")
     print("Smooth vs No Smooth")
     print("Unigrams")
     print("Frequency")
+    print("Mean accuracy no smoothing: ", calc_mean_variance(uni_no_smooth_freq))
+    print("Mean accuracy smoothing: ", calc_mean_variance(uni_smooth_freq))
     print(sign_test(uni_no_smooth_freq, uni_smooth_freq))
     print("Presence")
+    print("Mean accuracy no smoothing: ", calc_mean_variance(uni_no_smooth_pres))
+    print("Mean accuracy smoothing: ", calc_mean_variance(uni_smooth_pres))
     print(sign_test(uni_no_smooth_pres, uni_smooth_pres))
     print("Bigrams")
     print("Frequency")
+    print("Mean accuracy no smoothing: ", calc_mean_variance(bi_no_smooth_freq))
+    print("Mean accuracy smoothing: ", calc_mean_variance(bi_smooth_freq))
     print(sign_test(bi_no_smooth_freq, bi_smooth_freq))
     print("Presence")
+    print("Mean accuracy no smoothing: ", calc_mean_variance(bi_no_smooth_pres))
+    print("Mean accuracy smoothing: ", calc_mean_variance(bi_smooth_pres))
     print(sign_test(bi_no_smooth_pres, bi_smooth_pres))
 
     print("Bigrams vs Unigrams")
     print("No Smoothing")
     print("Frequency")
+    print("Mean accuracy unigrams: ", calc_mean_variance(uni_no_smooth_freq))
+    print("Mean accuracy bigrams: ", calc_mean_variance(bi_no_smooth_freq))
     print(sign_test(uni_no_smooth_freq, bi_no_smooth_freq))
     print("Presence")
+    print("Mean accuracy unigrams: ", calc_mean_variance(uni_no_smooth_pres))
+    print("Mean accuracy bigrams: ", calc_mean_variance(bi_no_smooth_pres))
     print(sign_test(uni_no_smooth_pres, bi_no_smooth_pres))
     print("Smoothing")
     print("Frequency")
-    print(sign_test(uni_smooth_freq, bi_smooth_freq))
+    print("Mean accuracy unigrams: ", calc_mean_variance(uni_smooth_freq))
+    print("Mean accuracy bigrams: ", calc_mean_variance(bi_smooth_freq))
+    print(sign_test(bi_smooth_freq, uni_smooth_freq))
     print("Presence")
+    print("Mean accuracy unigrams: ", calc_mean_variance(uni_smooth_pres))
+    print("Mean accuracy bigrams: ", calc_mean_variance(bi_smooth_pres))
     print(sign_test(uni_smooth_pres, bi_smooth_pres))
 
     print("Freq vs Pres")
     print("Unigrams")
     print("No Smoothing")
+    print("Mean accuracy freq: ", calc_mean_variance(uni_no_smooth_freq))
+    print("Mean accuracy pres: ", calc_mean_variance(uni_no_smooth_pres))
     print(sign_test(uni_no_smooth_pres, uni_no_smooth_freq))
     print("Smoothing")
-    print(sign_test(uni_smooth_pres, uni_smooth_freq))
+    print("Mean accuracy freq: ", calc_mean_variance(uni_smooth_freq))
+    print("Mean accuracy pres: ", calc_mean_variance(uni_smooth_pres))
+    print(sign_test(uni_smooth_freq, uni_smooth_pres))
     print("Bigrams")
     print("No Smoothing")
+    print("Mean accuracy freq: ", calc_mean_variance(bi_no_smooth_freq))
+    print("Mean accuracy pres: ", calc_mean_variance(bi_no_smooth_pres))
     print(sign_test(bi_no_smooth_pres, bi_no_smooth_freq))
     print("Smoothing")
+    print("Mean accuracy freq: ", calc_mean_variance(bi_smooth_freq))
+    print("Mean accuracy pres: ", calc_mean_variance(bi_smooth_pres))
     print(sign_test(bi_smooth_pres, bi_smooth_freq))
+
+    print("Both, with smoothing")
+    print("Mean accuracy freq: ", calc_mean_variance(both_smooth_freq))
+    print("Mean accuracy pres: ", calc_mean_variance(both_smooth_pres))
+    print(sign_test(both_smooth_pres, both_smooth_freq))
+
+    print("Unigrams vs Both")
+    print("freq, with smoothing")
+    print("Mean accuracy uni: ", calc_mean_variance(both_smooth_freq))
+    print("Mean accuracy both: ", calc_mean_variance(uni_smooth_freq))
+    print(sign_test(both_smooth_freq, uni_smooth_freq))
+
 
 run_tests(10)
