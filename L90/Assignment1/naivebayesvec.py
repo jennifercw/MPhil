@@ -396,8 +396,8 @@ def run_tests(k = 10):
 
     print("Unigrams vs Both")
     print("freq, with smoothing")
-    print("Mean accuracy uni: ", calc_mean_variance(both_smooth_freq))
-    print("Mean accuracy both: ", calc_mean_variance(uni_smooth_freq))
+    print("Mean accuracy uni: ", calc_mean_variance(uni_smooth_freq))
+    print("Mean accuracy both: ", calc_mean_variance(both_smooth_freq))
     print(sign_test(both_smooth_freq, uni_smooth_freq))
 
 
