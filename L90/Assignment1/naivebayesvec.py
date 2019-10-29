@@ -406,6 +406,18 @@ def run_tests(k = 10):
     print("Mean accuracy uni: ", calc_mean_variance(uni_smooth_freq))
     print("Mean accuracy both: ", calc_mean_variance(both_smooth_freq))
     print(sign_test(both_smooth_freq, uni_smooth_freq))
+    print("freq, no smoothing")
+    print("Mean accuracy uni: ", calc_mean_variance(uni_no_smooth_freq))
+    print("Mean accuracy both: ", calc_mean_variance(both_no_smooth_freq))
+    print(sign_test(both_no_smooth_freq, uni_no_smooth_freq))
+    print("Pres, smoothing")
+    print("Mean accuracy uni: ", calc_mean_variance(uni_smooth_pres))
+    print("Mean accuracy both: ", calc_mean_variance(both_smooth_pres))
+    print(sign_test(both_smooth_pres, uni_smooth_pres))
+    print("No smoothing, pres")
+    print("Mean accuracy uni: ", calc_mean_variance(uni_no_smooth_pres))
+    print("Mean accuracy both: ", calc_mean_variance(both_no_smooth_pres))
+    print(sign_test(both_no_smooth_pres, uni_no_smooth_pres))
 
 
 run_tests(10)
