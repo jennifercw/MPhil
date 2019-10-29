@@ -2,7 +2,6 @@ from collections import Counter
 import os
 import math
 
-# TODO: Bigrams + Unigrams:
 
 def read_round_robin_groups(k = 10):
     # Returns k lists of file names, divided up round robin style.
@@ -273,6 +272,8 @@ def run_tests(k = 10):
     bi_smooth_pres = []
     both_smooth_freq = []
     both_smooth_pres = []
+    both_no_smooth_freq = []
+    both_no_smooth_pres = []
 
     for i in range(k):
         test_set_pos = pos_robins[i]  
@@ -298,7 +299,9 @@ def run_tests(k = 10):
         bi_no_smooth_pres.append(train_and_test_model(pos_train_text, neg_train_text, pos_test_text, neg_test_text, n = 2, smoothing_k = 0, freq = False))
         bi_smooth_pres.append(train_and_test_model(pos_train_text, neg_train_text, pos_test_text, neg_test_text, n = 2, smoothing_k = 1, freq = False))
         both_smooth_freq.append(train_and_test_unigrams_and_bigrams(pos_train_text, neg_train_text, pos_test_text, neg_test_text, smoothing_k = 1, freq = True))
-        both_smooth_pres.append(train_and_test_unigrams_and_bigrams(pos_train_text, neg_train_text, pos_test_text, neg_test_text, smoothing_k = 1, freq = False))
+        both_smooth_pres.append(train_and_test_unigrams_and_bigrams(pos_train_text, neg_train_text, pos_test_text, neg_test_text, smoothing_k = 1, freq = False))        
+        both_no_smooth_freq.append(train_and_test_unigrams_and_bigrams(pos_train_text, neg_train_text, pos_test_text, neg_test_text, smoothing_k = 0, freq = True))
+        both_no_smooth_pres.append(train_and_test_unigrams_and_bigrams(pos_train_text, neg_train_text, pos_test_text, neg_test_text, smoothing_k = 0, freq = False))
 
 
 
@@ -326,6 +329,10 @@ def run_tests(k = 10):
     print(calc_mean_variance(both_smooth_freq))
     print("Both, smooth, pres")
     print(calc_mean_variance(both_smooth_pres))
+    print("Both, no smooth, freq")
+    print(calc_mean_variance(both_no_smooth_freq))
+    print("Both, no smooth, pres")
+    print(calc_mean_variance(both_no_smooth_pres))
 
 
     print("Sign tests")
