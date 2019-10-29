@@ -57,7 +57,7 @@ This work partially replicates previous work done in the domain of sentiment cla
 
 \subsection{Sentiment Classification}
 
-Sentiment Classification of text is the task of classifying the overall sentiment of a piece of text as postive or negative. In particular, this is often useful for reviews of a product or, in this case, of films. 
+Sentiment Classification of text is the task of classifying the overall sentiment of a piece of text as postive or negative.
 
 \subsection{Pang et al. (2002)}
 
@@ -84,7 +84,6 @@ This work is a partial replication of the work done by Pang et al \cite{pang} on
 
 The data used for this work consisted of 2000 IMDB reviews, equally divided between positive and negative reviews. The data was available both in its raw text form and as a list of tokens with Part of Speech tags. For this work, the raw text was used as Pang (2002) found that using tags as a feature did not result in a statistically significant improvement in their results. 
 
-10-fold round-robin cross-validation testing was performed on the dataset.
 
 \section{Method}
 
@@ -93,7 +92,7 @@ The code used for this work can be found on my user area on the MPhil machines (
 
 \subsection{Naive Bayes}
 
-For this work a Naive Bayes model was implemented. Cross-validation was used, so each model was trained on 9 of 10 file sets and the final set was then used to test the classification accuracy of the model. The accuracies found through this method were averaged for each model. 
+For this work a Naive Bayes model was implemented. 10-fold cross-validation was used, so each model was trained on 9 of 10 file sets and the final set was then used to test the classification accuracy of the model. The accuracies found through this method were averaged for each model. 
 
 In training each model, vocabulary items (either unigrams or bigrams) wrere counted in the training texts and statistics regarding their appearance were calculated. In testing, a review was encided as a bag of words vector and the statistics that had been calculated were used to calculate the probability of it being a positive or negative review. This calculation was performed in log space to avoid encountered problems caused by dealing with the multiplication of many small numbers.
 
@@ -115,7 +114,7 @@ In this work, two methods of handling the feature vector were tested. In the pre
 
 \section{Results}
 
-The full results for all of the model configurations are shown in Table 1. Here I will only discuss which confguration decisions gave statistically significant differences according to the sign test ($p < 0.05$).
+The full results for all of the model configurations are shown in Table 1. Here, I will only discuss which confguration decisions gave statistically significant differences according to the sign test ($p < 0.05$).
 
 \subsection{Statistically Significant Differences}
 
@@ -127,19 +126,19 @@ Using frequency of vocabulary items in feature vectors was not found to give dif
 
 \section{Discussion}
 
-Overall, this 
+Overall, this work found that a Naive Bayes model can create a fairly reliable Sentiment Classifier movie reviews, with accuracy as high as 84.15\%. However there is clearly still room for improvement in these models through further developing the techniques used or by using a different model.
 
 \subsection{Possible Improvements}
 
 It should be possible to achieve better results for this task using other classification methods, such as Support Vector Machines as used by Pang et al. 
 
-It may be possible to achieve further improvements in the accuracy of the models presented here by experimenting further with the value chosen for the frequency cutoff and the value used as the smoothing constant. In this work both unigram and bigram statistics used a minimum frequency of 5 for vocabulary items. However, the value chosen did not necessarily affect the bigram and unigram models in the same way. With further investigation it may be possible to find an optimum value for each model. The smoothing constant was chosen to be 1 (add-one smoothing) for this work, but it is possible that changing this constant may improve or degrade the performance of the model.
+It may be possible to achieve further improvements in the accuracy of the models presented here by experimenting further with the value chosen for the frequency cutoff and the value used as the smoothing constant. In this work both unigram and bigram statistics used a minimum frequency of 5 for vocabulary items. With further investigation it may be possible to find an optimum value for each model. The smoothing constant was chosen to be 1 (add-one smoothing) for this work, but it is possible that changing this constant may improve or degrade the performance of the model.
 
 
 
 
 
-\textbf{Word count: 1073 words}
+\textbf{Word count: 1096 words}
 
 \bibliography{L90ass1bib}{}
 \bibliographystyle{plain}
