@@ -273,7 +273,7 @@ def calc_mean_variance(acc):
 
 
 def run_tests(k=10):
-    # RUns tests for different regimes of naive Bayes model.
+    # Runs tests for different regimes of naive Bayes model.
     pos_robins, neg_robins = read_round_robin_groups()
     uni_no_smooth_freq = []
     uni_smooth_freq = []
