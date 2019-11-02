@@ -83,7 +83,8 @@ def vectorise(rev, vocab_dict, n=1, freq=True):
 def run_test(k=10):
     model_list = ["dbow.model", "dm.model", "dbow100.model", "dm100.model", "dbowlarge.model", "dmlarge.model",
                   "dbow5cutoff.model", "dm5cutoff.model", "dbow1cutoff.model", "dm1cutoff.model"]
-
+    param_names = ["unifreq", "unipres", "bifreq", "bipres"]
+    acc_vals = {name: [] for name in param_names}
     pos_robins, neg_robins = read_round_robin_groups(k)
     pos_test = pos_robins[-1]
     neg_test = neg_robins[-1]
@@ -91,10 +92,7 @@ def run_test(k=10):
     pos_robins = pos_robins[:-1]
     neg_robins = neg_robins[:-1]
     acc_list = {model_name : [] for model_name in model_list}
-    unifreq_acc = []
-    bifreq_acc = []
-    unipres_acc = []
-    bifreq_acc = []
+
     for i in range(k - 1):
         print(i)
         val_pos = pos_robins[i]
@@ -115,7 +113,6 @@ def run_test(k=10):
                       "unipres": {"n": 1, "freq": False, "vocab_dict": uni_vocab_dict},
                       "bifreq": {"n": 2, "freq": True, "vocab_dict": bi_vocab_dict},
                       "bipres": {"n": 2, "freq": False, "vocab_dict": bi_vocab_dict}}
-        acc_vals = {name: [] for name in param_sets.keys()}
         """for model_name in model_list:
             model = Doc2Vec.load(model_name)
             train_w_labels = [(model.infer_vector(p), 1) for p in train_pos_data] + \
@@ -171,8 +168,8 @@ def run_test(k=10):
             accuracy = (neg_corr + pos_corr) / (neg_tot + pos_tot)
             print(name, accuracy)
             acc_vals[name].append(accuracy)
-        for name, acc in acc_vals.items():
-            print(name, calc_mean_variance(acc))
+    for name, acc in param_names:
+         print(name, calc_mean_variance(acc_vals[name]))
     """for model_name in model_list:
         print(model_name, calc_mean_variance(acc_list[model_name]))"""
 
