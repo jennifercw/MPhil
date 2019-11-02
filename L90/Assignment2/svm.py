@@ -81,15 +81,22 @@ def vectorise(rev, vocab_dict, n=1, freq=True):
     return vec
 
 def run_test(k=10):
-    model = Doc2Vec.load("firsttry.model")
+    model_list = ["dbow.model", "dm.model", "dbow100.model", "dm100.model", "dbowlarge.model", "dmlarge.model",
+                  "dbow5cutoff.model", "dm5cutoff.model", "dbow1cutoff.model", "dm1cutoff.model"]
+
     pos_robins, neg_robins = read_round_robin_groups(k)
     pos_test = pos_robins[-1]
     neg_test = neg_robins[-1]
     pos_test_data, neg_test_data = read_files(pos_test, neg_test)
     pos_robins = pos_robins[:-1]
     neg_robins = neg_robins[:-1]
-    acc_list = []
+    acc_list = {model_name : [] for model_name in model_list}
+    unifreq_acc = []
+    bifreq_acc = []
+    unipres_acc = []
+    bifreq_acc = []
     for i in range(k - 1):
+        print(i)
         val_pos = pos_robins[i]
         val_neg = neg_robins[i]
         pos_val_data, neg_val_data = read_files(val_pos, val_neg)
@@ -102,45 +109,17 @@ def run_test(k=10):
                 train_neg.extend(neg_robins[j])
                 train_pos.extend(pos_robins[j])
         train_pos_data, train_neg_data = read_files(train_pos, train_neg)
-        train_w_labels = [(model.infer_vector(p), 1) for p in train_pos_data] + \
-                         [(model.infer_vector(ng), 0) for ng in train_neg_data]
-        random.shuffle(train_w_labels)
-        X = [rev[0] for rev in train_w_labels]
-        Y = [rev[1] for rev in train_w_labels]
-        svm_model = svm.SVC(gamma='scale')
-        svm_model.fit(X, Y)
-        pos_corr = 0
-        pos_tot = len(pos_val_data)
-        neg_corr = 0
-        neg_tot = len(neg_val_data)
-        p_predictions = svm_model.predict([model.infer_vector(p) for p in pos_val_data])
-        for p in p_predictions:
-            if p == 1:
-                pos_corr += 1
-        n_predictions = svm_model.predict([model.infer_vector(ng)for ng in neg_val_data])
-        for ng in n_predictions:
-            if ng == 0:
-                neg_corr += 1
-        accuracy = (neg_corr + pos_corr) / (neg_tot + pos_tot)
-        print(accuracy)
-        acc_list.append(accuracy)
-    print(calc_mean_variance(acc_list))
-    """for i in range(k - 1):
-            val_pos = pos_robins[i]
-            val_neg = neg_robins[i]
-            pos_val_data, neg_val_data = read_files(val_pos, val_neg)
-            train_pos = []
-            train_neg = []
-            for j in range(k - 1):
-                if j == i:
-                    continue
-                else:
-                    train_neg.extend(neg_robins[j])
-                    train_pos.extend(pos_robins[j])
-            train_pos_data, train_neg_data = read_files(train_pos, train_neg)
-            vocab_dict, reverse_dict = build_vocab(train_pos_data, train_neg_data, n=1)
-            train_w_labels = [(vectorise(p, vocab_dict, n=1, freq=True), 1) for p in train_pos_data] + \
-                             [(vectorise(ng, vocab_dict, n=1, freq=True), 0) for ng in train_neg_data]
+        uni_vocab_dict, uni_reverse_dict = build_vocab(train_pos_data, train_neg_data, n=1)
+        bi_vocab_dict, bi_reverse_dict = build_vocab(train_pos_data, train_neg_data, n=2)
+        param_sets = {"unifreq": {"n": 1, "freq": True, "vocab_dict": uni_vocab_dict},
+                      "unipres": {"n": 1, "freq": False, "vocab_dict": uni_vocab_dict},
+                      "bifreq": {"n": 2, "freq": True, "vocab_dict": bi_vocab_dict},
+                      "bipres": {"n": 2, "freq": False, "vocab_dict": bi_vocab_dict}}
+        acc_vals = {name: [] for name in param_sets.keys()}
+        """for model_name in model_list:
+            model = Doc2Vec.load(model_name)
+            train_w_labels = [(model.infer_vector(p), 1) for p in train_pos_data] + \
+                             [(model.infer_vector(ng), 0) for ng in train_neg_data]
             random.shuffle(train_w_labels)
             X = [rev[0] for rev in train_w_labels]
             Y = [rev[1] for rev in train_w_labels]
@@ -150,18 +129,53 @@ def run_test(k=10):
             pos_tot = len(pos_val_data)
             neg_corr = 0
             neg_tot = len(neg_val_data)
-            p_predictions = svm_model.predict([vectorise(p, vocab_dict) for p in pos_val_data])
+            p_predictions = svm_model.predict([model.infer_vector(p) for p in pos_val_data])
             for p in p_predictions:
                 if p == 1:
                     pos_corr += 1
-            n_predictions = svm_model.predict([vectorise(ng, vocab_dict) for ng in neg_val_data])
+            n_predictions = svm_model.predict([model.infer_vector(ng)for ng in neg_val_data])
             for ng in n_predictions:
                 if ng == 0:
                     neg_corr += 1
             accuracy = (neg_corr + pos_corr) / (neg_tot + pos_tot)
             print(accuracy)
-            acc_list.append(accuracy)
-        print(calc_mean_variance(acc_list))"""
+            acc_list[model_name].append(accuracy)"""
+
+
+        for name, params in param_sets.items():
+            print(name)
+            train_w_labels = [(vectorise(p, vocab_dict=params["vocab_dict"], n=params["n"], freq=params["freq"]), 1)
+                              for p in train_pos_data] + [(vectorise(ng, vocab_dict=params["vocab_dict"], n=params["n"],
+                                                                     freq=params["freq"]), 0) for ng in train_neg_data]
+
+            random.shuffle(train_w_labels)
+
+            X = [rev[0] for rev in train_w_labels]
+            Y = [rev[1] for rev in train_w_labels]
+            svm_model = svm.SVC(gamma='scale')
+            svm_model.fit(X, Y)
+            pos_corr = 0
+            pos_tot = len(pos_val_data)
+            neg_corr = 0
+            neg_tot = len(neg_val_data)
+            p_predictions = svm_model.predict([vectorise(p, vocab_dict=params["vocab_dict"], n=params["n"],
+                                                         freq=params["freq"]) for p in pos_val_data])
+            for p in p_predictions:
+                if p == 1:
+                    pos_corr += 1
+            n_predictions = svm_model.predict([vectorise(ng, vocab_dict=params["vocab_dict"], n=params["n"],
+                                                         freq=params["freq"]) for ng in neg_val_data])
+            for ng in n_predictions:
+                if ng == 0:
+                    neg_corr += 1
+            accuracy = (neg_corr + pos_corr) / (neg_tot + pos_tot)
+            print(name, accuracy)
+            acc_vals[name].append(accuracy)
+        for name, acc in acc_vals.items():
+            print(name, calc_mean_variance(acc))
+    """for model_name in model_list:
+        print(model_name, calc_mean_variance(acc_list[model_name]))"""
+
 
 def calc_mean_variance(acc):
     # Given a list of accuracy values, calulcates their mean and variance.
