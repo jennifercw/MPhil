@@ -113,7 +113,7 @@ def run_test(k=10):
                       "unipres": {"n": 1, "freq": False, "vocab_dict": uni_vocab_dict},
                       "bifreq": {"n": 2, "freq": True, "vocab_dict": bi_vocab_dict},
                       "bipres": {"n": 2, "freq": False, "vocab_dict": bi_vocab_dict}}
-        """for model_name in model_list:
+        for model_name in model_list:
             model = Doc2Vec.load(model_name)
             train_w_labels = [(model.infer_vector(p), 1) for p in train_pos_data] + \
                              [(model.infer_vector(ng), 0) for ng in train_neg_data]
@@ -136,7 +136,7 @@ def run_test(k=10):
                     neg_corr += 1
             accuracy = (neg_corr + pos_corr) / (neg_tot + pos_tot)
             print(accuracy)
-            acc_list[model_name].append(accuracy)"""
+            acc_list[model_name].append(accuracy)
 
 
         for name, params in param_sets.items():
@@ -168,10 +168,10 @@ def run_test(k=10):
             accuracy = (neg_corr + pos_corr) / (neg_tot + pos_tot)
             print(name, accuracy)
             acc_vals[name].append(accuracy)
-    for name, acc in param_names:
+    for name in param_names:
          print(name, calc_mean_variance(acc_vals[name]))
-    """for model_name in model_list:
-        print(model_name, calc_mean_variance(acc_list[model_name]))"""
+    for model_name in model_list:
+        print(model_name, calc_mean_variance(acc_list[model_name]))
 
 
 def calc_mean_variance(acc):
