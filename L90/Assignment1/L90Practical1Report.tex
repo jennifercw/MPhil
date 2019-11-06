@@ -61,7 +61,7 @@ Sentiment Classification of text is the task of classifying the overall sentimen
 
 \subsection{Pang et al. (2002)}
 
-This work is a partial replication of the work done by Pang et al \cite{pang} on sentiment classification of movie reviews using a Naive Bayes model. 
+This work is a partial replication of the work done by Pang et al \cite{pang} on sentiment classification of movie reviews. Pang's paper examines the use of a Naive Bayes model, Support Vector Machines and Maximum Entropy classfiers for carrying out the sentiment classification of movie reviews. This work will partially replicate their use of the Naive Bayes model.
 
 \begin{table*}[]
 \captionsetup{justification=centering}
@@ -79,6 +79,10 @@ This work is a partial replication of the work done by Pang et al \cite{pang} on
 
 
 
+
+\section{Data}
+
+The data used for this work consisted of 2000 IMDB reviews, equally divided between positive and negative reviews. The data was available both in its raw text form and as a list of tokens with Part of Speech tags. For this work, the raw text was used as Pang (2002) found that using tags as a feature did not result in a statistically significant improvement in their results. 
 
 
 \section{Method}
@@ -134,7 +138,7 @@ It may be possible to achieve further improvements in the accuracy of the models
 
 
 
-\textbf{Word count: 995 words}
+\textbf{Word count: 1096 words}
 
 \bibliography{L90ass1bib}{}
 \bibliographystyle{plain}
