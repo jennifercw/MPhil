@@ -1,0 +1,11 @@
+\begin{thebibliography}{1}
+
+\bibitem{pang}
+Bo~Pang, Lillian Lee, and Shivakumar Vaithyanathan.
+\newblock Thumbs up?: sentiment classification using machine learning
+  techniques.
+\newblock In {\em Proceedings of the ACL-02 conference on Empirical methods in
+  natural language processing-Volume 10}, pages 79--86. Association for
+  Computational Linguistics, 2002.
+
+\end{thebibliography}

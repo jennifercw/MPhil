@@ -50,7 +50,7 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-This work partially replicates previous work done in the domain of sentiment classification by using a Naive Bayes classification model to classify movie reviews as being either positive or negative. It uses Bag of Word features with both unigram and bigram modelling, individually and combined, both with and without Laplace smoothing and recording both presence and frequency of features. It finds that combining unigrams and bigrams offers the best results and that Laplace smoothing results in a statistically significant improvement in performance regardless of the other details of the model. Using cross-validation, the highest average accuracy reached on the test set was achieved using a model incorporating both unigrams and bigrams, with add-one smoothing and a feature vector indicating only presence of vocabulary items. This model achieved an average accuracy of 84.15\%, and a variance of 0.00106 across the held-out test sets. 
+This work partially replicates previous work in the domain of sentiment classification by using a Naive Bayes classification model to perform sentiment classification on movie reviews. It uses Bag of Word features and tests using them with both unigram and bigram modelling, individually and combined, both with and without Laplace smoothing and recording either  presence and frequency of features. It finds that combining unigrams and bigrams offers the best results and that Laplace smoothing results in a statistically significant improvement in performance regardless of the other details of the model. Using cross-validation, the highest average accuracy reached on the test set was achieved using a model incorporating both unigrams and bigrams, with add-one smoothing and a feature vector indicating only presence of vocabulary items. This model achieved an average accuracy of 84.15\%, and a variance of 0.00106 across the held-out test sets. 
 \end{abstract}
 
 \section{Introduction}
@@ -90,13 +90,13 @@ The code used for this work can be found on my user area on the MPhil machines (
 
 For this work a Naive Bayes model was implemented. 10-fold cross-validation was used, so each model was trained on 9 of 10 file sets and the final set was then used to test the classification accuracy of the model. The accuracies found through this method were averaged for each model. 
 
-In training each model, vocabulary items (either unigrams or bigrams) wrere counted in the training texts and statistics regarding their appearance were calculated. In testing, a review was encided as a bag of words vector and the statistics that had been calculated were used to calculate the probability of it being a positive or negative review. This calculation was performed in log space to avoid encountered problems caused by dealing with the multiplication of many small numbers.
+In training each model, vocabulary items (either unigrams or bigrams) wrere counted in the training texts and statistics regarding their appearance were calculated. In testing, a review was encided as a bag of words vector and the statistics that had been calculated were used to calculate the probability of it being a positive or negative review. This calculation was performed in log space to avoid encountering problems caused by dealing with the multiplication of many small numbers.
 
-Frequency cutoff for the vocabulary was used in each model. Only vocabulary items that appeared 5 times or more in the text were featured in the vocabulary.
+A frequency cutoff for the vocabulary was used in each model. Only vocabulary items that appeared 5 times or more in the text were featured in the vocabulary.
 
 \subsection{Smoothing}
 
-Due to the way that Naive Bayes models train, any review that contains a word that was not seen in the training set for a document of a certain class will always receive a probability of 0 for being in that class. This is clearly not accurate and has the possibility to degrade the quality of our classification model. One way to address this is by using Laplace Smoothing. Laplace smoothing involves giving some initial value to the count of each unigram or bigram so that no vocabulary item from the training set will have a probability of zero. This is desirable as even very rare and unlikely words can occur in a new, unseen review.
+Due to the way that Naive Bayes models train, any review that contains a word that was not seen in the training set for a document of a certain class will always receive a probability of 0 for being in that class. This is clearly not accurate and may degrade the quality of our classification model. One way to address this is by using Laplace Smoothing. Laplace smoothing involves giving some initial value to the count of each unigram or bigram so that no vocabulary item from the training set will have a probability of zero. This is desirable as even very rare and unlikely words can occur in a new, unseen review.
 
 For the tests conducted in this work, add-one smoothing was used, so every unigram or bigram in the vocabulary was given an initial count of one.
 
@@ -110,7 +110,7 @@ In this work, two methods of handling the feature vector were tested. In the pre
 
 \section{Results}
 
-The full results for all of the model configurations are shown in Table 1. Here, I will only discuss which confguration decisions gave statistically significant differences according to the sign test ($p < 0.05$).
+The full results for all model configurations are shown in Table 1. Here, I will only discuss which confguration decisions gave statistically significant differences according to the sign test ($p < 0.05$).
 
 \subsection{Statistically Significant Differences}
 
@@ -122,7 +122,7 @@ Using frequency of vocabulary items in feature vectors was not found to give dif
 
 \section{Discussion}
 
-Overall, this work found that a Naive Bayes model can create a fairly reliable Sentiment Classifier movie reviews, with accuracy as high as 84.15\%. However there is clearly still room for improvement in these models through further developing the techniques used or by using a different model.
+Overall, this work found that a Naive Bayes model can create a fairly reliable Sentiment Classifier movie reviews, with accuracy as high as 84.15\%. However there is clearly still room for improvement in these models through further developing the techniques used or by using a different type of classifier.
 
 \subsection{Possible Improvements}
 
@@ -134,7 +134,7 @@ It may be possible to achieve further improvements in the accuracy of the models
 
 
 
-\textbf{Word count: 995 words}
+\textbf{Word count: 993 words}
 
 \bibliography{L90ass1bib}{}
 \bibliographystyle{plain}
