@@ -3,9 +3,10 @@ from nltk.tokenize import word_tokenize
 import os
 import random
 
-# TODO: Run with a variety of parameters
-# TODO: Run for 100 epochs
-
+"""
+The models that I obtained from this code and that I used to obtain my results can be downloaded from:
+    https://drive.google.com/file/d/1ykdC4qwMj-nZC6t5P5KJQZespIaH__7-/view?usp=sharing
+"""
 
 def read_data():
     data = []

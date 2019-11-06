@@ -6,6 +6,11 @@ from nltk import word_tokenize
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 
 
+"""
+    The models used to run this code for the results found in my writeup can be downloaded here: 
+    https://drive.google.com/file/d/1ykdC4qwMj-nZC6t5P5KJQZespIaH__7-/view?usp=sharing
+"""
+
 # TODO: Run a variety of configurations (uni/bi, freq/pres) without doc2vec
 # TODO: Run for doc2vec with all embeddings
 
