@@ -10,8 +10,9 @@ from gensim.models.doc2vec import Doc2Vec, TaggedDocument
     https://drive.google.com/file/d/1ykdC4qwMj-nZC6t5P5KJQZespIaH__7-/view?usp=sharing
 """
 
-# TODO: Run a variety of configurations (uni/bi, freq/pres) without doc2vec
-# TODO: Run for doc2vec with all embeddings
+# TODO: Unigram + bigram model
+# TODO: Test best on blind test set
+# TODO: Do significance testing
 
 def read_round_robin_groups(k=10):
     # Returns k lists of file names, divided up round robin style.
@@ -89,6 +90,8 @@ def run_test(k=10):
                   "dbow5cutoff.model", "dm5cutoff.model", "dbow1cutoff.model", "dm1cutoff.model"]
     param_names = ["unifreq", "unipres", "bifreq", "bipres"]
     acc_vals = {name: [] for name in param_names}
+    best_classifier_params = {name : None for name in param_names}
+    best_classifier_doc2vec = {model_name : None for model_name in model_list}
     pos_robins, neg_robins = read_round_robin_groups(k)
     pos_test = pos_robins[-1]
     neg_test = neg_robins[-1]
@@ -124,7 +127,7 @@ def run_test(k=10):
             random.shuffle(train_w_labels)
             X = [rev[0] for rev in train_w_labels]
             Y = [rev[1] for rev in train_w_labels]
-            svm_model = svm.SVC(gamma='scale')
+            svm_model = svm.SVC(gamma='scale', kernel='sigmoid')
             svm_model.fit(X, Y)
             pos_corr = 0
             pos_tot = len(pos_val_data)
@@ -141,6 +144,8 @@ def run_test(k=10):
             accuracy = (neg_corr + pos_corr) / (neg_tot + pos_tot)
             print(accuracy)
             acc_list[model_name].append(accuracy)
+            if accuracy == max(acc_list[model_name]):
+                best_classifier_doc2vec[model_name] = svm_model
 
 
         for name, params in param_sets.items():
@@ -153,7 +158,7 @@ def run_test(k=10):
 
             X = [rev[0] for rev in train_w_labels]
             Y = [rev[1] for rev in train_w_labels]
-            svm_model = svm.SVC(gamma='scale')
+            svm_model = svm.SVC(gamma='scale', kernel='sigmoid')
             svm_model.fit(X, Y)
             pos_corr = 0
             pos_tot = len(pos_val_data)
@@ -172,10 +177,34 @@ def run_test(k=10):
             accuracy = (neg_corr + pos_corr) / (neg_tot + pos_tot)
             print(name, accuracy)
             acc_vals[name].append(accuracy)
+            if accuracy == max(acc_vals[name]):
+                best_classifier_params[name] = svm_model
     for name in param_names:
          print(name, calc_mean_variance(acc_vals[name]))
     for model_name in model_list:
         print(model_name, calc_mean_variance(acc_list[model_name]))
+    """for name in param_names:
+        # Current problem is that we need appropriate vocab_dict as well
+        # Think make the vocab dict indexed by k rather than model
+        # Model can index uni or bi and thus can be defined before loop
+        svm_model = best_classifier_params[name]
+        pos_corr = 0
+        pos_tot = len(pos_test_data)
+        neg_corr = 0
+        neg_tot = len(neg_test_data)
+        params = param_sets[name]
+        p_predictions = svm_model.predict([vectorise(p, vocab_dict=params["vocab_dict"], n=params["n"],
+                                                     freq=params["freq"]) for p in pos_test_data])
+        for p in p_predictions:
+            if p == 1:
+                pos_corr += 1
+        n_predictions = svm_model.predict([vectorise(ng, vocab_dict=params["vocab_dict"], n=params["n"],
+                                                     freq=params["freq"]) for ng in neg_test_data])
+        for ng in n_predictions:
+            if ng == 0:
+                neg_corr += 1
+        accuracy = (neg_corr + pos_corr) / (neg_tot + pos_tot)
+        print(name, accuracy)"""
 
 
 def calc_mean_variance(acc):
