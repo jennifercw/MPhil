@@ -1,0 +1,118 @@
+% !TEX TS-program = pdflatex
+% !TEX encoding = UTF-8 Unicode
+
+\documentclass[twocolumn]{article} 
+
+\usepackage[utf8]{inputenc} 
+
+%%% PAGE DIMENSIONS
+\usepackage{geometry} 
+\usepackage{cite}
+
+\geometry{a4paper} 
+
+\usepackage{graphicx} 
+
+
+\usepackage{booktabs} 
+\usepackage{array}
+\usepackage{paralist} 
+\usepackage{verbatim} 
+\usepackage{subfig} 
+
+
+
+\usepackage{fancyhdr} 
+\pagestyle{fancy} 
+\renewcommand{\headrulewidth}{0pt}
+\lhead{}\chead{}\rhead{}
+\lfoot{}\cfoot{\thepage}\rfoot{}
+
+
+\usepackage{sectsty}
+\allsectionsfont{\sffamily\mdseries\upshape} 
+
+\usepackage[nottoc,notlof,notlot]{tocbibind} 
+\usepackage[titles,subfigure]{tocloft} 
+\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
+\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} 
+
+
+
+
+
+\title{ L90 Assignment 2:\\
+	Improving Sentiment Classification of Movie Reviews Using Support Vector Machines and doc2vec }
+\author{Jennifer White (\texttt{jw2088})}
+%\date{} 
+
+\begin{document}
+\maketitle
+\begin{abstract}
+This works aims to improve on the success of work from the previous assignment on sentiment classification of movie reviews by using Support Vector Machines (SVMs) and doc2vec. It compares the performance of the SVM with and without the use of doc2vec to create document embeddings to use as input. It also compares a variety of models created with doc2vec and asses the impact that each one has on the performance of the classifier. It finds that [FINDINGS].
+\end{abstract}
+
+\section{Introduction}
+
+This work examines the task of sentiment classification of movie reviews. It aims to investigate the accuracy of Support Vector Machines (SVMs) on this task, as well as investigating how the accuracy is affected by choices made about the model. Additionally, it investigates whether the use of doc2vec to create document vectors that can then be used as input to the SVMs can further improve the accuracy of the model, and which parameters and model choices create the most useful embeddings to use.
+
+\subsection{Previous Work}
+
+In the previous assignment, this task was attempted using a Naive Bayes model. The highest accuracy that was achieved by the best form of the Naive Bayes model was 84.5\%. This work builds on the work from the previous assignment and attempts to improve this accuracy by using SVMs and using doc2vec to create document embeddings to use as input to the model.
+
+\section{Data}
+
+\subsection{Movie Reviews}
+
+The data used for the SVM consisted of 2,000 IMDB Movie Reviews, of which 1,000 were positive, and 1,000 were negative. These reviews were available both as raw text and with additional Part of Speech tags. I chose to use the untagged reviews as Pang et al (2002) \cite{pang} found that using tags did not result in a statistically significant improvement for this task.
+
+Of this data, 10\% was reserved to be used as an unseen test set. 9-fold cross-validation was performed using the rest of the data.
+
+\subsection{Data for Training doc2vec}
+
+In order to train doc2vec to produce suitable document embeddings, a corpus of 100,000 IMDB movie reviews was used \cite{bigimdb}. This dataset was available as raw text. It contained some HTML tags which were stripped before use.
+
+\section{Method}
+
+The code used for this work can be found on my user area on the MPhil machines (user: \texttt{jw2088}) in the file \texttt{file}\footnote{Alternatively, it can be viewed at \texttt{{URL}}}. The models produced by doc2vec that were used to obtain the results discussed are also available on the MPhil machines [WHERE?]\footnote{Or they can be downloaded from \texttt{{URL}}}. 
+
+\subsection{Support Vector Machines}
+
+The \texttt{scikit-learn}\cite{scikit-learn} implementation of SVMs was used in this work. [WHICH ONE?]
+
+[PARAMETERS?]
+
+The SVM model was tested in various configurations. It was tested using unigrams as vocabulary items, bigrams as vocabulary items and with a vector containing information about both unigrams and bigrams. It was tested with Bag of Word (BoW) vectors. Tests were performed both with BoW vectors that contained information about the frequency of the $i^{th}$ vocabulary item in position $i$ and with vectors that contained a 1 or 0 in position $i$ in order to indicate the presence or absence of the $i^{th}$ vocabulary item. 
+
+A frequency cutoff was used meaning that vocabulary items that appeared fewer than 5 times were not included in the BoW vector. Words that were outside of this cutoff were encoded as unknown vocabulary items.
+
+\subsubsection{Kernels?}
+
+\subsection{doc2vec}
+
+Doc2vec \cite{doc2vec} was used to create document embeddings to be used as input to the SVM. 
+
+[DISCUSS DBOW VS DM]
+
+\section{Results}
+
+
+
+\subsection{Statistically Significant Differences}
+
+
+\section{Discussion}
+
+
+\subsection{Possible Improvements}
+
+
+
+
+
+\textbf{Word count:  words}
+
+\bibliography{L90ass2bib}{}
+\bibliographystyle{plain}
+
+\end{document}
