@@ -187,10 +187,6 @@ def run_test(k=10):
     for model_name in model_list:
         print(model_name, calc_mean_variance(acc_list[model_name]))
     for name in param_names:
-        # Current problem is that we need appropriate vocab_dict as well
-        # Think make the vocab dict indexed by k rather than model
-        # Model can index uni or bi and thus can be defined before loop
-        # Store vocab dict with best model instead?
         svm_model = best_classifier_params[name]["model"]
         vocab = best_classifier_params[name]["vocab"]
         pos_corr = 0
@@ -212,10 +208,6 @@ def run_test(k=10):
         print(name, accuracy)
 
     for name in model_list:
-        # Current problem is that we need appropriate vocab_dict as well
-        # Think make the vocab dict indexed by k rather than model
-        # Model can index uni or bi and thus can be defined before loop
-        # Store vocab dict with best model instead?
         svm_model = best_classifier_doc2vec[name]
         model = Doc2Vec.load(name)
         pos_corr = 0
