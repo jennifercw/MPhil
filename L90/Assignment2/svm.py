@@ -1,8 +1,8 @@
 from sklearn import svm
 import os
 import random
+import pickle
 from collections import Counter
-from nltk import word_tokenize
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 
 """
@@ -11,8 +11,6 @@ from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 """
 
 
-# TODO: Unigram + bigram model
-# TODO: Test best on blind test set
 # TODO: Do significance testing
 
 def read_round_robin_groups(k=10):
@@ -80,7 +78,7 @@ def vectorise(rev, vocab_dict, n=1, freq=True):
         w = " ".join([rev[i + j] for j in range(n)])
         if w not in vocab_dict:
             w = " ".join(["UNK"] * n)
-        if freq == True:
+        if freq:
             vec[vocab_dict[w]] += 1
         else:
             vec[vocab_dict[w]] = 1
@@ -90,21 +88,35 @@ def vectorise(rev, vocab_dict, n=1, freq=True):
 def run_test(k=10):
     model_list = ["dbow.model", "dm.model", "dbow100.model", "dm100.model", "dbowlarge.model", "dmlarge.model",
                   "dbow5cutoff.model", "dm5cutoff.model", "dbow1cutoff.model", "dm1cutoff.model"]
-    param_names = ["unifreq", "unipres", "bifreq", "bipres"]
-    acc_vals = {name: [] for name in param_names}
-    param_sets = {"unifreq": {"n": 1, "freq": True, "vocab_dict": "uni"},
-                  "unipres": {"n": 1, "freq": False, "vocab_dict": "uni"},
-                  "bifreq": {"n": 2, "freq": True, "vocab_dict": "bi"},
-                  "bipres": {"n": 2, "freq": False, "vocab_dict": "bi"}}
-    best_classifier_params = {name: None for name in param_names}
-    best_classifier_doc2vec = {model_name: None for model_name in model_list}
+    # Think make this a dict of dicts "dbow.model" : {"rbf":...,"linear":...} etc
+    kernels = ["rbf", "linear", "poly", "sigmoid"]
+    acc_list = {kernel: {model_name: [] for model_name in model_list} for kernel in kernels}
+    best_classifier_doc2vec = {kernel: {model_name: None for model_name in model_list} for kernel in kernels}
+    param_sets = {"unifreq": {"n": 1, "freq": True, "vocab_dict": "uni", "kernel": "rbf"},
+                  "unipres": {"n": 1, "freq": False, "vocab_dict": "uni", "kernel": "rbf"},
+                  "bifreq": {"n": 2, "freq": True, "vocab_dict": "bi", "kernel": "rbf"},
+                  "bipres": {"n": 2, "freq": False, "vocab_dict": "bi", "kernel": "rbf"},
+                  "unifreqlin": {"n": 1, "freq": True, "vocab_dict": "uni", "kernel": "linear"},
+                  "unipreslin": {"n": 1, "freq": False, "vocab_dict": "uni", "kernel": "linear"},
+                  "bifreqlin": {"n": 2, "freq": True, "vocab_dict": "bi", "kernel": "linear"},
+                  "bipreslin": {"n": 2, "freq": False, "vocab_dict": "bi", "kernel": "linear"},
+                  "unifreqpoly": {"n": 1, "freq": True, "vocab_dict": "uni", "kernel": "poly"},
+                  "uniprespoly": {"n": 1, "freq": False, "vocab_dict": "uni", "kernel": "poly"},
+                  "bifreqpoly": {"n": 2, "freq": True, "vocab_dict": "bi", "kernel": "poly"},
+                  "biprespoly": {"n": 2, "freq": False, "vocab_dict": "bi", "kernel": "poly"},
+                  "unifreqsig": {"n": 1, "freq": True, "vocab_dict": "uni", "kernel": "sigmoid"},
+                  "unipressig": {"n": 1, "freq": False, "vocab_dict": "uni", "kernel": "sigmoid"},
+                  "bifreqsig": {"n": 2, "freq": True, "vocab_dict": "bi", "kernel": "sigmoid"},
+                  "bipressig": {"n": 2, "freq": False, "vocab_dict": "bi", "kernel": "sigmoid"}
+                  }
+    acc_vals = {name: [] for name in param_sets.keys()}
+    best_classifier_params = {name: None for name in param_sets.keys()}
     pos_robins, neg_robins = read_round_robin_groups(k)
     pos_test = pos_robins[-1]
     neg_test = neg_robins[-1]
     pos_test_data, neg_test_data = read_files(pos_test, neg_test)
     pos_robins = pos_robins[:-1]
     neg_robins = neg_robins[:-1]
-    acc_list = {model_name: [] for model_name in model_list}
 
     for i in range(k - 1):
         print(i)
@@ -122,35 +134,35 @@ def run_test(k=10):
         train_pos_data, train_neg_data = read_files(train_pos, train_neg)
         uni_vocab_dict, uni_reverse_dict = build_vocab(train_pos_data, train_neg_data, n=1)
         bi_vocab_dict, bi_reverse_dict = build_vocab(train_pos_data, train_neg_data, n=2)
-        vocab_dict = {"uni": uni_vocab_dict, "bi" : bi_vocab_dict}
+        vocab_dict = {"uni": uni_vocab_dict, "bi": bi_vocab_dict}
+
         for model_name in model_list:
-            model = Doc2Vec.load(model_name)
-            train_w_labels = [(model.infer_vector(p), 1) for p in train_pos_data] + \
-                             [(model.infer_vector(ng), 0) for ng in train_neg_data]
-            random.shuffle(train_w_labels)
-            X = [rev[0] for rev in train_w_labels]
-            Y = [rev[1] for rev in train_w_labels]
-            svm_model = svm.SVC(gamma='scale')
-            svm_model.fit(X, Y)
-            pos_corr = 0
-            pos_tot = len(pos_val_data)
-            neg_corr = 0
-            neg_tot = len(neg_val_data)
-            p_predictions = svm_model.predict([model.infer_vector(p) for p in pos_val_data])
-            for p in p_predictions:
-                if p == 1:
-                    pos_corr += 1
-            n_predictions = svm_model.predict([model.infer_vector(ng) for ng in neg_val_data])
-            for ng in n_predictions:
-                if ng == 0:
-                    neg_corr += 1
-            accuracy = (neg_corr + pos_corr) / (neg_tot + pos_tot)
-            print(accuracy)
-            acc_list[model_name].append(accuracy)
-            if accuracy == max(acc_list[model_name]):
-                best_classifier_doc2vec[model_name] = svm_model
-
-
+            for kernel in kernels:
+                model = Doc2Vec.load(model_name)
+                train_w_labels = [(model.infer_vector(p), 1) for p in train_pos_data] + \
+                                 [(model.infer_vector(ng), 0) for ng in train_neg_data]
+                random.shuffle(train_w_labels)
+                X = [rev[0] for rev in train_w_labels]
+                Y = [rev[1] for rev in train_w_labels]
+                svm_model = svm.SVC(gamma='scale', kernel=kernel)
+                svm_model.fit(X, Y)
+                pos_corr = 0
+                pos_tot = len(pos_val_data)
+                neg_corr = 0
+                neg_tot = len(neg_val_data)
+                p_predictions = svm_model.predict([model.infer_vector(p) for p in pos_val_data])
+                for p in p_predictions:
+                    if p == 1:
+                        pos_corr += 1
+                n_predictions = svm_model.predict([model.infer_vector(ng) for ng in neg_val_data])
+                for ng in n_predictions:
+                    if ng == 0:
+                        neg_corr += 1
+                accuracy = (neg_corr + pos_corr) / (neg_tot + pos_tot)
+                print(accuracy)
+                acc_list[kernel][model_name].append(accuracy)
+                if accuracy == max(acc_list[kernel][model_name]):
+                    best_classifier_doc2vec[kernel][model_name] = svm_model
         for name, params in param_sets.items():
             print(name)
             train_w_labels = [(vectorise(p, vocab_dict=vocab_dict[params["vocab_dict"]], n=params["n"],
@@ -161,7 +173,7 @@ def run_test(k=10):
 
             X = [rev[0] for rev in train_w_labels]
             Y = [rev[1] for rev in train_w_labels]
-            svm_model = svm.SVC(gamma='scale')
+            svm_model = svm.SVC(gamma='scale', kernel=params["kernel"])
             svm_model.fit(X, Y)
             pos_corr = 0
             pos_tot = len(pos_val_data)
@@ -182,11 +194,15 @@ def run_test(k=10):
             acc_vals[name].append(accuracy)
             if accuracy == max(acc_vals[name]):
                 best_classifier_params[name] = {"model": svm_model, "vocab": vocab_dict[params["vocab_dict"]]}
-    for name in param_names:
+
+    pickle.dump(acc_list, open("d2vaccuracy.p", "wb"))
+    pickle.dump(acc_vals, open("svm_accuracy.p", "wb"))
+
+    for name in param_sets.keys():
         print(name, calc_mean_variance(acc_vals[name]))
     for model_name in model_list:
         print(model_name, calc_mean_variance(acc_list[model_name]))
-    for name in param_names:
+    for name in param_sets.keys():
         svm_model = best_classifier_params[name]["model"]
         vocab = best_classifier_params[name]["vocab"]
         pos_corr = 0
@@ -207,23 +223,25 @@ def run_test(k=10):
         accuracy = (neg_corr + pos_corr) / (neg_tot + pos_tot)
         print(name, accuracy)
 
-    for name in model_list:
-        svm_model = best_classifier_doc2vec[name]
-        model = Doc2Vec.load(name)
-        pos_corr = 0
-        pos_tot = len(pos_test_data)
-        neg_corr = 0
-        neg_tot = len(neg_test_data)
-        p_predictions = svm_model.predict([model.infer_vector(p) for p in pos_test_data])
-        for p in p_predictions:
-            if p == 1:
-                pos_corr += 1
-        n_predictions = svm_model.predict([model.infer_vector(ng) for ng in neg_test_data])
-        for ng in n_predictions:
-            if ng == 0:
-                neg_corr += 1
-        accuracy = (neg_corr + pos_corr) / (neg_tot + pos_tot)
-        print(name, accuracy)
+    for kernel in kernels:
+        print(kernel)
+        for name in model_list:
+            svm_model = best_classifier_doc2vec[kernel][name]
+            model = Doc2Vec.load(name)
+            pos_corr = 0
+            pos_tot = len(pos_test_data)
+            neg_corr = 0
+            neg_tot = len(neg_test_data)
+            p_predictions = svm_model.predict([model.infer_vector(p) for p in pos_test_data])
+            for p in p_predictions:
+                if p == 1:
+                    pos_corr += 1
+            n_predictions = svm_model.predict([model.infer_vector(ng) for ng in neg_test_data])
+            for ng in n_predictions:
+                if ng == 0:
+                    neg_corr += 1
+            accuracy = (neg_corr + pos_corr) / (neg_tot + pos_tot)
+            print(name, accuracy)
 
 
 def calc_mean_variance(acc):
