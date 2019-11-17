@@ -50,5 +50,8 @@ def run_comparisons():
             print(kernel, name)
             print(sum(accs)/len(accs))
 
-
+test = pickle.load(open("test_accs.p", "rb"))
+test_d2v = pickle.load(open("test_accs_d2v.p", "rb"))
+print(test)
+print(test_d2v)
 run_comparisons()

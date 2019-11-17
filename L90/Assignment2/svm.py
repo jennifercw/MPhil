@@ -11,8 +11,6 @@ from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 """
 
 
-# TODO: Do significance testing
-
 def read_round_robin_groups(k=10):
     # Returns k lists of file names, divided up round robin style.
     pos_file_list = [os.path.join("data", "POS", f) for f in os.listdir(os.path.join("data", "POS"))]
@@ -200,16 +198,19 @@ def run_test(k=10):
 
     for name in param_sets.keys():
         print(name, calc_mean_variance(acc_vals[name]))
-    for model_name in model_list:
-        print(model_name, calc_mean_variance(acc_list[model_name]))
-    for name in param_sets.keys():
-        svm_model = best_classifier_params[name]["model"]
-        vocab = best_classifier_params[name]["vocab"]
+    for kernel in kernels:
+        for model_name in model_list:
+            print(model_name, kernel, calc_mean_variance(acc_list[kernel][model_name]))
+    blind_accs_svm = {}
+    for model_name in param_sets.keys():
+        print(model_name)
+        svm_model = best_classifier_params[model_name]["model"]
+        vocab = best_classifier_params[model_name]["vocab"]
         pos_corr = 0
         pos_tot = len(pos_test_data)
         neg_corr = 0
         neg_tot = len(neg_test_data)
-        params = param_sets[name]
+        params = param_sets[model_name]
         p_predictions = svm_model.predict([vectorise(p, vocab_dict=vocab, n=params["n"],
                                                      freq=params["freq"]) for p in pos_test_data])
         for p in p_predictions:
@@ -221,8 +222,9 @@ def run_test(k=10):
             if ng == 0:
                 neg_corr += 1
         accuracy = (neg_corr + pos_corr) / (neg_tot + pos_tot)
-        print(name, accuracy)
-
+        print(model_name, accuracy)
+        blind_accs_svm[model_name] = accuracy
+    blind_accs_d2v = {kernel: {} for kernel in kernels}
     for kernel in kernels:
         print(kernel)
         for name in model_list:
@@ -242,10 +244,13 @@ def run_test(k=10):
                     neg_corr += 1
             accuracy = (neg_corr + pos_corr) / (neg_tot + pos_tot)
             print(name, accuracy)
+            blind_accs_d2v[kernel][name] = accuracy
+    pickle.dump(blind_accs_svm, open("test_accs.py", "wb"))
+    pickle.dump(blind_accs_d2v, open("test_accs_d2v.p", "wb"))
 
 
 def calc_mean_variance(acc):
-    # Given a list of accuracy values, calulcates their mean and variance.
+    # Given a list of accuracy values, calculates their mean and variance.
     m = sum(acc) / len(acc)
     v = sum((x - m) ** 2 for x in acc) / len(acc)
     return m, v
