@@ -11,33 +11,12 @@
 
 \geometry{a4paper} 
 
-\usepackage{graphicx} 
-
-
 \usepackage{booktabs} 
 \usepackage{array}
-\usepackage{paralist} 
 \usepackage{verbatim} 
 \usepackage{subfig} 
 
-
-
-\usepackage{fancyhdr} 
-\pagestyle{fancy} 
-\renewcommand{\headrulewidth}{0pt}
-\lhead{}\chead{}\rhead{}
-\lfoot{}\cfoot{\thepage}\rfoot{}
-
-
-\usepackage{sectsty}
-\allsectionsfont{\sffamily\mdseries\upshape} 
-
-\usepackage[nottoc,notlof,notlot]{tocbibind} 
-\usepackage[titles,subfigure]{tocloft} 
-\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
-\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} 
-
-
+\raggedbottom
 
 
 
@@ -49,34 +28,56 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-This works aims to improve on the success of work from the previous assignment on sentiment classification of movie reviews by using Support Vector Machines (SVMs) and doc2vec. It compares the performance of the SVM with and without the use of doc2vec to create document embeddings to use as input. It also compares a variety of models created with doc2vec and asses the impact that each one has on the performance of the classifier. It finds that [FINDINGS].
+This works aims to improve work from the previous L90 Assignment on sentiment classification of movie reviews by using Support Vector Machines (SVMs) and doc2vec. It compares the performance of the SVM with and without the use of doc2vec to create document embeddings to use as input. It also compares a variety of models created with \texttt{doc2vec} and asses the impact that each one has on the performance of the classifier. It finds that [FINDINGS].
 \end{abstract}
 
 \section{Introduction}
+[DONE]
 
-This work examines the task of sentiment classification of movie reviews. It aims to investigate the accuracy of Support Vector Machines (SVMs) on this task, as well as investigating how the accuracy is affected by choices made about the model. Additionally, it investigates whether the use of doc2vec to create document vectors that can then be used as input to the SVMs can further improve the accuracy of the model, and which parameters and model choices create the most useful embeddings to use.
+Sentiment classification is a common task within Natural Language Processing (NLP). It involves analysing a comment on a product or service, analysing it and classifying the nature of the sentiment it conveys, commonly into the binary classification of "positive sentiment" or "negative sentiment". Thanks to online movie review websites, a large number of movie reviews created by real people are freely available online, along with star ratings that tell us whether they had broadly positive or negative feelings about the movie. As a result, sentiment classification of movie reviews is a common task with easily available datasets.
+
+In the previous L90 Assignment, this task was approached using a Naive Bayes model with Laplace smoothing. Different configurations of the model were tested and evaluated in order to find the model that gave the best performance.
+
+However, Naive Bayes is a simple model and is unlike to allow us to achieve the best possible performance on this task. Additionally, the data for each review was being given to the model as a Bag of Words (BoW) vector either showing which words were present in the review or additionally providing the frequency of each word in the review. This does not allow the model to harness connections and similarities between any of the vocabulary words or between similar reviews. So it should be possible to improve on the results achieved previously by using a more sophisticated model and by feeding data into the model in a way that allows it to take advantage of this information.
+
+This work investigates using Support Vector Machines (SVMs) for this task. SVMs aim to learn a hyperplane to separate the data such that the minimum distance from any point to the hyperplane is minimized [CHECK]. SVMs also allow the use of a kernel so that the model can learn to separate data that is not linearly separable. In this work, the choice of kernels was investigated in order to find which performed the best for each type of model tested.
+
+Additionally, \texttt{doc2vec} is used to learn embeddings of the documents. These are then used as input to the SVM model. This work investigates whether this can improve the performance of the model and which parameters are model choices result in the most useful embeddings.
 
 \subsection{Previous Work}
 
-In the previous assignment, this task was attempted using a Naive Bayes model. The highest accuracy that was achieved by the best form of the Naive Bayes model was 84.5\%. This work builds on the work from the previous assignment and attempts to improve this accuracy by using SVMs and using doc2vec to create document embeddings to use as input to the model.
+[DONE]
+
+In the previous L90 assignment, this task was attempted using a Naive Bayes model. The highest accuracy that was achieved by the best form of the Naive Bayes model was 84.5\%. This was achieved with a model that combined both unigrams and bigrams, took as input a vector indicating presence of a unigram or bigram in a document and used Laplace smoothing. This work builds on the work from the previous assignment and attempts to improve this accuracy by using SVMs and using doc2vec to create document embeddings to use as input to the model.
 
 \section{Data}
 
+
 \subsection{Movie Reviews}
 
-The data used for the SVM consisted of 2,000 IMDB Movie Reviews, of which 1,000 were positive, and 1,000 were negative. These reviews were available both as raw text and with additional Part of Speech tags. I chose to use the untagged reviews as Pang et al (2002) \cite{pang} found that using tags did not result in a statistically significant improvement for this task.
+[DONE]
 
-Of this data, 10\% was reserved to be used as an unseen test set. 9-fold cross-validation was performed using the rest of the data.
+The data used for training and testing of the SVM consisted of 2,000 IMDB Movie Reviews, of which 1,000 were positive, and 1,000 were negative. These reviews were available both as raw text and with additional Part of Speech tags. I chose to use the untagged reviews as Pang et al (2002) \cite{pang} found that using tags did not result in a statistically significant improvement for this task. 
+
+Of this data, 10\% was reserved to be used as an unseen test set. 9-fold cross-validation was performed using the remaining data.
 
 \subsection{Data for Training doc2vec}
+
+[DONE]
+
 
 In order to train doc2vec to produce suitable document embeddings, a corpus of 100,000 IMDB movie reviews was used \cite{bigimdb}. This dataset was available as raw text. It contained some HTML tags which were stripped before use.
 
 \section{Method}
 
-The code used for this work can be found on my user area on the MPhil machines (user: \texttt{jw2088}) in the file \texttt{file}\footnote{Alternatively, it can be viewed at \texttt{{URL}}}. The models produced by doc2vec that were used to obtain the results discussed are also available on the MPhil machines [WHERE?]\footnote{Or they can be downloaded from \texttt{{URL}}}. 
+[TO FINISH]
+
+The code used for this work can be found on my user area on the MPhil machines (user: \texttt{jw2088}) in the file \texttt{file}[FILE NAME]\footnote{Alternatively, it can be viewed at \texttt{{URL}}}. The models produced by \texttt{doc2vec} that were used to obtain the results discussed are also available on the MPhil machines [WHERE?]\footnote{Or they can be downloaded from \texttt{{URL}}}. 
 
 \subsection{Support Vector Machines}
+
+[TO FINISH]
+
 
 The \texttt{scikit-learn}\cite{scikit-learn} implementation of SVMs was used in this work. [WHICH ONE?]
 
@@ -86,31 +87,198 @@ The SVM model was tested in various configurations. It was tested using unigrams
 
 A frequency cutoff was used meaning that vocabulary items that appeared fewer than 5 times were not included in the BoW vector. Words that were outside of this cutoff were encoded as unknown vocabulary items.
 
-\subsubsection{Kernels?}
+\subsubsection{Kernels}
+
+[TO FINISH]
+
+SVMs allow for a choice of kernel that allows the model to learn to sucessfully separate data that is not linearly separable. The implementation of SVMs used in this work allowed for a choice of 4 kernels: \texttt{rbf}, \texttt{linear}, \texttt{poly} and \texttt{sigmoid}, which are as follows:
+
+\begin{itemize}
+	\item \textbf{\texttt{rbf}}: [DESC]
+	\item \textbf{\texttt{linear}}: [DESC]
+	\item \textbf{\texttt{poly}}: [DESC]
+	\item \textbf{\texttt{sigmoid}}: [DESC]
+\end{itemize}
+
+
 
 \subsection{doc2vec}
+
+\begin{table*}[]
+\centering
+\captionsetup{justification=centering}
+\caption{Table of parameters used for \texttt{doc2vec} models}
+\label{table:doc2vecparams}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+                     & \textbf{\begin{tabular}[c]{@{}c@{}}Training\\ epochs\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}DM/\\ DBOW\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Embedding\\ Dimension\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Frequency\\ Cutoff\end{tabular}} \\ \hline
+\textbf{dbow}        & 50                                                                 & DBOW                                                        & 100                                                                    & 3                                                                   \\ \hline
+\textbf{dm}          & 50                                                                 & DM                                                          & 100                                                                    & 3                                                                   \\ \hline
+\textbf{dbow100}     & 100                                                                & DBOW                                                        & 100                                                                    & 3                                                                   \\ \hline
+\textbf{dm100}       & 100                                                                & DM                                                          & 100                                                                    & 3                                                                   \\ \hline
+\textbf{dbowlarge}   & 50                                                                 & DBOW                                                        & 200                                                                    & 3                                                                   \\ \hline
+\textbf{dmlarge}     & 50                                                                 & DM                                                          & 200                                                                    & 3                                                                   \\ \hline
+\textbf{dbow5cutoff} & 50                                                                 & DBOW                                                        & 100                                                                    & 5                                                                   \\ \hline
+\textbf{dm5cutoff}   & 50                                                                 & DM                                                          & 100                                                                    & 5                                                                   \\ \hline
+\textbf{dbow1cutoff} & 50                                                                 & DBOW                                                        & 100                                                                    & 1                                                                   \\ \hline
+\textbf{dm1cutoff}   & 50                                                                 & DM                                                          & 100                                                                    & 1                                                                   \\ \hline
+\end{tabular}
+\end{table*}
+
+[TO FINISH]
 
 Doc2vec \cite{doc2vec} was used to create document embeddings to be used as input to the SVM. 
 
 [DISCUSS DBOW VS DM]
 
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ac euismod sapien, ut varius metus. Maecenas vulputate lorem ac erat ornare, sed auctor eros lacinia. Donec faucibus euismod condimentum. Donec elit urna, consectetur sit amet felis sit amet, commodo iaculis massa. Sed non imperdiet augue. Duis gravida, urna id tempus congue, tortor tortor dictum dui, nec vulputate sem massa eu purus. Donec eget laoreet tellus, at mollis enim. Proin eu nibh nec neque hendrerit rutrum nec sed tellus. Vivamus dignissim neque sed augue viverra semper. Duis posuere ex sed justo iaculis consectetur.
+
+Aliquam arcu erat, elementum fermentum maximus et, rhoncus et velit. Curabitur fringilla arcu sed nisl finibus, quis gravida mauris aliquet. Duis fermentum mi sed interdum congue. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Curabitur dolor velit, posuere vel aliquam ac, commodo ac tellus. Quisque eget ligula fermentum sapien euismod pretium. Pellentesque facilisis quam vel convallis pharetra. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut non purus bibendum, ullamcorper sem id, consectetur justo. Ut vehicula arcu quis leo pretium, tincidunt semper elit porttitor. Integer tincidunt lectus quis lorem auctor, quis bibendum leo venenatis.
+
+Morbi at placerat dui. Praesent bibendum ullamcorper augue. Sed volutpat mauris et congue sodales. Donec vel dui non ante finibus aliquam. Nam accumsan nulla ut quam feugiat cursus. Integer et suscipit lorem. Nullam quis nisi justo. Nunc volutpat blandit dolor quis commodo. Nam ut massa non velit sagittis vehicula ut a nulla. Sed at euismod massa, at auctor neque. Ut id ullamcorper ligula. Cras ut finibus tortor.
+
+\section{Investigation and Evaluation of doc2vec models}
+
+\begin{table*}[]
+\centering
+\captionsetup{justification=centering}
+\caption{Table of accuracy achieved on the blind test set for non-\texttt{doc2vec} models}
+\label{table:nondoc2vecaccs}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+                                                                      & \textbf{rbf} & \textbf{linear} & \textbf{poly} & \textbf{sigmoid} \\ \hline
+\textbf{\begin{tabular}[c]{@{}c@{}}unigram,\\ presence\end{tabular}}  & 76.0\%           & 83.5\%          & 72.0\%        & 44.0\%        \\ \hline
+\textbf{\begin{tabular}[c]{@{}c@{}}unigram,\\ frequency\end{tabular}} & 84.0\%            & 84.5\%           & 73.5\%       & 83.5\%                \\ \hline
+\textbf{\begin{tabular}[c]{@{}c@{}}bigram,\\ presence\end{tabular}}   & 56.5\%            & 81.0\%          & 55.3\%        & 53.0\%                \\ \hline
+\textbf{\begin{tabular}[c]{@{}c@{}}bigram,\\ frequency\end{tabular}}  & 81.0\%          & 80.0\%          & 55.0\%        & 84.0\%         \\ \hline
+\end{tabular}
+\end{table*} 
+
+\begin{table*}[]
+\centering
+\captionsetup{justification=centering}
+\caption{Table of accuracy achieved on the blind test set for \texttt{doc2vec} models}
+\label{table:doc2vecaccs}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+                     & \textbf{rbf} & \textbf{linear} & \textbf{poly} & \textbf{sigmoid} \\ \hline
+\textbf{dbow}        & 90.0\%       & 89.5\%          & 89.5\%        & 90.5\%                \\ \hline
+\textbf{dm}          & 81.5\%       & 80.5\%          & 81.5\%        & 79.5\%               \\ \hline
+\textbf{dbow100}     & 88.0\%       & 88.5\%          & 88.5\%        & 88.0\%                \\ \hline
+\textbf{dm100}       & 90.0\%       & 89.5\%          & 89.0\%        & 87.5\%                \\ \hline
+\textbf{dbowlarge}   & 89.0\%       & 88.0\%          & 89.5\%        & 91.0\%                \\ \hline
+\textbf{dmlarge}     & 81.5\%       & 82.0\%          & 81.5\%        & 83.0\%                \\ \hline
+\textbf{dbow5cutoff} & 89.5\%       & 90.5\%          & 91.0\%        & 91.5\%                \\ \hline
+\textbf{dm5cutoff}   & 84.0\%       & 83.0\%          & 82.0\%        & 83.5\%                \\ \hline
+\textbf{dbow1cutoff} & 90.0\%       & 90.5\%          & 87.5\%        & 91.0\%                \\ \hline
+\textbf{dm1cutoff}   & 81.5\%       & 82.0\%          & 79.5\%        & 74.0\%                \\ \hline
+\end{tabular}
+\end{table*}
+
+[TO FINISH]
+
+Some investigation was performed as to how each \texttt{doc2vec} performs when classifying documents.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ac euismod sapien, ut varius metus. Maecenas vulputate lorem ac erat ornare, sed auctor eros lacinia. Donec faucibus euismod condimentum. Donec elit urna, consectetur sit amet felis sit amet, commodo iaculis massa. Sed non imperdiet augue. Duis gravida, urna id tempus congue, tortor tortor dictum dui, nec vulputate sem massa eu purus. Donec eget laoreet tellus, at mollis enim. Proin eu nibh nec neque hendrerit rutrum nec sed tellus. Vivamus dignissim neque sed augue viverra semper. Duis posuere ex sed justo iaculis consectetur.
+
+Aliquam arcu erat, elementum fermentum maximus et, rhoncus et velit. Curabitur fringilla arcu sed nisl finibus, quis gravida mauris aliquet. Duis fermentum mi sed interdum congue. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Curabitur dolor velit, posuere vel aliquam ac, commodo ac tellus. Quisque eget ligula fermentum sapien euismod pretium. Pellentesque facilisis quam vel convallis pharetra. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut non purus bibendum, ullamcorper sem id, consectetur justo. Ut vehicula arcu quis leo pretium, tincidunt semper elit porttitor. Integer tincidunt lectus quis lorem auctor, quis bibendum leo venenatis.
+
+Morbi at placerat dui. Praesent bibendum ullamcorper augue. Sed volutpat mauris et congue sodales. Donec vel dui non ante finibus aliquam. Nam accumsan nulla ut quam feugiat cursus. Integer et suscipit lorem. Nullam quis nisi justo. Nunc volutpat blandit dolor quis commodo. Nam ut massa non velit sagittis vehicula ut a nulla. Sed at euismod massa, at auctor neque. Ut id ullamcorper ligula. Cras ut finibus tortor.
+
 \section{Results}
 
+[TO FINISH]
 
+The accuracy obtained on the blind test set for each classifier can be seen in Tables \ref{table:nondoc2vecaccs} and \ref{table:doc2vecaccs}.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ac euismod sapien, ut varius metus. Maecenas vulputate lorem ac erat ornare, sed auctor eros lacinia. Donec faucibus euismod condimentum. Donec elit urna, consectetur sit amet felis sit amet, commodo iaculis massa. Sed non imperdiet augue. Duis gravida, urna id tempus congue, tortor tortor dictum dui, nec vulputate sem massa eu purus. Donec eget laoreet tellus, at mollis enim. Proin eu nibh nec neque hendrerit rutrum nec sed tellus. Vivamus dignissim neque sed augue viverra semper. Duis posuere ex sed justo iaculis consectetur.
+
+Aliquam arcu erat, elementum fermentum maximus et, rhoncus et velit. Curabitur fringilla arcu sed nisl finibus, quis gravida mauris aliquet. Duis fermentum mi sed interdum congue. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Curabitur dolor velit, posuere vel aliquam ac, commodo ac tellus. Quisque eget ligula fermentum sapien euismod pretium. Pellentesque facilisis quam vel convallis pharetra. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut non purus bibendum, ullamcorper sem id, consectetur justo. Ut vehicula arcu quis leo pretium, tincidunt semper elit porttitor. Integer tincidunt lectus quis lorem auctor, quis bibendum leo venenatis.
+
+Morbi at placerat dui. Praesent bibendum ullamcorper augue. Sed volutpat mauris et congue sodales. Donec vel dui non ante finibus aliquam. Nam accumsan nulla ut quam feugiat cursus. Integer et suscipit lorem. Nullam quis nisi justo. Nunc volutpat blandit dolor quis commodo. Nam ut massa non velit sagittis vehicula ut a nulla. Sed at euismod massa, at auctor neque. Ut id ullamcorper ligula. Cras ut finibus tortor.
+
+
+
+\subsection{Permutation Test}
+
+[DONE]
+
+\begin{table*}[]
+\centering
+\captionsetup{justification=centering}
+\caption{Table of accuracy achieved on the cross-validation test set for non-\texttt{doc2vec} models, with variance shown in brackets}
+\label{table:nondoc2veccrossval}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+                                                                      & \textbf{rbf}                                             & \textbf{linear}                                          & \textbf{poly}                                            & \textbf{sig}                                             \\ \hline
+\textbf{\begin{tabular}[c]{@{}c@{}}unigram,\\ presence\end{tabular}}  & \begin{tabular}[c]{@{}c@{}}69.3\%\\ (0.083)\end{tabular} & \begin{tabular}[c]{@{}c@{}}81.6\%\\ (0.055)\end{tabular} & \begin{tabular}[c]{@{}c@{}}65.2\%\\ (0.084)\end{tabular} & \begin{tabular}[c]{@{}c@{}}46.6\%\\ (0.159)\end{tabular} \\ \hline
+\textbf{\begin{tabular}[c]{@{}c@{}}unigram,\\ frequency\end{tabular}} & \begin{tabular}[c]{@{}c@{}}84.0\%\\ (0.050)\end{tabular} & \begin{tabular}[c]{@{}c@{}}83.1\%\\ (0.067)\end{tabular} & \begin{tabular}[c]{@{}c@{}}72.8\%\\ (0.073)\end{tabular} & \begin{tabular}[c]{@{}c@{}}84.3\%\\ (0.061)\end{tabular} \\ \hline
+\textbf{\begin{tabular}[c]{@{}c@{}}bigram,\\ presence\end{tabular}}   & \begin{tabular}[c]{@{}c@{}}55.4\%\\ (0.071)\end{tabular} & \begin{tabular}[c]{@{}c@{}}77.9\%\\ (0.089)\end{tabular} & \begin{tabular}[c]{@{}c@{}}53.7\%\\ (0.052)\end{tabular} & \begin{tabular}[c]{@{}c@{}}49.4\%\\ (0.238)\end{tabular} \\ \hline
+\textbf{\begin{tabular}[c]{@{}c@{}}bigram,\\ frequency\end{tabular}}  & \begin{tabular}[c]{@{}c@{}}76.7\%\\ (0.087)\end{tabular} & \begin{tabular}[c]{@{}c@{}}77.1\%\\ (0.145)\end{tabular} & \begin{tabular}[c]{@{}c@{}}54.1\%\\ (0.037)\end{tabular} & \begin{tabular}[c]{@{}c@{}}78.9\%\\ (0.069)\end{tabular} \\ \hline
+\end{tabular}
+\end{table*}
+
+\begin{table*}[]
+\centering
+\captionsetup{justification=centering}
+\caption{Table of accuracy achieved on the cross-validation test set for \texttt{doc2vec} models, with variance shown in brackets}
+\label{table:doc2veccrossval}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+                     & \textbf{rbf}                                             & \textbf{linear}                                          & \textbf{poly}                                            & \textbf{sig}                                             \\ \hline
+\textbf{dbow}        & \begin{tabular}[c]{@{}c@{}}88.4\%\\ (0.039)\end{tabular} & \begin{tabular}[c]{@{}c@{}}87.8\%\\ (0.048)\end{tabular} & \begin{tabular}[c]{@{}c@{}}88.1\%\\ (0.038)\end{tabular} & \begin{tabular}[c]{@{}c@{}}87.7\%\\ (0.062)\end{tabular} \\ \hline
+\textbf{dm}          & \begin{tabular}[c]{@{}c@{}}82.6\%\\ (0.042)\end{tabular} & \begin{tabular}[c]{@{}c@{}}82.5\%\\ (0.036)\end{tabular} & \begin{tabular}[c]{@{}c@{}}81.0\%\\ (0.049)\end{tabular} & \begin{tabular}[c]{@{}c@{}}81.0\%\\ (0.036)\end{tabular} \\ \hline
+\textbf{dbow100}     & \begin{tabular}[c]{@{}c@{}}88.0\%\\ (0.061)\end{tabular} & \begin{tabular}[c]{@{}c@{}}87.7\%\\ (0.072)\end{tabular} & \begin{tabular}[c]{@{}c@{}}87.3\%\\ (0.061)\end{tabular} & \begin{tabular}[c]{@{}c@{}}86.8\%\\ (0.042)\end{tabular} \\ \hline
+\textbf{dm100}       & \begin{tabular}[c]{@{}c@{}}87.6\%\\ (0.071)\end{tabular} & \begin{tabular}[c]{@{}c@{}}87.3\%\\ (0.090)\end{tabular} & \begin{tabular}[c]{@{}c@{}}87.4\%\\ (0.058)\end{tabular} & \begin{tabular}[c]{@{}c@{}}86.3\%\\ (0.050)\end{tabular} \\ \hline
+\textbf{dbowlarge}   & \begin{tabular}[c]{@{}c@{}}88.0\%\\ (0.048)\end{tabular} & \begin{tabular}[c]{@{}c@{}}87.7\%\\ (0.032)\end{tabular} & \begin{tabular}[c]{@{}c@{}}88.5\%\\ (0.036)\end{tabular} & \begin{tabular}[c]{@{}c@{}}88.0\%\\ (0.042)\end{tabular} \\ \hline
+\textbf{dmlarge}     & \begin{tabular}[c]{@{}c@{}}82.0\%\\ (0.056)\end{tabular} & \begin{tabular}[c]{@{}c@{}}81.7\%\\ (0.077)\end{tabular} & \begin{tabular}[c]{@{}c@{}}80.5\%\\ (0.035)\end{tabular} & \begin{tabular}[c]{@{}c@{}}81.4\%\\ (0.051)\end{tabular} \\ \hline
+\textbf{dbow5cutoff} & \begin{tabular}[c]{@{}c@{}}88.4\%\\ (0.041)\end{tabular} & \begin{tabular}[c]{@{}c@{}}88.1\%\\ (0.038)\end{tabular} & \begin{tabular}[c]{@{}c@{}}88.2\%\\ (0.032)\end{tabular} & \begin{tabular}[c]{@{}c@{}}88.2\%\\ (0.048)\end{tabular} \\ \hline
+\textbf{dm5cutoff}   & \begin{tabular}[c]{@{}c@{}}82.1\%\\ (0.035)\end{tabular} & \begin{tabular}[c]{@{}c@{}}82.4\%\\ (0.033)\end{tabular} & \begin{tabular}[c]{@{}c@{}}81.0\%\\ (0.056)\end{tabular} & \begin{tabular}[c]{@{}c@{}}80.8\%\\ (0.043)\end{tabular} \\ \hline
+\textbf{dbow1cutoff} & \begin{tabular}[c]{@{}c@{}}88.3\%\\ (0.071)\end{tabular} & \begin{tabular}[c]{@{}c@{}}88.0\%\\ (0.088)\end{tabular} & \begin{tabular}[c]{@{}c@{}}88.1\%\\ (0.115)\end{tabular} & \begin{tabular}[c]{@{}c@{}}87.7\%\\ (0.060)\end{tabular} \\ \hline
+\textbf{dm1cutoff}   & \begin{tabular}[c]{@{}c@{}}81.0\%\\ (0.031)\end{tabular} & \begin{tabular}[c]{@{}c@{}}81.4\%\\ (0.061)\end{tabular} & \begin{tabular}[c]{@{}c@{}}79.4\%\\ (0.105)\end{tabular} & \begin{tabular}[c]{@{}c@{}}73.1\%\\ (0.088)\end{tabular} \\ \hline
+\end{tabular}
+\end{table*}
+
+The Permutation Test was the test used to test for significance. The permutation test takes a set of paired results from two systems and examines how swapping a random selection of these would affect their means. In particular, it examines whether these permutations would change which mean is the larger one and uses this to determine whether the difference is significant or if it is likely to have occurred by chance. For the results presented here, a difference in means is considered significant if $p<0.05$.
+
+The significance tests were performed using the paired results of the two systems being compared from the 9-fold cross-validation tests. The average accuracies across cross-validation sets, along with the variance of these accuracy values, is presented in Tables \ref{table:nondoc2veccrossval} and \ref{table:doc2veccrossval}.
+
+In some cases, a system that performed better than another system on the blind test set actually performed worse on average in average of the cross-validation accuracies, so these differences were not significant.
 
 \subsection{Statistically Significant Differences}
 
+[TO FINISH]
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ac euismod sapien, ut varius metus. Maecenas vulputate lorem ac erat ornare, sed auctor eros lacinia. Donec faucibus euismod condimentum. Donec elit urna, consectetur sit amet felis sit amet, commodo iaculis massa. Sed non imperdiet augue. Duis gravida, urna id tempus congue, tortor tortor dictum dui, nec vulputate sem massa eu purus. Donec eget laoreet tellus, at mollis enim. Proin eu nibh nec neque hendrerit rutrum nec sed tellus. Vivamus dignissim neque sed augue viverra semper. Duis posuere ex sed justo iaculis consectetur.
+
+Aliquam arcu erat, elementum fermentum maximus et, rhoncus et velit. Curabitur fringilla arcu sed nisl finibus, quis gravida mauris aliquet. Duis fermentum mi sed interdum congue. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Curabitur dolor velit, posuere vel aliquam ac, commodo ac tellus. Quisque eget ligula fermentum sapien euismod pretium. Pellentesque facilisis quam vel convallis pharetra. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut non purus bibendum, ullamcorper sem id, consectetur justo. Ut vehicula arcu quis leo pretium, tincidunt semper elit porttitor. Integer tincidunt lectus quis lorem auctor, quis bibendum leo venenatis.
+
+Morbi at placerat dui. Praesent bibendum ullamcorper augue. Sed volutpat mauris et congue sodales. Donec vel dui non ante finibus aliquam. Nam accumsan nulla ut quam feugiat cursus. Integer et suscipit lorem. Nullam quis nisi justo. Nunc volutpat blandit dolor quis commodo. Nam ut massa non velit sagittis vehicula ut a nulla. Sed at euismod massa, at auctor neque. Ut id ullamcorper ligula. Cras ut finibus tortor.
 
 \section{Discussion}
 
+[TO FINISH]
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ac euismod sapien, ut varius metus. Maecenas vulputate lorem ac erat ornare, sed auctor eros lacinia. Donec faucibus euismod condimentum. Donec elit urna, consectetur sit amet felis sit amet, commodo iaculis massa. Sed non imperdiet augue. Duis gravida, urna id tempus congue, tortor tortor dictum dui, nec vulputate sem massa eu purus. Donec eget laoreet tellus, at mollis enim. Proin eu nibh nec neque hendrerit rutrum nec sed tellus. Vivamus dignissim neque sed augue viverra semper. Duis posuere ex sed justo iaculis consectetur.
+
+Aliquam arcu erat, elementum fermentum maximus et, rhoncus et velit. Curabitur fringilla arcu sed nisl finibus, quis gravida mauris aliquet. Duis fermentum mi sed interdum congue. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Curabitur dolor velit, posuere vel aliquam ac, commodo ac tellus. Quisque eget ligula fermentum sapien euismod pretium. Pellentesque facilisis quam vel convallis pharetra. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut non purus bibendum, ullamcorper sem id, consectetur justo. Ut vehicula arcu quis leo pretium, tincidunt semper elit porttitor. Integer tincidunt lectus quis lorem auctor, quis bibendum leo venenatis.
+
+Morbi at placerat dui. Praesent bibendum ullamcorper augue. Sed volutpat mauris et congue sodales. Donec vel dui non ante finibus aliquam. Nam accumsan nulla ut quam feugiat cursus. Integer et suscipit lorem. Nullam quis nisi justo. Nunc volutpat blandit dolor quis commodo. Nam ut massa non velit sagittis vehicula ut a nulla. Sed at euismod massa, at auctor neque. Ut id ullamcorper ligula. Cras ut finibus tortor.
 
 \subsection{Possible Improvements}
 
+[DONE]
+
+Further improvements for this task could be made by changing the model used to perform sentiment classification, by perhaps using a neural network architecture. However, this would require much more than 2,000 examples as a testing and training set. Though, as movie review sentiment analysis is a well-researched task, much larger datasets, such as the one used to train \texttt{doc2vec} in this work, are available.
+
+Without the need for additional data, the result could potential also be improved by using an ensemble of classifiers.
+
+Further investigation could also be performed into the ideal parameters for training the \texttt{doc2vec} model, and whether a better model could be created than those used here. The performance of the \texttt{doc2vec} model could also potentially be improved by performing additional preprocessing on the training data and movie reviews. For example, removing stopwords or stemming the words in the review, and thus removing additional data that is unlikely to provide additional information as to the sentiment of the review. Additionally, some approaches to sentiment analysis have involved preprocessing such as changing a word in a review to demonstrate that it has been negated if preceded by 'not', so that, for example, the word 'good' is not considered to be positive in the phrase 'the film was not good' \cite{pang}. [CHECK THIS]
+
+Implementing some or all of these techniques could allow for the accuracy achieved in this work to be improved.
 
 
-
-
-\textbf{Word count:  words}
+\textbf{Word count: 927 words}
 
 \bibliography{L90ass2bib}{}
 \bibliographystyle{plain}

@@ -35,6 +35,13 @@ def compare(a, b, a_name, b_name):
     print("p = ", permutation_test(a, b))
 
 
+def calc_mean_variance(acc):
+    # Given a list of accuracy values, calculates their mean and variance.
+    m = sum(acc) / len(acc)
+    v = sum((x - m) ** 2 for x in acc) / len(acc)
+    return m, v
+
+
 def run_comparisons():
     # For d2v: Within each kernel which embedding gives best?
     # Then compare best one from each kernel?
@@ -47,13 +54,15 @@ def run_comparisons():
         for model in d2v_accuracy[kern].keys():
             accs = d2v_accuracy[kern][model]
             print(kern, model)
-            print(sum(accs)/len(accs))
+            m, v = calc_mean_variance(accs)
+            print(m*100, v*100)
 
     for model in svm_accuracy.keys():
         accs = svm_accuracy[model]
         print(model)
-        print(sum(accs)/len(accs))
-
+        m, v = calc_mean_variance(accs)
+        print(m * 100, v * 100)
+        
     print("Non doc2vec models")
     print("unifreqrbf vs unifreqlin")
     compare(svm_accuracy["unifreq"], svm_accuracy["unifreqlin"], "unifreqrbf", "unifreqlin")
