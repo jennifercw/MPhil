@@ -42,13 +42,86 @@ def run_comparisons():
     # Then uni v bi, pres v freq
     d2v_accuracy = pickle.load(open("d2vaccuracy.p", "rb"))
     svm_accuracy = pickle.load(open("svm_accuracy.p", "rb"))
-    for name, accs in svm_accuracy.items():
-        print(name)
-        print(sum(accs)/len(accs))
-    for kernel, results in d2v_accuracy.items():
-        for name, accs in results.items():
-            print(kernel, name)
+
+    for kern in d2v_accuracy.keys():
+        for model in d2v_accuracy[kern].keys():
+            accs = d2v_accuracy[kern][model]
+            print(kern, model)
             print(sum(accs)/len(accs))
+
+    for model in svm_accuracy.keys():
+        accs = svm_accuracy[model]
+        print(model)
+        print(sum(accs)/len(accs))
+
+    print("Non doc2vec models")
+    print("unifreqrbf vs unifreqlin")
+    compare(svm_accuracy["unifreq"], svm_accuracy["unifreqlin"], "unifreqrbf", "unifreqlin")
+
+    print("unipresrbf vs unipreslin")
+    compare(svm_accuracy["unipres"], svm_accuracy["unipreslin"], "unipresrbf", "unipreslin")
+
+    print("bifreqrbf vs bifreqlin")
+    compare(svm_accuracy["bifreq"], svm_accuracy["bifreqlin"], "bifreqrbf", "bifreqlin")
+
+    print("bipresrbf vs bipressig")
+    compare(svm_accuracy["bipres"], svm_accuracy["bipressig"], "bipresrbf", "bipressig")
+
+    print("unipressig vs unifreqlin")
+    compare(svm_accuracy["unipressig"], svm_accuracy["unifreqlin"], "unipressig", "unifreqlin")
+
+    print("Doc2vec models")
+
+    print("dbowsig vs dbowlin")
+    compare(d2v_accuracy["rbf"]["dbow.model"], d2v_accuracy["sigmoid"]["dbow.model"], "dbowrbf", "dbowsig")
+    print("dbowrbf vs dbowpoly")
+    compare(d2v_accuracy["rbf"]["dbow.model"], d2v_accuracy["poly"]["dbow.model"], "dbowrbf", "dbowpoly")
+
+    print("dmrbf vs dmlin")
+    compare(d2v_accuracy["rbf"]["dm.model"], d2v_accuracy["linear"]["dm.model"], "dmrbf", "dmlin")
+    print("dmpoly vs dmlin")
+    compare(d2v_accuracy["poly"]["dm.model"], d2v_accuracy["linear"]["dm.model"], "dmpoly", "dmlin")
+
+    print("dbowlargepoly vs dbowlargesig")
+    compare(d2v_accuracy["poly"]["dbowlarge.model"], d2v_accuracy["sigmoid"]["dbowlarge.model"], "dbowlargepoly",
+            "dbowlargesig")
+
+    print("dbow100sig vs dbow100rbf")
+    compare(d2v_accuracy["sigmoid"]["dbow100.model"], d2v_accuracy["rbf"]["dbow100.model"], "dbow100sig",
+            "dbow100rbf")
+
+    print("dm100rbf vs dm100lin")
+    compare(d2v_accuracy["rbf"]["dm100.model"], d2v_accuracy["linear"]["dm100.model"], "dm100rbf",
+            "dm100lin")
+
+    print("dmlargesig vs dmlargelin")
+    compare(d2v_accuracy["sigmoid"]["dmlarge.model"], d2v_accuracy["linear"]["dmlarge.model"], "dmlargesig",
+            "dmlargelin")
+
+    print("dbow5cutoffpoly vs dbow5cutoffsig")
+    compare(d2v_accuracy["poly"]["dbow5cutoff.model"], d2v_accuracy["sigmoid"]["dbow5cutoff.model"], "dbow5cutoffpoly",
+            "dbow5cutoffsig")
+
+    print("dm5cutoffrbf vs dbow5cutoffsig")
+    compare(d2v_accuracy["rbf"]["dm5cutoff.model"], d2v_accuracy["sigmoid"]["dm5cutoff.model"], "dm5cutoffrbf",
+            "dm5cutoffsig")
+
+    print("dbow1cutoffsig vs dbow1cutoffpoly")
+    compare(d2v_accuracy["sigmoid"]["dbow1cutoff.model"], d2v_accuracy["poly"]["dbow1cutoff.model"], "dbow1cutoffsig",
+            "dbow1cutoffpoly")
+
+    print("dm1cutoffrbf vs dm1cutofflin")
+    compare(d2v_accuracy["rbf"]["dm1cutoff.model"], d2v_accuracy["linear"]["dm1cutoff.model"], "dm1cutoffrbf",
+            "dm1cutofflin")
+
+    print("dbowlargepoly vs dbow5cutoffrbf")
+    compare(d2v_accuracy["poly"]["dbowlarge.model"], d2v_accuracy["rbf"]["dbow5cutoff.model"], "dbowlargepoly",
+            "dbow5cutoffrbf")
+
+    print("dbowlargepoly vs dbowrbf")
+    compare(d2v_accuracy["poly"]["dbowlarge.model"], d2v_accuracy["rbf"]["dbow.model"], "dbowlargepoly",
+            "dbowrbf")
+
 
 test = pickle.load(open("test_accs.p", "rb"))
 test_d2v = pickle.load(open("test_accs_d2v.p", "rb"))
