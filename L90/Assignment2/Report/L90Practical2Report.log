@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.7.22)  9 DEC 2019 21:59
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.7.22)  10 DEC 2019 22:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -502,76 +502,95 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <8> on input line 29.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 29.
+
+Underfull \hbox (badness 1824) in paragraph at lines 36--37
+\OT1/cmr/m/n/10 Sentiment clas-si-fi-ca-tion is a com-mon task
+ []
+
 [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
 
 ]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 75.
+(Font)              <7> on input line 69.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 75.
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 97.
+(Font)              <5> on input line 69.
+ [2]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 91.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 97.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 91.
 LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10> not available
-(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 97.
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 91.
+
+Underfull \hbox (badness 10000) in paragraph at lines 94--95
+[]\OT1/cmtt/m/n/10 sigmoid\OT1/cmr/m/n/10 : ker-nel is of the form
+ []
 
 
-LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 107.
+Underfull \hbox (badness 3078) in paragraph at lines 94--95
+\OML/cmm/m/it/10 tanh\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 ^^M\OMS/cmsy/m/n/10 h\OM
+L/cmm/m/it/10 x; x[]\OMS/cmsy/m/n/10 i \OT1/cmr/m/n/10 + \OML/cmm/m/it/10 r\OT1
+/cmr/m/n/10 )$, where the de-fault
+ []
 
-[2]
-Underfull \hbox (badness 1371) in paragraph at lines 136--137
-\OT1/cmr/m/n/10 max-imus et, rhon-cus et velit. Cur-abitur
+
+Underfull \hbox (badness 1033) in paragraph at lines 94--95
+\OT1/cmr/m/n/10 value $\OML/cmm/m/it/10 r \OT1/cmr/m/n/10 = 0\OML/cmm/m/it/10 :
+\OT1/cmr/m/n/10 0$ was used, and $\OML/cmm/m/it/10 ^^M$ \OT1/cmr/m/n/10 was
  []
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 142.
+               Default added (so using `tbp') on input line 100.
+
+[3]
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 133.
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 157.
+               Default added (so using `tbp') on input line 148.
 
 
-Underfull \hbox (badness 1371) in paragraph at lines 184--185
+Underfull \hbox (badness 1371) in paragraph at lines 176--177
 \OT1/cmr/m/n/10 max-imus et, rhon-cus et velit. Cur-abitur
  []
 
-[3] [4]
-Underfull \hbox (badness 1371) in paragraph at lines 196--197
-\OT1/cmr/m/n/10 max-imus et, rhon-cus et velit. Cur-abitur
+[4] [5]
+Underfull \hbox (badness 2359) in paragraph at lines 186--187
+[]\OT1/cmr/m/n/10 The clas-si-fiers us-ing BoW vec-tors were
  []
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 206.
+               Default added (so using `tbp') on input line 193.
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 221.
+               Default added (so using `tbp') on input line 208.
 
-[5] [6]
-Underfull \hbox (badness 1142) in paragraph at lines 248--248
+
+Underfull \hbox (badness 1142) in paragraph at lines 235--235
 []\OT1/cmr/bx/n/12 Statistically Sig-nif-i-cant Dif-
  []
 
 
-Underfull \hbox (badness 1371) in paragraph at lines 254--255
+Underfull \hbox (badness 1371) in paragraph at lines 241--242
+\OT1/cmr/m/n/10 max-imus et, rhon-cus et velit. Cur-abitur
+ []
+
+[6] [7]
+Underfull \hbox (badness 1371) in paragraph at lines 253--254
 \OT1/cmr/m/n/10 max-imus et, rhon-cus et velit. Cur-abitur
  []
 
 
-Underfull \hbox (badness 1371) in paragraph at lines 264--265
-\OT1/cmr/m/n/10 max-imus et, rhon-cus et velit. Cur-abitur
- []
-
-[7]
-Underfull \hbox (badness 1661) in paragraph at lines 276--277
+Underfull \hbox (badness 1661) in paragraph at lines 265--266
 []\OT1/cmr/m/n/10 Further in-ves-ti-ga-tion could also be per-
  []
 
@@ -580,39 +599,43 @@ Underfull \hbox (badness 3229) in paragraph at lines 4--9
 []\OT1/cmr/m/n/10 Quoc Le and Tomas Mikolov.  Dis-
  []
 
-
-Underfull \hbox (badness 1253) in paragraph at lines 19--25
+[8]
+Underfull \hbox (badness 1253) in paragraph at lines 27--33
 []\OT1/cmr/m/n/10 Bo Pang, Lil-lian Lee, and Shiv-aku-mar
  []
 
-) [8] (./L90Practical2Report.aux) ) 
+) [9
+
+] (./L90Practical2Report.aux) ) 
 Here is how much of TeX's memory you used:
- 2529 strings out of 492982
- 37994 string characters out of 6134896
+ 2530 strings out of 492982
+ 38009 string characters out of 6134896
  122239 words of memory out of 5000000
- 6103 multiletter control sequences out of 15000+600000
+ 6104 multiletter control sequences out of 15000+600000
  8746 words of font info for 32 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 44i,13n,42p,882b,309s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.p
-fb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></us
-r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share
-/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-d
-ist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/font
-s/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type
-1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publ
-ic/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/ams
-fonts/cm/cmtt12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmtt8.pfb>
-Output written on L90Practical2Report.pdf (8 pages, 184307 bytes).
+ 44i,13n,42p,1178b,309s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texlive/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi
+7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><
+/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/sh
+are/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/tex
+live/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti1
+0.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/
+share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
+Output written on L90Practical2Report.pdf (9 pages, 218213 bytes).
 PDF statistics:
- 91 PDF objects out of 1000 (max. 8388607)
- 65 compressed objects within 1 object stream
+ 106 PDF objects out of 1000 (max. 8388607)
+ 76 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

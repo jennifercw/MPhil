@@ -28,11 +28,10 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-This works aims to improve work from the previous L90 Assignment on sentiment classification of movie reviews by using Support Vector Machines (SVMs) and doc2vec. It compares the performance of the SVM with and without the use of doc2vec to create document embeddings to use as input. It also compares a variety of models created with \texttt{doc2vec} and asses the impact that each one has on the performance of the classifier. It finds that [FINDINGS].
+This works aims to improve work from the previous L90 Assignment on sentiment classification of movie reviews by using Support Vector Machines (SVMs) and doc2vec. It compares the performance of the SVM with and without the use of doc2vec to create document embeddings to use as input. It also compares a variety of models created with \texttt{doc2vec} and assess the impact that each one has on the performance of the classifier. It finds that SVMs using Bag of Words vectors perform comparably to the best Naive Bayes models. Additionally, it finds that with the use of a document embedding results can be improved further, reaching up to over 90\% accuracy on the blind test set.
 \end{abstract}
 
 \section{Introduction}
-[DONE]
 
 Sentiment classification is a common task within Natural Language Processing (NLP). It involves analysing a comment on a product or service, analysing it and classifying the nature of the sentiment it conveys, commonly into the binary classification of "positive sentiment" or "negative sentiment". Thanks to online movie review websites, a large number of movie reviews created by real people are freely available online, along with star ratings that tell us whether they had broadly positive or negative feelings about the movie. As a result, sentiment classification of movie reviews is a common task with easily available datasets.
 
@@ -40,70 +39,64 @@ In the previous L90 Assignment, this task was approached using a Naive Bayes mod
 
 However, Naive Bayes is a simple model and is unlike to allow us to achieve the best possible performance on this task. Additionally, the data for each review was being given to the model as a Bag of Words (BoW) vector either showing which words were present in the review or additionally providing the frequency of each word in the review. This does not allow the model to harness connections and similarities between any of the vocabulary words or between similar reviews. So it should be possible to improve on the results achieved previously by using a more sophisticated model and by feeding data into the model in a way that allows it to take advantage of this information.
 
-This work investigates using Support Vector Machines (SVMs) for this task. SVMs aim to learn a hyperplane to separate the data such that the minimum distance from any point to the hyperplane is minimized [CHECK]. SVMs also allow the use of a kernel so that the model can learn to separate data that is not linearly separable. In this work, the choice of kernels was investigated in order to find which performed the best for each type of model tested.
+This work investigates using Support Vector Machines (SVMs) for this task. SVMs aim to learn a hyperplane to separate the data such that the smallest distance from any point to the hyperplane is maximized [CHECK]. SVMs also allow the use of a kernel so that the model can learn to separate data that is not linearly separable. In this work, the choice of kernels was investigated in order to find which performed the best for each type of model tested.
 
 Additionally, \texttt{doc2vec} is used to learn embeddings of the documents. These are then used as input to the SVM model. This work investigates whether this can improve the performance of the model and which parameters are model choices result in the most useful embeddings.
 
 \subsection{Previous Work}
 
-[DONE]
 
-In the previous L90 assignment, this task was attempted using a Naive Bayes model. The highest accuracy that was achieved by the best form of the Naive Bayes model was 84.5\%. This was achieved with a model that combined both unigrams and bigrams, took as input a vector indicating presence of a unigram or bigram in a document and used Laplace smoothing. This work builds on the work from the previous assignment and attempts to improve this accuracy by using SVMs and using doc2vec to create document embeddings to use as input to the model.
+In the previous L90 assignment, this task was attempted using a Naive Bayes model. The highest accuracy that was achieved by the best form of the Naive Bayes model was 84.15\%. This was achieved with a model that combined both unigrams and bigrams, took as input a vector indicating presence of a unigram or bigram in a document and used Laplace smoothing. This work builds on the work from the previous assignment and attempts to improve this accuracy by using SVMs and using doc2vec to create document embeddings to use as input to the model.
 
 \section{Data}
 
 
 \subsection{Movie Reviews}
 
-[DONE]
 
 The data used for training and testing of the SVM consisted of 2,000 IMDB Movie Reviews, of which 1,000 were positive, and 1,000 were negative. These reviews were available both as raw text and with additional Part of Speech tags. I chose to use the untagged reviews as Pang et al (2002) \cite{pang} found that using tags did not result in a statistically significant improvement for this task. 
 
-Of this data, 10\% was reserved to be used as an unseen test set. 9-fold cross-validation was performed using the remaining data.
+Of this data, 10\% was reserved to be used as an unseen test set. 9-fold cross-validation was performed using the remaining data. The classifier that performed best in cross-validation was then tested using the blind test set.
 
 \subsection{Data for Training doc2vec}
 
-[DONE]
 
 
 In order to train doc2vec to produce suitable document embeddings, a corpus of 100,000 IMDB movie reviews was used \cite{bigimdb}. This dataset was available as raw text. It contained some HTML tags which were stripped before use.
 
 \section{Method}
 
-[TO FINISH]
-
 The code used for this work can be found on my user area on the MPhil machines (user: \texttt{jw2088}) in the file \texttt{file}[FILE NAME]\footnote{Alternatively, it can be viewed at \texttt{{URL}}}. The models produced by \texttt{doc2vec} that were used to obtain the results discussed are also available on the MPhil machines [WHERE?]\footnote{Or they can be downloaded from \texttt{{URL}}}. 
 
 \subsection{Support Vector Machines}
 
-[TO FINISH]
+Support Vector Machines are a machine learning technique that aims to learn a separating hyperplane such that the smallest distance from a data point to the hyperplane is maximised. They do not require extremely large amounts of data to train, and they are able to learn to separate data that is not linearly separable through the use of kernels, which makes[TO FINISH]
+ them a useful technique for classification tasks.
 
+The \texttt{scikit-learn}\cite{scikit-learn} SVC implementation of SVMs was used in this work.
 
-The \texttt{scikit-learn}\cite{scikit-learn} implementation of SVMs was used in this work. [WHICH ONE?]
-
-[PARAMETERS?]
-
-The SVM model was tested in various configurations. It was tested using unigrams as vocabulary items, bigrams as vocabulary items and with a vector containing information about both unigrams and bigrams. It was tested with Bag of Word (BoW) vectors. Tests were performed both with BoW vectors that contained information about the frequency of the $i^{th}$ vocabulary item in position $i$ and with vectors that contained a 1 or 0 in position $i$ in order to indicate the presence or absence of the $i^{th}$ vocabulary item. 
+The initial, non-\texttt{doc2vec} SVM model was tested in various configurations. It was tested using unigrams as vocabulary items and with bigrams as vocabulary items. It was tested with Bag of Word (BoW) vectors. Tests were performed both with BoW vectors that contained information about the frequency of the $i^{th}$ vocabulary item in position $i$ and with vectors that contained a 1 or 0 in position $i$ in order to indicate the presence or absence of the $i^{th}$ vocabulary item. 
 
 A frequency cutoff was used meaning that vocabulary items that appeared fewer than 5 times were not included in the BoW vector. Words that were outside of this cutoff were encoded as unknown vocabulary items.
 
+For the models using \texttt{doc2vec} vectors as input, the different models were tested against one another, and the choice of kernel was evaluated.
+
 \subsubsection{Kernels}
 
-[TO FINISH]
+SVMs can learn to separate data that is not linearly separable by mapping the data into a higher dimensional space where it becomes linearly separable. To do this, we must define a kernel function that serves as the inner product in the higher dimensional space, since this is what is needed to learn the separating hyperplane and to classify a new vector.
 
-SVMs allow for a choice of kernel that allows the model to learn to sucessfully separate data that is not linearly separable. The implementation of SVMs used in this work allowed for a choice of 4 kernels: \texttt{rbf}, \texttt{linear}, \texttt{poly} and \texttt{sigmoid}, which are as follows:
+SVMs allow for a choice of kernel that allows the model to learn to sucessfully separate data that is not linearly separable. The implementation of SVMs used in this work allowed for a choice of 4 kernels: \texttt{rbf} (radial basis function), \texttt{linear}, \texttt{poly} and \texttt{sigmoid}, which are as follows, where $x$ and $x'$ are two vectors taken as input:
 
 \begin{itemize}
-	\item \textbf{\texttt{rbf}}: [DESC]
-	\item \textbf{\texttt{linear}}: [DESC]
-	\item \textbf{\texttt{poly}}: [DESC]
-	\item \textbf{\texttt{sigmoid}}: [DESC]
+	\item \textbf{\texttt{rbf}}: kernel is of the form $e^{-\gamma||x-x'||^2}$ where $\gamma$ is a parameter that may be specified but in this work was determined automatically by the model based on features of the training data;
+	\item \textbf{\texttt{linear}}: kernel is a linear function of the form $\langle x, x' \rangle$;
+	\item \textbf{\texttt{poly}}: kernel is a polynomial function of the form $\gamma(\langle x, x' \rangle + r)^d$. $d$, the degree, can be specified but in this work the default value of 3 was used. As in the case of $\gamma$ in the \texttt{rbf} case, $\gamma$ here was also determined automatically. The default value of $r=0.0$ was used;
+	\item \textbf{\texttt{sigmoid}}: kernel is of the form $tanh(\gamma \langle x, x' \rangle + r)$, where the default value $r=0.0$ was used, and $\gamma$ was determined automatically.
 \end{itemize}
 
-
+In this work, all of the models were tested with all of the available kernels. Depending on the model used, the best kernel for separating the data may change.
 
 \subsection{doc2vec}
-
 \begin{table*}[]
 \centering
 \captionsetup{justification=centering}
@@ -125,17 +118,15 @@ SVMs allow for a choice of kernel that allows the model to learn to sucessfully 
 \end{tabular}
 \end{table*}
 
-[TO FINISH]
+When words are used as input for some task, they are often given in the format of one-hot vectors. For a vocabulary of size $N$, these vectors will be of $N$ dimensions and the vector for word $i$ will contain a 1 at index $i$. While these are very simple to create, they have some undesirable properties. Using this method produces vectors with very large dimension, which can make computation troublesome. Additionally, they do not allow us to exploit any relations that may exist between words. In the vector space of word vectors, the vector for 'good' will be no closer to the vector for 'great' than to the vector for 'terrible' or 'bad'. One way to improve this is to use a word embedding, such as \texttt{word2vec} \cite{NIPS2013_5021}. This trains an embedding by examining common context for a given word. The vectors that are obtained from this are both much smaller in size than one-hot encoded vectors and also encode relationships between words, such as related words being similar to one another in the embedding space. This should both improve computational efficiency and allow us to exploit similarities between words.
 
-Doc2vec \cite{doc2vec} was used to create document embeddings to be used as input to the SVM. 
+This principle was extended to deal with documents, creating a vector to represent each document and resulting in similar vectors for similar documents \cite{doc2vec}. This has clear implications for any task that involves the classification of documents. Documents on a similar topic or containing a similar sentiment should be mapped to vectors that show high similarity in the embedding space.
 
-[DISCUSS DBOW VS DM]
+When training a \texttt{doc2vec} model, it is possible to choose between two different approaches: Distributed Memory (DM) and Distributed Bag of Words (DBOW). They differ in the task used in training to obtain the embeddings. In the DM approach, a document vector is concatenated with word vectors from the document and used as input to predict the next word. In the DBOW approach, the document vector is taken as input and asked to predict a word from the document. Less data is needed to be stored in order to use this approach due to the absence of word vectors in the input.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ac euismod sapien, ut varius metus. Maecenas vulputate lorem ac erat ornare, sed auctor eros lacinia. Donec faucibus euismod condimentum. Donec elit urna, consectetur sit amet felis sit amet, commodo iaculis massa. Sed non imperdiet augue. Duis gravida, urna id tempus congue, tortor tortor dictum dui, nec vulputate sem massa eu purus. Donec eget laoreet tellus, at mollis enim. Proin eu nibh nec neque hendrerit rutrum nec sed tellus. Vivamus dignissim neque sed augue viverra semper. Duis posuere ex sed justo iaculis consectetur.
+In this work, \texttt{doc2vec} was used to create document embeddings to be used as input to the SVM. Positive reviews should be more similar than negative reviews, so this should help us to classify reviews more accurately than using vectors indicating presence or frequency of words. Additionally, these vectors will much smaller than the Bag of Word vectors, so training of the SVM should be considerably faster.
 
-Aliquam arcu erat, elementum fermentum maximus et, rhoncus et velit. Curabitur fringilla arcu sed nisl finibus, quis gravida mauris aliquet. Duis fermentum mi sed interdum congue. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Curabitur dolor velit, posuere vel aliquam ac, commodo ac tellus. Quisque eget ligula fermentum sapien euismod pretium. Pellentesque facilisis quam vel convallis pharetra. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut non purus bibendum, ullamcorper sem id, consectetur justo. Ut vehicula arcu quis leo pretium, tincidunt semper elit porttitor. Integer tincidunt lectus quis lorem auctor, quis bibendum leo venenatis.
-
-Morbi at placerat dui. Praesent bibendum ullamcorper augue. Sed volutpat mauris et congue sodales. Donec vel dui non ante finibus aliquam. Nam accumsan nulla ut quam feugiat cursus. Integer et suscipit lorem. Nullam quis nisi justo. Nunc volutpat blandit dolor quis commodo. Nam ut massa non velit sagittis vehicula ut a nulla. Sed at euismod massa, at auctor neque. Ut id ullamcorper ligula. Cras ut finibus tortor.
+In training a \texttt{doc2vec} model, multiple parameters can be changed. As described above, a DBOW or DM model can be chosen, but additionally the size of the embedding can be selected, the frequency cutoff for words to be considered can be changed and the number of training epochs can also be chosen. In this work, 10 models were trained and tested on the sentiment classifcation task. Their names and the parameters used are shown in Table \ref{table:doc2vecparams}.
 
 \section{Investigation and Evaluation of doc2vec models}
 
@@ -176,6 +167,7 @@ Morbi at placerat dui. Praesent bibendum ullamcorper augue. Sed volutpat mauris 
 \end{table*}
 
 [TO FINISH]
+[USE GRAPHS OF VECTORS?]
 
 Some investigation was performed as to how each \texttt{doc2vec} performs when classifying documents.
 
@@ -189,19 +181,14 @@ Morbi at placerat dui. Praesent bibendum ullamcorper augue. Sed volutpat mauris 
 
 [TO FINISH]
 
-The accuracy obtained on the blind test set for each classifier can be seen in Tables \ref{table:nondoc2vecaccs} and \ref{table:doc2vecaccs}.
+The accuracy obtained on the blind test set for the instance of each classifier that performed best in cross-validation can be seen in Tables \ref{table:nondoc2vecaccs} and \ref{table:doc2vecaccs}.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ac euismod sapien, ut varius metus. Maecenas vulputate lorem ac erat ornare, sed auctor eros lacinia. Donec faucibus euismod condimentum. Donec elit urna, consectetur sit amet felis sit amet, commodo iaculis massa. Sed non imperdiet augue. Duis gravida, urna id tempus congue, tortor tortor dictum dui, nec vulputate sem massa eu purus. Donec eget laoreet tellus, at mollis enim. Proin eu nibh nec neque hendrerit rutrum nec sed tellus. Vivamus dignissim neque sed augue viverra semper. Duis posuere ex sed justo iaculis consectetur.
+The classifiers using BoW vectors were greatly affected by the choice of kernel. For example, the bigram presence model performed well only with the choice of a linear kernel. The unigram frequency model performed the most consistently with different kernel choices. The best overall performance on the blind test set was achieved by the unigram frequency model with a linear kernel, achieving 84.5\% accuracy. This is comparable to the best-performing Naive Bayes models from the previous L90 assignment.
 
-Aliquam arcu erat, elementum fermentum maximus et, rhoncus et velit. Curabitur fringilla arcu sed nisl finibus, quis gravida mauris aliquet. Duis fermentum mi sed interdum congue. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Curabitur dolor velit, posuere vel aliquam ac, commodo ac tellus. Quisque eget ligula fermentum sapien euismod pretium. Pellentesque facilisis quam vel convallis pharetra. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut non purus bibendum, ullamcorper sem id, consectetur justo. Ut vehicula arcu quis leo pretium, tincidunt semper elit porttitor. Integer tincidunt lectus quis lorem auctor, quis bibendum leo venenatis.
-
-Morbi at placerat dui. Praesent bibendum ullamcorper augue. Sed volutpat mauris et congue sodales. Donec vel dui non ante finibus aliquam. Nam accumsan nulla ut quam feugiat cursus. Integer et suscipit lorem. Nullam quis nisi justo. Nunc volutpat blandit dolor quis commodo. Nam ut massa non velit sagittis vehicula ut a nulla. Sed at euismod massa, at auctor neque. Ut id ullamcorper ligula. Cras ut finibus tortor.
-
-
+The classifiers using \texttt{doc2vec} were generally less significantly affected by the choice of kernel, with the majority of the models showing less than 2\% difference between their best- and worst-performing kernel choices. The best performance achieved on the blind test set by these models was achieved by the \texttt{dbow5cutoff} model with a sigmoid kernel, achieving 91.5\% accuracy. However, many other models performed similarly with 14 other models achieving at least 89.5\% accuracy. The performance of the best models using \texttt{doc2vec} shows a significant improvement over both the Naive Bayes models used in the previous L90 assignment, and the SVMs without \texttt{doc2vec} vectors.
 
 \subsection{Permutation Test}
 
-[DONE]
 
 \begin{table*}[]
 \centering
@@ -259,6 +246,8 @@ Morbi at placerat dui. Praesent bibendum ullamcorper augue. Sed volutpat mauris 
 
 [TO FINISH]
 
+[ERROR ANALYSIS OF MOST SUCCESSFUL SYSTEM AND SOME WORSE ONES?]
+
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ac euismod sapien, ut varius metus. Maecenas vulputate lorem ac erat ornare, sed auctor eros lacinia. Donec faucibus euismod condimentum. Donec elit urna, consectetur sit amet felis sit amet, commodo iaculis massa. Sed non imperdiet augue. Duis gravida, urna id tempus congue, tortor tortor dictum dui, nec vulputate sem massa eu purus. Donec eget laoreet tellus, at mollis enim. Proin eu nibh nec neque hendrerit rutrum nec sed tellus. Vivamus dignissim neque sed augue viverra semper. Duis posuere ex sed justo iaculis consectetur.
 
 Aliquam arcu erat, elementum fermentum maximus et, rhoncus et velit. Curabitur fringilla arcu sed nisl finibus, quis gravida mauris aliquet. Duis fermentum mi sed interdum congue. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Curabitur dolor velit, posuere vel aliquam ac, commodo ac tellus. Quisque eget ligula fermentum sapien euismod pretium. Pellentesque facilisis quam vel convallis pharetra. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut non purus bibendum, ullamcorper sem id, consectetur justo. Ut vehicula arcu quis leo pretium, tincidunt semper elit porttitor. Integer tincidunt lectus quis lorem auctor, quis bibendum leo venenatis.
@@ -267,7 +256,7 @@ Morbi at placerat dui. Praesent bibendum ullamcorper augue. Sed volutpat mauris 
 
 \subsection{Possible Improvements}
 
-[DONE]
+[ADD INSIGHTS FROM INVESTIGATION]
 
 Further improvements for this task could be made by changing the model used to perform sentiment classification, by perhaps using a neural network architecture. However, this would require much more than 2,000 examples as a testing and training set. Though, as movie review sentiment analysis is a well-researched task, much larger datasets, such as the one used to train \texttt{doc2vec} in this work, are available.
 
@@ -278,7 +267,7 @@ Further investigation could also be performed into the ideal parameters for trai
 Implementing some or all of these techniques could allow for the accuracy achieved in this work to be improved.
 
 
-\textbf{Word count: 927 words}
+\textbf{Word count: 2,368 words}
 
 \bibliography{L90ass2bib}{}
 \bibliographystyle{plain}

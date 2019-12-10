@@ -15,6 +15,14 @@ Andrew~L. Maas, Raymond~E. Daly, Peter~T. Pham, Dan Huang, Andrew~Y. Ng, and
   Computational Linguistics: Human Language Technologies}, pages 142--150,
   Portland, Oregon, USA, June 2011. Association for Computational Linguistics.
 
+\bibitem{NIPS2013_5021}
+Tomas Mikolov, Ilya Sutskever, Kai Chen, Greg~S Corrado, and Jeff Dean.
+\newblock Distributed representations of words and phrases and their
+  compositionality.
+\newblock In C.~J.~C. Burges, L.~Bottou, M.~Welling, Z.~Ghahramani, and K.~Q.
+  Weinberger, editors, {\em Advances in Neural Information Processing Systems
+  26}, pages 3111--3119. Curran Associates, Inc., 2013.
+
 \bibitem{pang}
 Bo~Pang, Lillian Lee, and Shivakumar Vaithyanathan.
 \newblock Thumbs up?: sentiment classification using machine learning

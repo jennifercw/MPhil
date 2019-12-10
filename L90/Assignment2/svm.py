@@ -6,7 +6,7 @@ from collections import Counter
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 
 """
-    The models used to run this code for the results found in my writeup can be downloaded here: 
+    The doc2vec models used to run this code for the results found in my writeup can be downloaded here: 
     https://drive.google.com/file/d/1ykdC4qwMj-nZC6t5P5KJQZespIaH__7-/view?usp=sharing
 """
 
@@ -202,6 +202,7 @@ def run_test(k=10):
         for model_name in model_list:
             print(model_name, kernel, calc_mean_variance(acc_list[kernel][model_name]))
     blind_accs_svm = {}
+    incorrect_class = {model : [] for model in param_sets.keys()}
     for model_name in param_sets.keys():
         print(model_name)
         svm_model = best_classifier_params[model_name]["model"]
@@ -213,18 +214,25 @@ def run_test(k=10):
         params = param_sets[model_name]
         p_predictions = svm_model.predict([vectorise(p, vocab_dict=vocab, n=params["n"],
                                                      freq=params["freq"]) for p in pos_test_data])
-        for p in p_predictions:
+        for i in range(len(p_predictions)):
+            p = p_predictions[i]
             if p == 1:
                 pos_corr += 1
+            else:
+                incorrect_class[model_name].append((pos_test_data[i], 1))
         n_predictions = svm_model.predict([vectorise(ng, vocab_dict=vocab, n=params["n"],
                                                      freq=params["freq"]) for ng in neg_test_data])
-        for ng in n_predictions:
+        for i in range(len(n_predictions)):
+            ng = n_predictions[i]
             if ng == 0:
                 neg_corr += 1
+            else:
+                incorrect_class[model_name].append((neg_test_data[i], 0))
         accuracy = (neg_corr + pos_corr) / (neg_tot + pos_tot)
         print(model_name, accuracy)
         blind_accs_svm[model_name] = accuracy
     blind_accs_d2v = {kernel: {} for kernel in kernels}
+    incorrect_class_d2v = {kernel : {model : [] for model in model_list} for kernel in kernels}
     for kernel in kernels:
         print(kernel)
         for name in model_list:
@@ -235,18 +243,28 @@ def run_test(k=10):
             neg_corr = 0
             neg_tot = len(neg_test_data)
             p_predictions = svm_model.predict([model.infer_vector(p) for p in pos_test_data])
-            for p in p_predictions:
+            for i in range(len(p_predictions)):
+                p = p_predictions[i]
                 if p == 1:
                     pos_corr += 1
+                else:
+                    incorrect_class_d2v[kernel][name].append((pos_test_data[i], 1))
             n_predictions = svm_model.predict([model.infer_vector(ng) for ng in neg_test_data])
-            for ng in n_predictions:
+            for i in range(len(n_predictions)):
+                ng = n_predictions[i]
                 if ng == 0:
                     neg_corr += 1
+                else:
+                    incorrect_class_d2v[kernel][name].append((neg_test_data[i], 1))
             accuracy = (neg_corr + pos_corr) / (neg_tot + pos_tot)
             print(name, accuracy)
             blind_accs_d2v[kernel][name] = accuracy
     pickle.dump(blind_accs_svm, open("test_accs.py", "wb"))
     pickle.dump(blind_accs_d2v, open("test_accs_d2v.p", "wb"))
+    pickle.dump(incorrect_class_d2v, open("incorr_d2v.p", "wb"))
+    pickle.dump(incorrect_class, open("incorr.p", "wb"))
+    best_model = best_classifier_doc2vec["poly"]["dbowlarge"]
+    pickle.dump(best_model, open("best_model.sav", "wb"))
 
 
 def calc_mean_variance(acc):
