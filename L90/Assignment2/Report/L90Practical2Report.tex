@@ -8,6 +8,9 @@
 %%% PAGE DIMENSIONS
 \usepackage{geometry} 
 \usepackage{cite}
+\usepackage [english]{babel}
+\usepackage [autostyle, english = american]{csquotes}
+\MakeOuterQuote{"}
 
 \geometry{a4paper} 
 
@@ -23,7 +26,7 @@
 \title{ L90 Assignment 2:\\
 	Improving Sentiment Classification of Movie Reviews Using Support Vector Machines and doc2vec }
 \author{Jennifer White (\texttt{jw2088})}
-%\date{} 
+\date{} 
 
 \begin{document}
 \maketitle
@@ -39,7 +42,7 @@ In the previous L90 Assignment, this task was approached using a Naive Bayes mod
 
 However, Naive Bayes is a simple model and is unlike to allow us to achieve the best possible performance on this task. Additionally, the data for each review was being given to the model as a Bag of Words (BoW) vector either showing which words were present in the review or additionally providing the frequency of each word in the review. This does not allow the model to harness connections and similarities between any of the vocabulary words or between similar reviews. So it should be possible to improve on the results achieved previously by using a more sophisticated model and by feeding data into the model in a way that allows it to take advantage of this information.
 
-This work investigates using Support Vector Machines (SVMs) for this task. SVMs aim to learn a hyperplane to separate the data such that the smallest distance from any point to the hyperplane is maximized [CHECK]. SVMs also allow the use of a kernel so that the model can learn to separate data that is not linearly separable. In this work, the choice of kernels was investigated in order to find which performed the best for each type of model tested.
+This work investigates using Support Vector Machines (SVMs) for this task. SVMs aim to learn a hyperplane to separate the data such that the smallest distance from any point to the hyperplane is maximized. SVMs also allow the use of a kernel so that the model can learn to separate data that is not linearly separable. In this work, the choice of kernels was investigated in order to find which performed the best for each type of model tested.
 
 Additionally, \texttt{doc2vec} is used to learn embeddings of the documents. These are then used as input to the SVM model. This work investigates whether this can improve the performance of the model and which parameters are model choices result in the most useful embeddings.
 
@@ -59,8 +62,6 @@ The data used for training and testing of the SVM consisted of 2,000 IMDB Movie 
 Of this data, 10\% was reserved to be used as an unseen test set. 9-fold cross-validation was performed using the remaining data. The classifier that performed best in cross-validation was then tested using the blind test set.
 
 \subsection{Data for Training doc2vec}
-
-
 
 In order to train doc2vec to produce suitable document embeddings, a corpus of 100,000 IMDB movie reviews was used \cite{bigimdb}. This dataset was available as raw text. It contained some HTML tags which were stripped before use.
 
@@ -166,20 +167,37 @@ In training a \texttt{doc2vec} model, multiple parameters can be changed. As des
 \end{tabular}
 \end{table*}
 
-[TO FINISH]
-[USE GRAPHS OF VECTORS?]
 
-Some investigation was performed as to how each \texttt{doc2vec} performs when classifying documents.
+Some investigation was performed as to how each \texttt{doc2vec} embedding performs when classifying documents. Three particular questions were asked for each trained embedding: (1) How similar are similar reviews in the embedding space? (2) Which word in a review has the vector most similar to that review in the embedding space? (3) How similar are related or synonymous words in the embedding space? Similarity was measured using cosine distance between vectors. These investigations were performed using a test set of 36 new reviews, half positive and half negative, describing 6 movies.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ac euismod sapien, ut varius metus. Maecenas vulputate lorem ac erat ornare, sed auctor eros lacinia. Donec faucibus euismod condimentum. Donec elit urna, consectetur sit amet felis sit amet, commodo iaculis massa. Sed non imperdiet augue. Duis gravida, urna id tempus congue, tortor tortor dictum dui, nec vulputate sem massa eu purus. Donec eget laoreet tellus, at mollis enim. Proin eu nibh nec neque hendrerit rutrum nec sed tellus. Vivamus dignissim neque sed augue viverra semper. Duis posuere ex sed justo iaculis consectetur.
+\subsubsection{Review Similarity}
 
-Aliquam arcu erat, elementum fermentum maximus et, rhoncus et velit. Curabitur fringilla arcu sed nisl finibus, quis gravida mauris aliquet. Duis fermentum mi sed interdum congue. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Curabitur dolor velit, posuere vel aliquam ac, commodo ac tellus. Quisque eget ligula fermentum sapien euismod pretium. Pellentesque facilisis quam vel convallis pharetra. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut non purus bibendum, ullamcorper sem id, consectetur justo. Ut vehicula arcu quis leo pretium, tincidunt semper elit porttitor. Integer tincidunt lectus quis lorem auctor, quis bibendum leo venenatis.
+In these experiments reviews were compared to one another to see whether "similar" reviews exhibited higher similarity in the vector space than reviews that are not "similar". Here, reviews were considered to be "similar" if they expressed the same sentiment or if they described the same movie, and especially so if both of these were the case.
 
-Morbi at placerat dui. Praesent bibendum ullamcorper augue. Sed volutpat mauris et congue sodales. Donec vel dui non ante finibus aliquam. Nam accumsan nulla ut quam feugiat cursus. Integer et suscipit lorem. Nullam quis nisi justo. Nunc volutpat blandit dolor quis commodo. Nam ut massa non velit sagittis vehicula ut a nulla. Sed at euismod massa, at auctor neque. Ut id ullamcorper ligula. Cras ut finibus tortor.
+Reviews were compared to reviews within their similarity group and outside these groups. If the embedding is performing well we would expect to see a higher similarity between "similar" reviews than with the full review set in general.
+
+The performance on this task was varied. Some models actually exhibited lower similarity between "similar" reviews than with any 2 reviews from the whole set. All of the embeddings that exhibited this were models that trained using the DM method rather than DBOW. This would be expected to result in worse performance on the classification task for the DM embeddings, which we will observe later is in fact the case.
+
+Most of the DBOW embeddings showed an increase of on average between 1.8\% and 1.9\% in similarity when looking at reviews in "similar" groupings. The \texttt{dbowlarge} embedding showed the greatest increase with an average of 2.5\%, but the values for similarity were lower overall with this embedding. The DBOW embeddings did all show increases in similarity within "similar" groups, however these were generally small.
+
+\subsubsection{Most Similar Word in Each Review}
+
+In these experiments each word in a review was compared with the review as a whole in the embedding space and their similarity calculated. A list of the 10 words most similar to the review was then returned. In a high quality embedding we would hope to see that the most similar words are key words from the document.
+
+Generally, the embeddings performed poorly on this task, with the majority of the most similar words being common words conveying no information regarding sentiment.
+
+Occasionally a key word such as 'disaster', 'masterpiece' or 'great' appeared in the top 10, but this was infrequent and no model particularly stood out on this task.
+
+\subsubsection{Word Similarity}
+
+In these experiments, some sets of similar or synonymous words was created (for example, 'good', 'great', 'excellent' and 'amazing'). These words were then compared in the embedding space both to words within their set and words outside their set and the average similarity found for each. In a successful embedding we would expect similarity to be higher when comparing within these groups than outside them.
+
+There were again embeddings that exhibited lower similarity within some of the groups than in general, but this was limited to one group for each embedding.
+
+The embedding exhibiting the greatest increase in similarity when comparing within a group was \texttt{dbowlarge} with an average increase of 21.2\%. The worst performing on average was \texttt{dm100} with an average increase of only 4.1\%. One could assume from this that they will exhibit a large performance difference on the sentiment classification task, but we will actually find that they perform comparably on both the cross-validation and blind test sets. However, \texttt{dbowlarge} does perform significantly better on the test set of new reviews.
+
 
 \section{Results}
-
-[TO FINISH]
 
 The accuracy obtained on the blind test set for the instance of each classifier that performed best in cross-validation can be seen in Tables \ref{table:nondoc2vecaccs} and \ref{table:doc2vecaccs}.
 
@@ -197,7 +215,7 @@ The classifiers using \texttt{doc2vec} were generally less significantly affecte
 \label{table:nondoc2veccrossval}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-                                                                      & \textbf{rbf}                                             & \textbf{linear}                                          & \textbf{poly}                                            & \textbf{sig}                                             \\ \hline
+                                                                      & \textbf{rbf}                                             & \textbf{linear}                                          & \textbf{polynomial}                                            & \textbf{sigmoid}                                             \\ \hline
 \textbf{\begin{tabular}[c]{@{}c@{}}unigram,\\ presence\end{tabular}}  & \begin{tabular}[c]{@{}c@{}}69.3\%\\ (0.083)\end{tabular} & \begin{tabular}[c]{@{}c@{}}81.6\%\\ (0.055)\end{tabular} & \begin{tabular}[c]{@{}c@{}}65.2\%\\ (0.084)\end{tabular} & \begin{tabular}[c]{@{}c@{}}46.6\%\\ (0.159)\end{tabular} \\ \hline
 \textbf{\begin{tabular}[c]{@{}c@{}}unigram,\\ frequency\end{tabular}} & \begin{tabular}[c]{@{}c@{}}84.0\%\\ (0.050)\end{tabular} & \begin{tabular}[c]{@{}c@{}}83.1\%\\ (0.067)\end{tabular} & \begin{tabular}[c]{@{}c@{}}72.8\%\\ (0.073)\end{tabular} & \begin{tabular}[c]{@{}c@{}}84.3\%\\ (0.061)\end{tabular} \\ \hline
 \textbf{\begin{tabular}[c]{@{}c@{}}bigram,\\ presence\end{tabular}}   & \begin{tabular}[c]{@{}c@{}}55.4\%\\ (0.071)\end{tabular} & \begin{tabular}[c]{@{}c@{}}77.9\%\\ (0.089)\end{tabular} & \begin{tabular}[c]{@{}c@{}}53.7\%\\ (0.052)\end{tabular} & \begin{tabular}[c]{@{}c@{}}49.4\%\\ (0.238)\end{tabular} \\ \hline
@@ -212,7 +230,7 @@ The classifiers using \texttt{doc2vec} were generally less significantly affecte
 \label{table:doc2veccrossval}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-                     & \textbf{rbf}                                             & \textbf{linear}                                          & \textbf{poly}                                            & \textbf{sig}                                             \\ \hline
+                     & \textbf{rbf}                                             & \textbf{linear}                                          & \textbf{polynomial}                                            & \textbf{sigmoid}                                             \\ \hline
 \textbf{dbow}        & \begin{tabular}[c]{@{}c@{}}88.4\%\\ (0.039)\end{tabular} & \begin{tabular}[c]{@{}c@{}}87.8\%\\ (0.048)\end{tabular} & \begin{tabular}[c]{@{}c@{}}88.1\%\\ (0.038)\end{tabular} & \begin{tabular}[c]{@{}c@{}}87.7\%\\ (0.062)\end{tabular} \\ \hline
 \textbf{dm}          & \begin{tabular}[c]{@{}c@{}}82.6\%\\ (0.042)\end{tabular} & \begin{tabular}[c]{@{}c@{}}82.5\%\\ (0.036)\end{tabular} & \begin{tabular}[c]{@{}c@{}}81.0\%\\ (0.049)\end{tabular} & \begin{tabular}[c]{@{}c@{}}81.0\%\\ (0.036)\end{tabular} \\ \hline
 \textbf{dbow100}     & \begin{tabular}[c]{@{}c@{}}88.0\%\\ (0.061)\end{tabular} & \begin{tabular}[c]{@{}c@{}}87.7\%\\ (0.072)\end{tabular} & \begin{tabular}[c]{@{}c@{}}87.3\%\\ (0.061)\end{tabular} & \begin{tabular}[c]{@{}c@{}}86.8\%\\ (0.042)\end{tabular} \\ \hline
@@ -233,41 +251,101 @@ The significance tests were performed using the paired results of the two system
 In some cases, a system that performed better than another system on the blind test set actually performed worse on average in average of the cross-validation accuracies, so these differences were not significant.
 
 \subsection{Statistically Significant Differences}
+\begin{table*}[]
+\centering
+\captionsetup{justification=centering}
+\caption{Table of accuracy achieved on the new review test set for non-\texttt{doc2vec} models}
+\label{table:newrevnond2v}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+                                                                      & \textbf{rbf} & \textbf{linear} & \textbf{polynomial} & \textbf{sigmoid} \\ \hline
+\textbf{\begin{tabular}[c]{@{}c@{}}unigram,\\ presence\end{tabular}}  & 50.0\%       & 69.4\%          & 50.0\%              & 47.2\%           \\ \hline
+\textbf{\begin{tabular}[c]{@{}c@{}}unigram,\\ frequency\end{tabular}} & 61.1\%       & 66.7\%          & 52.8\%              & 63.9\%           \\ \hline
+\textbf{\begin{tabular}[c]{@{}c@{}}bigram,\\ presence\end{tabular}}   & 50.0\%       & 61.1\%          & 47.2\%              & 55.6\%           \\ \hline
+\textbf{\begin{tabular}[c]{@{}c@{}}bigram,\\ frequency\end{tabular}}  & 63.9\%       & 66.7\%          & 50.0\%              & 66.7\%           \\ \hline
+\end{tabular}
+\end{table*}
 
-[TO FINISH]
+Permutation tests, as described above, were performed on the results to investigate which differences were statistically significant and determine which classifiers were giving the best performance overall.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ac euismod sapien, ut varius metus. Maecenas vulputate lorem ac erat ornare, sed auctor eros lacinia. Donec faucibus euismod condimentum. Donec elit urna, consectetur sit amet felis sit amet, commodo iaculis massa. Sed non imperdiet augue. Duis gravida, urna id tempus congue, tortor tortor dictum dui, nec vulputate sem massa eu purus. Donec eget laoreet tellus, at mollis enim. Proin eu nibh nec neque hendrerit rutrum nec sed tellus. Vivamus dignissim neque sed augue viverra semper. Duis posuere ex sed justo iaculis consectetur.
+Among the BoW classifiers, the unigram frequency model performed best with a linear kernel rather than the other kernels and this was found to be a statistically significant difference. Likewise, the bigram frequency model and bigram presence model showed statistically significantly better performance with linear and sigmoid kernels respectively. The bigram presence model showed less variation in performance with the use of different kernels. The sigmoid kernel, which performed best on the cross-validation tests, was statistically significantly better than the polynomial kernel, but the difference with the rbf and linear kernels was not significant.
 
-Aliquam arcu erat, elementum fermentum maximus et, rhoncus et velit. Curabitur fringilla arcu sed nisl finibus, quis gravida mauris aliquet. Duis fermentum mi sed interdum congue. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Curabitur dolor velit, posuere vel aliquam ac, commodo ac tellus. Quisque eget ligula fermentum sapien euismod pretium. Pellentesque facilisis quam vel convallis pharetra. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut non purus bibendum, ullamcorper sem id, consectetur justo. Ut vehicula arcu quis leo pretium, tincidunt semper elit porttitor. Integer tincidunt lectus quis lorem auctor, quis bibendum leo venenatis.
+Once it was established which kernel performed best for each model, these best models were then compared with one another. The unigram presence model with sigmoid kernel was the best-performing, and this showed a statistically significant improvement over the next highest-performing of the 4 models, which was unigram frequency with a linear kernel.
 
-Morbi at placerat dui. Praesent bibendum ullamcorper augue. Sed volutpat mauris et congue sodales. Donec vel dui non ante finibus aliquam. Nam accumsan nulla ut quam feugiat cursus. Integer et suscipit lorem. Nullam quis nisi justo. Nunc volutpat blandit dolor quis commodo. Nam ut massa non velit sagittis vehicula ut a nulla. Sed at euismod massa, at auctor neque. Ut id ullamcorper ligula. Cras ut finibus tortor.
+Among the \texttt{doc2vec} models, each model showed less variation in accuracy with different kernels and generally the differences between kernel types for an individual model were not found to be statistically significant.
+
+Among the best performing \texttt{doc2vec} models performance was very similar and no statistically significant difference was found.
+
+The \texttt{doc2vec} models using Distributed Bag of Words (DBOW) were found to be a statistically significant improvement over their Distributed Memory (DM) counterparts.
+
+\subsection{Deployment Test}
+
+\begin{table*}[]
+\centering
+\captionsetup{justification=centering}
+\caption{Table of accuracy achieved on the new review test set for \texttt{doc2vec} models}
+\label{table:newrevd2v}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+                     & \textbf{rbf} & \textbf{linear} & \textbf{polynomial} & \textbf{sigmoid} \\ \hline
+\textbf{dbow}        & 77.8\%       & 80.6\%          & 69.4\%              & 80.6\%           \\ \hline
+\textbf{dm}          & 66.7\%       & 63.9\%          & 58.3\%              & 61.1\%           \\ \hline
+\textbf{dbow100}     & 80.6\%       & 75.0\%          & 69.4\%              & 77.8\%           \\ \hline
+\textbf{dm100}       & 72.2\%       & 72.2\%          & 72.2\%              & 72.2\%           \\ \hline
+\textbf{dbowlarge}   & 86.1\%       & 86.1\%          & 75.0\%              & 83.3\%           \\ \hline
+\textbf{dmlarge}     & 69.4\%       & 75.0\%          & 58.3\%              & 72.2\%           \\ \hline
+\textbf{dbow5cutoff} & 77.8\%       & 77.8\%          & 75.0\%              & 77.8\%           \\ \hline
+\textbf{dm5cutoff}   & 77.8\%       & 83.3\%          & 63.9\%              & 75.0\%           \\ \hline
+\textbf{dbow1cutoff} & 80.6\%       & 77.8\%          & 72.2\%              & 75.0\%           \\ \hline
+\textbf{dm1cutoff}   & 66.7\%       & 77.8\%          & 61.1\%              & 55.6\%           \\ \hline
+\end{tabular}
+\end{table*}
+
+In order to test the generalisability of the systems, a deployment test was performed. For this, 36 new reviews were collected from IMDB, with half being positive (with a rating of 8 out of 10 or higher) and half negative (with a rating of 3 out of 10 or lower). These reviews were primarily for films that have been released in the last year. The files containing these reviews are available alongside the code for this project.
+
+This testing allowed for an examination of how the models generalise to data taken from a different dataset, for entirely different films, written recently.
+
+The results of this testing are given in Tables \ref{table:newrevnond2v} and \ref{table:newrevd2v}.
+
+The performance of the models overall was worse on this new test set. The BoW models were unable to perform as well, with the most sucessful model reaching only 69.4\% accuracy.
+
+The \texttt{doc2vec} models overall still performed better than the BoW models on this test set, but performance still tended to be worse than on the blind test set or on the cross-validation sets. Some models saw a particularly bad drop in accuracy on the new test set. The best performing model on this test set (dm5cutoff \texttt{doc2vec} model with a linear kernel) achieved an accuracy of 88.8\% on this test set, which is close to the best performance achieved by any model on the blind test set, and which is actually an improvement on this particular model's performance on the cross-validation sets and the blind test set.
 
 \section{Discussion}
 
-[TO FINISH]
 
-[ERROR ANALYSIS OF MOST SUCCESSFUL SYSTEM AND SOME WORSE ONES?]
+\subsection{Error Analysis}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ac euismod sapien, ut varius metus. Maecenas vulputate lorem ac erat ornare, sed auctor eros lacinia. Donec faucibus euismod condimentum. Donec elit urna, consectetur sit amet felis sit amet, commodo iaculis massa. Sed non imperdiet augue. Duis gravida, urna id tempus congue, tortor tortor dictum dui, nec vulputate sem massa eu purus. Donec eget laoreet tellus, at mollis enim. Proin eu nibh nec neque hendrerit rutrum nec sed tellus. Vivamus dignissim neque sed augue viverra semper. Duis posuere ex sed justo iaculis consectetur.
+In order to better understand the failures of these model, an examination was conducted of the errors that were made on the blind test set.
 
-Aliquam arcu erat, elementum fermentum maximus et, rhoncus et velit. Curabitur fringilla arcu sed nisl finibus, quis gravida mauris aliquet. Duis fermentum mi sed interdum congue. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Curabitur dolor velit, posuere vel aliquam ac, commodo ac tellus. Quisque eget ligula fermentum sapien euismod pretium. Pellentesque facilisis quam vel convallis pharetra. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut non purus bibendum, ullamcorper sem id, consectetur justo. Ut vehicula arcu quis leo pretium, tincidunt semper elit porttitor. Integer tincidunt lectus quis lorem auctor, quis bibendum leo venenatis.
+Examining the errors made by the best models allows for an understanding of the errors that are likely to be the hardest to fix. In order to clearly discuss these errors, a few specific types of errors will be discussed.
 
-Morbi at placerat dui. Praesent bibendum ullamcorper augue. Sed volutpat mauris et congue sodales. Donec vel dui non ante finibus aliquam. Nam accumsan nulla ut quam feugiat cursus. Integer et suscipit lorem. Nullam quis nisi justo. Nunc volutpat blandit dolor quis commodo. Nam ut massa non velit sagittis vehicula ut a nulla. Sed at euismod massa, at auctor neque. Ut id ullamcorper ligula. Cras ut finibus tortor.
+\subsubsection{Unclear Reviews}
+
+Some reviews that were classified incorrectly are less clear or less emphatic about their sentiment. Some of these reviews were difficult to classify confidently even for a human. These include reviews that state that the film was fantastic overall, but could have been improved in a few areas and focus mostly on speaking about these improvements. These are incorrectly classified as negative. This also includes reviews that are given a score of 3 out of 5 stars which are technically positive but tend to read as quite lukewarm in sentiment and are much harder to classify. These may be the hardest errors to fix as they can be difficult even for humans when they are not explicit in their sentiment.
+
+\subsubsection{Reviews with Negations}
+
+Some reviews that were classified incorrectly include sentiments that may indicate positive or negative sentiment but where this has been negated in some way, and the classifier fails to pick up on this. For example, a reviewer may state that they detest the films of a particular director, but that this film was an exception, or a positive adjective may follow the word 'not'. These types of misclassifications could possibly be improved by performing pre-processing on the reviews that allowed for detection of negation and appending some token to a word as an indication of negation. Alternatively, this may be improved by use of an architecture such as LSTMs that would allow for better understanding of a sentence as a whole and the interaction between words rather than them being viewed individually. 
+
+\subsubsection{Reviews Without Focus on Sentiment}
+
+Some of the reviews that were misclassified were reviews that focus largely on describing the film, its plot and the the actors and directors who were involved with it. They usually offer a short overview of their opinion at the end of the review. Since the majority of the review gives no indication of the sentiment, the classifier can fail to confidently recognise it. These errors could be difficult to fix as they require the model to recognise what is relevant information for the task of sentence classification. Perhaps this could be improved upon with an LSTM architecture which may be able to learn what information is necessary to remember over time with respect to sentiment.
 
 \subsection{Possible Improvements}
 
-[ADD INSIGHTS FROM INVESTIGATION]
-
-Further improvements for this task could be made by changing the model used to perform sentiment classification, by perhaps using a neural network architecture. However, this would require much more than 2,000 examples as a testing and training set. Though, as movie review sentiment analysis is a well-researched task, much larger datasets, such as the one used to train \texttt{doc2vec} in this work, are available.
+Further improvements for this task could be made by changing the model used to perform sentiment classification, by perhaps using a neural network architecture, such as an LSTM which would allow for longer term dependencies to be understood and could help fix misclassifications caused by negations, for example. However, this would require much more than 2,000 examples as a testing and training set. Though, as movie review sentiment analysis is a well-researched task, much larger datasets, such as the one used to train \texttt{doc2vec} in this work, are available.
 
 Without the need for additional data, the result could potential also be improved by using an ensemble of classifiers.
 
-Further investigation could also be performed into the ideal parameters for training the \texttt{doc2vec} model, and whether a better model could be created than those used here. The performance of the \texttt{doc2vec} model could also potentially be improved by performing additional preprocessing on the training data and movie reviews. For example, removing stopwords or stemming the words in the review, and thus removing additional data that is unlikely to provide additional information as to the sentiment of the review. Additionally, some approaches to sentiment analysis have involved preprocessing such as changing a word in a review to demonstrate that it has been negated if preceded by 'not', so that, for example, the word 'good' is not considered to be positive in the phrase 'the film was not good' \cite{pang}. [CHECK THIS]
+Further investigation could also be performed into the ideal parameters for training the \texttt{doc2vec} model, and whether a better model could be created than those used here. The performance of the \texttt{doc2vec} model could also potentially be improved by performing additional preprocessing on the training data and movie reviews. For example, removing stopwords or stemming the words in the review, and thus removing additional data that is unlikely to provide additional information as to the sentiment of the review.
+
+Additionally, some approaches to sentiment analysis have involved preprocessing such as changing a word in a review to demonstrate that it has been negated if preceded by 'not', so that, for example, the word 'good' is not considered to be positive in the phrase 'the film was not good' \cite{pang}.
 
 Implementing some or all of these techniques could allow for the accuracy achieved in this work to be improved.
 
 
-\textbf{Word count: 2,368 words}
+\textbf{Word count: 3,883 words}
 
 \bibliography{L90ass2bib}{}
 \bibliographystyle{plain}
