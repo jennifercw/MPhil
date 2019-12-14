@@ -13,3 +13,5 @@ This code should be run using Python3.
 ## Additional Downloads
 
 The files for the doc2vec embeddings and for the saved SVM models are too large for easy storage on Github, so they can be downloaded at the following link:
+
+https://drive.google.com/file/d/1wCk_b-efz4r9xBGX7FD4NqT0x9-usYXi/view?usp=sharing
