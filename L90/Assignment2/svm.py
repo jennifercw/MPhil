@@ -6,8 +6,11 @@ from collections import Counter
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 
 """
-    The doc2vec models used to run this code for the results found in my writeup can be downloaded here: 
-    https://drive.google.com/file/d/1ykdC4qwMj-nZC6t5P5KJQZespIaH__7-/view?usp=sharing
+    This code trains and tests SVMs on all of the model options investigated in this work.
+    The doc2vec models used to run this code for the results found in my writeup, along with the saved best models for
+    each setup can be downloaded here: 
+    https://drive.google.com/file/d/1wCk_b-efz4r9xBGX7FD4NqT0x9-usYXi/view?usp=sharing    
+    They are also available in my area on the MPhil machines (jw2088)
 """
 
 
@@ -84,12 +87,19 @@ def vectorise(rev, vocab_dict, n=1, freq=True):
 
 
 def run_test(k=10):
-    model_list = ["dbow.model", "dm.model", "dbow100.model", "dm100.model", "dbowlarge.model", "dmlarge.model",
-                  "dbow5cutoff.model", "dm5cutoff.model", "dbow1cutoff.model", "dm1cutoff.model"]
-    # Think make this a dict of dicts "dbow.model" : {"rbf":...,"linear":...} etc
+    # This function trains and tests all of the models examined in this work
+
+    # List of all of our doc2vec embeddings
+    model_list = {"dbow.model", "dm.model", "dbow100.model", "dm100.model", "dbowlarge.model", "dmlarge.model",
+                  "dbow5cutoff.model", "dm5cutoff.model", "dbow1cutoff.model", "dm1cutoff.model"}
+    # List of all available kernels
     kernels = ["rbf", "linear", "poly", "sigmoid"]
+    # We will use this to record the accuracy of each verison of our model using doc2vec on each cross-validation set
     acc_list = {kernel: {model_name: [] for model_name in model_list} for kernel in kernels}
+    # We will use this to keep the best performing classifier found through cross-validation
     best_classifier_doc2vec = {kernel: {model_name: None for model_name in model_list} for kernel in kernels}
+
+    # This is a list of all of our options for non-doc2vec models and their corresponding parameters
     param_sets = {"unifreq": {"n": 1, "freq": True, "vocab_dict": "uni", "kernel": "rbf"},
                   "unipres": {"n": 1, "freq": False, "vocab_dict": "uni", "kernel": "rbf"},
                   "bifreq": {"n": 2, "freq": True, "vocab_dict": "bi", "kernel": "rbf"},
@@ -107,17 +117,25 @@ def run_test(k=10):
                   "bifreqsig": {"n": 2, "freq": True, "vocab_dict": "bi", "kernel": "sigmoid"},
                   "bipressig": {"n": 2, "freq": False, "vocab_dict": "bi", "kernel": "sigmoid"}
                   }
+    # This will contain the accuracies obtained by each model on each cross-validation set
     acc_vals = {name: [] for name in param_sets.keys()}
+    # This will record the best classifier of each type found through cross-validation
     best_classifier_params = {name: None for name in param_sets.keys()}
+
+    # This gets the round robin groups
     pos_robins, neg_robins = read_round_robin_groups(k)
+    # This separates a test set to be held back
     pos_test = pos_robins[-1]
     neg_test = neg_robins[-1]
     pos_test_data, neg_test_data = read_files(pos_test, neg_test)
+
+    # This designates the rest as our training data
     pos_robins = pos_robins[:-1]
     neg_robins = neg_robins[:-1]
 
     for i in range(k - 1):
-        print(i)
+        print("Cross validation step ", i)
+        # This sets up our training data and creates the vocabulary
         val_pos = pos_robins[i]
         val_neg = neg_robins[i]
         pos_val_data, neg_val_data = read_files(val_pos, val_neg)
@@ -136,6 +154,7 @@ def run_test(k=10):
 
         for model_name in model_list:
             for kernel in kernels:
+                # For each doc2vec embedding and each kernel we train an SVM
                 model = Doc2Vec.load(model_name)
                 train_w_labels = [(model.infer_vector(p), 1) for p in train_pos_data] + \
                                  [(model.infer_vector(ng), 0) for ng in train_neg_data]
@@ -144,6 +163,7 @@ def run_test(k=10):
                 Y = [rev[1] for rev in train_w_labels]
                 svm_model = svm.SVC(gamma='scale', kernel=kernel)
                 svm_model.fit(X, Y)
+                # We check the accuracy of the SVM on the cross-validation test set
                 pos_corr = 0
                 pos_tot = len(pos_val_data)
                 neg_corr = 0
@@ -157,15 +177,18 @@ def run_test(k=10):
                     if ng == 0:
                         neg_corr += 1
                 accuracy = (neg_corr + pos_corr) / (neg_tot + pos_tot)
-                print(accuracy)
+                print(model_name, kernel, ", Accuracy: ", accuracy)
+                # We record the accuracy, and if it is our best result so far, we save the model
                 acc_list[kernel][model_name].append(accuracy)
                 if accuracy == max(acc_list[kernel][model_name]):
                     best_classifier_doc2vec[kernel][model_name] = svm_model
+
         for name, params in param_sets.items():
-            print(name)
+            # For each parameter set for the BoW models we train and test an SVM as above
             train_w_labels = [(vectorise(p, vocab_dict=vocab_dict[params["vocab_dict"]], n=params["n"],
-                                         freq=params["freq"]), 1) for p in train_pos_data] + [(vectorise(ng, vocab_dict=
-            vocab_dict[params["vocab_dict"]], n=params["n"], freq=params["freq"]), 0) for ng in train_neg_data]
+                                         freq=params["freq"]), 1) for p in train_pos_data] + \
+                             [(vectorise(ng, vocab_dict=vocab_dict[params["vocab_dict"]], n=params["n"],
+                                         freq=params["freq"]), 0) for ng in train_neg_data]
 
             random.shuffle(train_w_labels)
 
@@ -188,23 +211,30 @@ def run_test(k=10):
                 if ng == 0:
                     neg_corr += 1
             accuracy = (neg_corr + pos_corr) / (neg_tot + pos_tot)
-            print(name, accuracy)
+            print(name, ", Accuracy: ", accuracy)
             acc_vals[name].append(accuracy)
             if accuracy == max(acc_vals[name]):
+                # If the classifier is our best so far we store the model and its corresponding vocab dictionary
                 best_classifier_params[name] = {"model": svm_model, "vocab": vocab_dict[params["vocab_dict"]]}
 
+    # The recording accuracy values are pickled so that they can easily be loaded up elsewhere for significance testing
     pickle.dump(acc_list, open("d2vaccuracy.p", "wb"))
     pickle.dump(acc_vals, open("svm_accuracy.p", "wb"))
 
+    # Mean accuracy and variance are displayed for each model
     for name in param_sets.keys():
-        print(name, calc_mean_variance(acc_vals[name]))
+        print(name, ", Cross Validation Mean Accuracy and Variance: ", calc_mean_variance(acc_vals[name]))
     for kernel in kernels:
         for model_name in model_list:
-            print(model_name, kernel, calc_mean_variance(acc_list[kernel][model_name]))
+            print(model_name, kernel, ", Cross Validation Mean Accuracy and Variance: ",
+                  calc_mean_variance(acc_list[kernel][model_name]))
+
+    # We now move on to testing on the blind test sets
     blind_accs_svm = {}
-    incorrect_class = {model : [] for model in param_sets.keys()}
+    # This will record errors made in the classification for later examination
+    incorrect_class = {model: [] for model in param_sets.keys()}
     for model_name in param_sets.keys():
-        print(model_name)
+        # We test the BoW models on the blind test set
         svm_model = best_classifier_params[model_name]["model"]
         vocab = best_classifier_params[model_name]["vocab"]
         pos_corr = 0
@@ -229,12 +259,13 @@ def run_test(k=10):
             else:
                 incorrect_class[model_name].append((neg_test_data[i], 0))
         accuracy = (neg_corr + pos_corr) / (neg_tot + pos_tot)
-        print(model_name, accuracy)
+        print(model_name, ", Blind test set accuracy: ", accuracy)
         blind_accs_svm[model_name] = accuracy
+
+    # The doc2vec models are also tested on the blind test set
     blind_accs_d2v = {kernel: {} for kernel in kernels}
-    incorrect_class_d2v = {kernel : {model : [] for model in model_list} for kernel in kernels}
+    incorrect_class_d2v = {kernel: {model: [] for model in model_list} for kernel in kernels}
     for kernel in kernels:
-        print(kernel)
         for name in model_list:
             svm_model = best_classifier_doc2vec[kernel][name]
             model = Doc2Vec.load(name)
@@ -255,16 +286,18 @@ def run_test(k=10):
                 if ng == 0:
                     neg_corr += 1
                 else:
-                    incorrect_class_d2v[kernel][name].append((neg_test_data[i], 1))
+                    incorrect_class_d2v[kernel][name].append((neg_test_data[i], 0))
             accuracy = (neg_corr + pos_corr) / (neg_tot + pos_tot)
-            print(name, accuracy)
+            print(name, kernel, ", Blind test set accuracy: ", accuracy)
             blind_accs_d2v[kernel][name] = accuracy
+
+    # Useful information is pickled for later analysis
     pickle.dump(blind_accs_svm, open("test_accs.py", "wb"))
     pickle.dump(blind_accs_d2v, open("test_accs_d2v.p", "wb"))
     pickle.dump(incorrect_class_d2v, open("incorr_d2v.p", "wb"))
     pickle.dump(incorrect_class, open("incorr.p", "wb"))
-    best_model = best_classifier_doc2vec["poly"]["dbowlarge"]
-    pickle.dump(best_model, open("best_model.sav", "wb"))
+    pickle.dump(best_classifier_doc2vec, open("best_model_d2v.sav", "wb"))
+    pickle.dump(best_classifier_params, open("best_model.sav", "wb"))
 
 
 def calc_mean_variance(acc):

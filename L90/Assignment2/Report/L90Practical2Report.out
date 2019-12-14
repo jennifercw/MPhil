@@ -1,0 +1,23 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [2][-]{subsection.1.1}{Previous Work}{section.1}% 2
+\BOOKMARK [1][-]{section.2}{Data}{}% 3
+\BOOKMARK [2][-]{subsection.2.1}{Movie Reviews}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.2}{Data for Training doc2vec}{section.2}% 5
+\BOOKMARK [1][-]{section.3}{Method}{}% 6
+\BOOKMARK [2][-]{subsection.3.1}{Support Vector Machines}{section.3}% 7
+\BOOKMARK [3][-]{subsubsection.3.1.1}{Kernels}{subsection.3.1}% 8
+\BOOKMARK [2][-]{subsection.3.2}{doc2vec}{section.3}% 9
+\BOOKMARK [1][-]{section.4}{Investigation and Evaluation of doc2vec models}{}% 10
+\BOOKMARK [2][-]{subsubsection.4.0.1}{Review Similarity}{section.4}% 11
+\BOOKMARK [3][-]{subsubsection.4.0.2}{Most Similar Word in Each Review}{subsubsection.4.0.1}% 12
+\BOOKMARK [3][-]{subsubsection.4.0.3}{Word Similarity}{subsubsection.4.0.1}% 13
+\BOOKMARK [1][-]{section.5}{Results}{}% 14
+\BOOKMARK [2][-]{subsection.5.1}{Permutation Test}{section.5}% 15
+\BOOKMARK [2][-]{subsection.5.2}{Statistically Significant Differences}{section.5}% 16
+\BOOKMARK [2][-]{subsection.5.3}{Deployment Test}{section.5}% 17
+\BOOKMARK [1][-]{section.6}{Discussion}{}% 18
+\BOOKMARK [2][-]{subsection.6.1}{Error Analysis}{section.6}% 19
+\BOOKMARK [3][-]{subsubsection.6.1.1}{Unclear Reviews}{subsection.6.1}% 20
+\BOOKMARK [3][-]{subsubsection.6.1.2}{Reviews with Negations}{subsection.6.1}% 21
+\BOOKMARK [3][-]{subsubsection.6.1.3}{Reviews Without Focus on Sentiment}{subsection.6.1}% 22
+\BOOKMARK [2][-]{subsection.6.2}{Possible Improvements}{section.6}% 23

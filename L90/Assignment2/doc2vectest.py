@@ -5,6 +5,15 @@ import math
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 
 
+"""
+    This code performs some evaluations on the performance of the doc2vec embeddings.
+    The doc2vec models used to run this code for the results found in my writeup, along with the saved best models for
+    each setup can be downloaded here: 
+    https://drive.google.com/file/d/1wCk_b-efz4r9xBGX7FD4NqT0x9-usYXi/view?usp=sharing
+    They are also available in my area on the MPhil machines (jw2088)
+"""
+
+
 def read_files(pos, neg):
     # Given a list of positive file names and negative file names, reads in the text data from each file.
     pos_text = []
@@ -19,6 +28,7 @@ def read_files(pos, neg):
 
 
 def cos_sim(a, b):
+    # Calculates cosine similarity between two vectors
     assert len(a) == len(b)
     dot = sum([a[i] * b[i] for i in range(len(a))])
     a_norm = math.sqrt(sum([a_i ** 2 for a_i in a]))
@@ -27,6 +37,8 @@ def cos_sim(a, b):
 
 
 def check_doc_sims(d2v_model, pos, neg):
+    # Compares similar and non-similar reviews to examine whether the cosine similarity of the embedding vectors
+    # increases for similar reviews
     incs = []
     tot = []
     docs = pos + neg
@@ -90,7 +102,9 @@ def check_doc_sims(d2v_model, pos, neg):
     incs.append(inc)
     print("Av increase: ", sum(incs)/len(incs))
 
+
 def most_similar_word(doc, d2v_model, k=10):
+    # Returns a list of the k words in a review whose vectors are most similar to the review's vector
     sim_list = []
     for word in doc:
         sim = calc_sim(doc, [word], d2v_model)
@@ -106,6 +120,7 @@ def calc_sim(a, b, d2v):
 
 
 def word_similarity(d2v_model, similar_word_sets):
+    # Examines word similarity for words in similarity sets compared to words outside of their similarity sets
     incs = []
     sims = []
     for i in range(len(similar_word_sets)):
@@ -127,8 +142,6 @@ def word_similarity(d2v_model, similar_word_sets):
         print("Increase: ", inc)
         incs.append(inc)
     print("AVerage increase: ", sum(incs)/len(incs))
-
-
 
 
 pos_file_list = [os.path.join("new_test_reviews", "pos", f)

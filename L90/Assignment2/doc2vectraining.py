@@ -3,12 +3,17 @@ from nltk.tokenize import word_tokenize
 import os
 import random
 
+
 """
-The models that I obtained from this code and that I used to obtain my results can be downloaded from:
-    https://drive.google.com/file/d/1ykdC4qwMj-nZC6t5P5KJQZespIaH__7-/view?usp=sharing
+    This code trains a variety of doc2vec embeddings for use with movie review classification.
+    The doc2vec models produced by this code and used to obtain the results found in my writeup, along with the 
+    saved best models for each setup can be downloaded here: 
+    https://drive.google.com/file/d/1wCk_b-efz4r9xBGX7FD4NqT0x9-usYXi/view?usp=sharing
 """
 
+
 def read_data():
+    # Reads in the training data and strips it of <br/> tags
     data = []
     file_list = [os.path.join("aclImdb_v1", "aclImdb", "train", "neg", f) for f in
                  os.listdir(os.path.join("aclImdb_v1", "aclImdb", "train", "neg"))]
@@ -27,12 +32,14 @@ def read_data():
     random.shuffle(data)
     return data
 
+
 def tag_data(data):
-    # Strip HTML tags as well?
     tagged_data = [TaggedDocument(words=word_tokenize(d.lower()), tags=[str(i)]) for i, d in enumerate(data)]
     return tagged_data
 
+
 def train_model(documents, epochs, embedding_dim, learning_rate, min_learning_rate, freq_cutoff, neg, dm, model_name):
+    # Trains model with given parameters
     model = Doc2Vec(vector_size=embedding_dim,
                     alpha=learning_rate,
                     min_alpha=min_learning_rate,
@@ -42,16 +49,15 @@ def train_model(documents, epochs, embedding_dim, learning_rate, min_learning_ra
                     workers=4)
     model.build_vocab(documents)
     for ep in range(epochs):
-        print(ep)
+        print("Epoch ", ep)
         random.shuffle(documents)
         model.train(documents=documents, total_examples=model.corpus_count, epochs=model.iter)
     model.save(model_name)
     return model
 
+
 reviews = read_data()
-print(reviews[:5])
-tagged_reviews = tag_data((reviews))
-print(tagged_reviews[0])
+tagged_reviews = tag_data(reviews)
 mod = train_model(tagged_reviews, epochs=50, embedding_dim=100, learning_rate=0.005, min_learning_rate=0.00025,
                   freq_cutoff=3, neg=5, dm=0, model_name="dbow.model")
 mod = train_model(tagged_reviews, epochs=50, embedding_dim=100, learning_rate=0.005, min_learning_rate=0.00025,

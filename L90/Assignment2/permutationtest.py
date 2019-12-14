@@ -2,6 +2,12 @@ import random
 import pickle
 
 
+"""
+    This code uses the permutation test to perform statistical significance testing on the results of the 
+    cross-validation tests.
+"""
+
+
 def permutation_test(a, b):
     mean_a = sum(a) / len(a)
     mean_b = sum(b) / len(b)
@@ -43,10 +49,6 @@ def calc_mean_variance(acc):
 
 
 def run_comparisons():
-    # For d2v: Within each kernel which embedding gives best?
-    # Then compare best one from each kernel?
-    # For others: which kernel is best for each of unifreq, unipres, etc
-    # Then uni v bi, pres v freq
     d2v_accuracy = pickle.load(open("d2vaccuracy.p", "rb"))
     svm_accuracy = pickle.load(open("svm_accuracy.p", "rb"))
 
