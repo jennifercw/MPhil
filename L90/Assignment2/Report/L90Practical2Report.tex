@@ -34,25 +34,25 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-This works aims to improve work from the previous L90 Assignment on sentiment classification of movie reviews by using Support Vector Machines (SVMs) and doc2vec. It compares the performance of the SVM with and without the use of doc2vec to create document embeddings to use as input. It also compares a variety of models created with \texttt{doc2vec} and assess the impact that each one has on the performance of the classifier. It finds that SVMs using Bag of Words vectors perform comparably to the best Naive Bayes models. Additionally, it finds that with the use of a document embedding results can be improved further, reaching up to over 90\% accuracy on the blind test set.
+This works aims to improve work from the previous L90 Assignment on sentiment classification of movie reviews by using Support Vector Machines (SVMs) and doc2vec. It compares the performance of the SVM with and without the use of \texttt{doc2vec} to create document embeddings to use as input. It also compares a variety of models created with \texttt{doc2vec} and assess the impact that each one has on the performance of the classifier. It finds that SVMs using Bag of Words vectors perform comparably to the best Naive Bayes models. Additionally, it finds that with the use of a document embedding results can be improved further, reaching up to over 90\% accuracy on the blind test set.
 \end{abstract}
 
 \section{Introduction}
 
-Sentiment classification is a common task within Natural Language Processing (NLP). It involves analysing a comment on a product or service, analysing it and classifying the nature of the sentiment it conveys, commonly into the binary classification of "positive sentiment" or "negative sentiment". Thanks to online movie review websites, a large number of movie reviews created by real people are freely available online, along with star ratings that tell us whether they had broadly positive or negative feelings about the movie. As a result, sentiment classification of movie reviews is a common task with easily available datasets.
+Sentiment classification is a common task within Natural Language Processing (NLP). It involves analysing a comment on a product or service and classifying the nature of the sentiment it conveys, commonly into the binary classification of "positive sentiment" or "negative sentiment". Thanks to online movie review websites, a large number of movie reviews created by real people are freely available online, along with star ratings that tell us whether they had broadly positive or negative feelings about the movie. As a result, sentiment classification of movie reviews is a common task with easily available datasets.
 
 In the previous L90 Assignment, this task was approached using a Naive Bayes model with Laplace smoothing. Different configurations of the model were tested and evaluated in order to find the model that gave the best performance.
 
-However, Naive Bayes is a simple model and is unlike to allow us to achieve the best possible performance on this task. Additionally, the data for each review was being given to the model as a Bag of Words (BoW) vector either showing which words were present in the review or additionally providing the frequency of each word in the review. This does not allow the model to harness connections and similarities between any of the vocabulary words or between similar reviews. So it should be possible to improve on the results achieved previously by using a more sophisticated model and by feeding data into the model in a way that allows it to take advantage of this information.
+However, Naive Bayes is a simple model and is unlikely to allow us to achieve the best possible performance on this task. Additionally, the data for each review was being given to the model as a Bag of Words (BoW) vector either showing which words were present in the review or providing the frequency of each word in the review. This does not allow the model to harness connections and similarities between any of the vocabulary words or between similar reviews. So it should be possible to improve on the results achieved previously by using a more sophisticated model and by feeding data into the model in a way that allows it to take advantage of this information.
 
 This work investigates using Support Vector Machines (SVMs) for this task. SVMs aim to learn a hyperplane to separate the data such that the smallest distance from any point to the hyperplane is maximized. SVMs also allow the use of a kernel so that the model can learn to separate data that is not linearly separable. In this work, the choice of kernels was investigated in order to find which performed the best for each type of model tested.
 
-Additionally, \texttt{doc2vec} is used to learn embeddings of the documents. These are then used as input to the SVM model. This work investigates whether this can improve the performance of the model and which parameters are model choices result in the most useful embeddings.
+Additionally, \texttt{doc2vec} is used to learn embeddings of the documents. These are then used as input to the SVM model. This work investigates whether this can improve the performance of the model and which parameters and model choices result in the most useful embeddings.
 
 \subsection{Previous Work}
 
 
-In the previous L90 assignment, this task was attempted using a Naive Bayes model. The highest accuracy that was achieved by the best form of the Naive Bayes model was 84.15\%. This was achieved with a model that combined both unigrams and bigrams, took as input a vector indicating presence of a unigram or bigram in a document and used Laplace smoothing. This work builds on the work from the previous assignment and attempts to improve this accuracy by using SVMs and using doc2vec to create document embeddings to use as input to the model.
+In the previous L90 assignment, this task was attempted using a Naive Bayes model. The highest accuracy that was achieved by the best form of the Naive Bayes model was 84.15\%. This was achieved with a model that combined both unigrams and bigrams, took as input a vector indicating presence of a unigram or bigram in a document and used Laplace smoothing. This work builds on the work from the previous assignment and attempts to improve this accuracy by using SVMs and using \texttt{doc2vec} to create document embeddings to use as input to the model.
 
 \section{Data}
 
@@ -66,7 +66,7 @@ Of this data, 10\% was reserved to be used as an unseen test set. 9-fold cross-v
 
 \subsection{Data for Training doc2vec}
 
-In order to train doc2vec to produce suitable document embeddings, a corpus of 100,000 IMDB movie reviews was used \cite{bigimdb}. This dataset was available as raw text. It contained some HTML tags which were stripped before use.
+In order to train \texttt{doc2vec} to produce suitable document embeddings, a corpus of 100,000 IMDB movie reviews was used \cite{bigimdb}. This dataset was available as raw text. It contained some HTML tags which were stripped before use.
 
 \section{Method}
 
@@ -74,8 +74,7 @@ The code used for this work can be found on my user area on the MPhil machines (
 
 \subsection{Support Vector Machines}
 
-Support Vector Machines are a machine learning technique that aims to learn a separating hyperplane such that the smallest distance from a data point to the hyperplane is maximised. They do not require extremely large amounts of data to train, and they are able to learn to separate data that is not linearly separable through the use of kernels, which makes[TO FINISH]
- them a useful technique for classification tasks.
+Support Vector Machines are a machine learning technique that aims to learn a separating hyperplane such that the smallest distance from a data point to the hyperplane is maximised. They do not require extremely large amounts of data to train, and they are able to learn to separate data that is not linearly separable through the use of kernels, which makes them a useful technique for classification tasks.
 
 The \texttt{scikit-learn}\cite{scikit-learn} SVC implementation of SVMs was used in this work.
 
@@ -89,7 +88,7 @@ For the models using \texttt{doc2vec} vectors as input, the different models wer
 
 SVMs can learn to separate data that is not linearly separable by mapping the data into a higher dimensional space where it becomes linearly separable. To do this, we must define a kernel function that serves as the inner product in the higher dimensional space, since this is what is needed to learn the separating hyperplane and to classify a new vector.
 
-SVMs allow for a choice of kernel that allows the model to learn to sucessfully separate data that is not linearly separable. The implementation of SVMs used in this work allowed for a choice of 4 kernels: \texttt{rbf} (radial basis function), \texttt{linear}, \texttt{poly} and \texttt{sigmoid}, which are as follows, where $x$ and $x'$ are two vectors taken as input:
+The implementation of SVMs used in this work allowed for a choice of 4 kernels: \texttt{rbf} (radial basis function), \texttt{linear}, \texttt{poly} and \texttt{sigmoid}, which are as follows, (where $x$ and $x'$ are two vectors taken as input):
 
 \begin{itemize}
 	\item \textbf{\texttt{rbf}}: kernel is of the form $e^{-\gamma||x-x'||^2}$ where $\gamma$ is a parameter that may be specified but in this work was determined automatically by the model based on features of the training data;
@@ -100,7 +99,7 @@ SVMs allow for a choice of kernel that allows the model to learn to sucessfully 
 
 In this work, all of the models were tested with all of the available kernels. Depending on the model used, the best kernel for separating the data may change.
 
-\subsection{doc2vec}
+\subsection{\texttt{doc2vec}}
 \begin{table*}[]
 \centering
 \captionsetup{justification=centering}
@@ -122,17 +121,17 @@ In this work, all of the models were tested with all of the available kernels. D
 \end{tabular}
 \end{table*}
 
-When words are used as input for some task, they are often given in the format of one-hot vectors. For a vocabulary of size $N$, these vectors will be of $N$ dimensions and the vector for word $i$ will contain a 1 at index $i$. While these are very simple to create, they have some undesirable properties. Using this method produces vectors with very large dimension, which can make computation troublesome. Additionally, they do not allow us to exploit any relations that may exist between words. In the vector space of word vectors, the vector for 'good' will be no closer to the vector for 'great' than to the vector for 'terrible' or 'bad'. One way to improve this is to use a word embedding, such as \texttt{word2vec} \cite{NIPS2013_5021}. This trains an embedding by examining common context for a given word. The vectors that are obtained from this are both much smaller in size than one-hot encoded vectors and also encode relationships between words, such as related words being similar to one another in the embedding space. This should both improve computational efficiency and allow us to exploit similarities between words.
+When words are used as input for some task, they are often given in the format of one-hot vectors. For a vocabulary of size $N$, these vectors will be of $N$ dimensions and the vector for word $i$ will contain a 1 at index $i$. While these are very simple to create, they have some undesirable properties. Using this method produces vectors with very large dimension, which can make computation troublesome and the resulting models very large. Additionally, they do not allow us to exploit any relations that may exist between words. In the vector space of word vectors, the vector for "good" will be no closer to the vector for "great" than to the vector for "terrible" or "bad". One way to improve this is to use a word embedding, such as \texttt{word2vec} \cite{NIPS2013_5021}. This trains an embedding by examining common context for a given word. The vectors that are obtained from this are both much smaller in size than one-hot encoded vectors and also encode relationships between words, such as related words being similar to one another in the embedding space. This should both improve computational efficiency and allow us to exploit similarities between words.
 
 This principle was extended to deal with documents, creating a vector to represent each document and resulting in similar vectors for similar documents \cite{doc2vec}. This has clear implications for any task that involves the classification of documents. Documents on a similar topic or containing a similar sentiment should be mapped to vectors that show high similarity in the embedding space.
 
 When training a \texttt{doc2vec} model, it is possible to choose between two different approaches: Distributed Memory (DM) and Distributed Bag of Words (DBOW). They differ in the task used in training to obtain the embeddings. In the DM approach, a document vector is concatenated with word vectors from the document and used as input to predict the next word. In the DBOW approach, the document vector is taken as input and asked to predict a word from the document. Less data is needed to be stored in order to use this approach due to the absence of word vectors in the input.
 
-In this work, \texttt{doc2vec} was used to create document embeddings to be used as input to the SVM. Positive reviews should be more similar than negative reviews, so this should help us to classify reviews more accurately than using vectors indicating presence or frequency of words. Additionally, these vectors will much smaller than the Bag of Word vectors, so training of the SVM should be considerably faster.
+In this work, \texttt{doc2vec} was used to create document embeddings to be used as input to the SVM. Positive reviews should be more similar than negative reviews, so this should help us to classify reviews more accurately than using vectors indicating presence or frequency of words. Additionally, these vectors will much smaller than the Bag of Word vectors, so training of the SVM should be considerably faster and the resulting models much smaller.
 
-In training a \texttt{doc2vec} model, multiple parameters can be changed. As described above, a DBOW or DM model can be chosen, but additionally the size of the embedding can be selected, the frequency cutoff for words to be considered can be changed and the number of training epochs can also be chosen. In this work, 10 models were trained and tested on the sentiment classifcation task. Their names and the parameters used are shown in Table \ref{table:doc2vecparams}.
+In training a \texttt{doc2vec} model, multiple parameters can be changed. As described above, a DBOW or DM model can be chosen, but additionally the size of the embedding can be selected, the frequency cutoff for words to be considered can be changed and the number of training epochs can also be chosen. In this work, 10 models were trained and tested on the sentiment classifcation task. Their names and the parameters used to train them are shown in Table \ref{table:doc2vecparams}.
 
-\section{Investigation and Evaluation of doc2vec models}
+\section{Investigation and Evaluation of \texttt{doc2vec} models}
 
 \begin{table*}[]
 \centering
@@ -189,11 +188,11 @@ In these experiments each word in a review was compared with the review as a who
 
 Generally, the embeddings performed poorly on this task, with the majority of the most similar words being common words conveying no information regarding sentiment.
 
-Occasionally a key word such as 'disaster', 'masterpiece' or 'great' appeared in the top 10, but this was infrequent and no model particularly stood out on this task.
+Occasionally a key word such as "disaster", "masterpiece" or "great" appeared in the top 10, but this was infrequent and no model particularly stood out on this task.
 
 \subsubsection{Word Similarity}
 
-In these experiments, some sets of similar or synonymous words was created (for example, 'good', 'great', 'excellent' and 'amazing'). These words were then compared in the embedding space both to words within their set and words outside their set and the average similarity found for each. In a successful embedding we would expect similarity to be higher when comparing within these groups than outside them.
+In these experiments, some sets of similar or synonymous words was created (for example, "good", "great", "excellent" and "amazing"). These words were then compared in the embedding space both to words within their set and words outside their set and the average similarity found for each. In a successful embedding we would expect similarity to be higher when comparing within these groups than outside them.
 
 There were again embeddings that exhibited lower similarity within some of the groups than in general, but this was limited to one group for each embedding.
 
@@ -281,6 +280,8 @@ Among the best performing \texttt{doc2vec} models performance was very similar a
 
 The \texttt{doc2vec} models using Distributed Bag of Words (DBOW) were found to be a statistically significant improvement over their Distributed Memory (DM) counterparts.
 
+The best \texttt{doc2vec} models showed a large and statistically significant improvement over the best BoW models.
+
 \subsection{Deployment Test}
 
 \begin{table*}[]
@@ -312,7 +313,7 @@ The results of this testing are given in Tables \ref{table:newrevnond2v} and \re
 
 The performance of the models overall was worse on this new test set. The BoW models were unable to perform as well, with the most sucessful model reaching only 69.4\% accuracy.
 
-The \texttt{doc2vec} models overall still performed better than the BoW models on this test set, but performance still tended to be worse than on the blind test set or on the cross-validation sets. Some models saw a particularly bad drop in accuracy on the new test set. The best performing model on this test set (dm5cutoff \texttt{doc2vec} model with a linear kernel) achieved an accuracy of 88.8\% on this test set, which is close to the best performance achieved by any model on the blind test set, and which is actually an improvement on this particular model's performance on the cross-validation sets and the blind test set.
+The \texttt{doc2vec} models overall still performed better than the BoW models on this test set, but performance still tended to be worse than on the blind test set or on the cross-validation sets. Some models saw a particularly bad drop in accuracy on the new test set. The best performing model on this test set (\texttt{dm5cutoff} \texttt{doc2vec} model with a linear kernel) achieved an accuracy of 88.8\% on this test set, which is close to the best performance achieved by any model on the blind test set, and which is actually an improvement on this particular model's performance on the cross-validation sets and the blind test set.
 
 \section{Discussion}
 
@@ -329,7 +330,7 @@ Some reviews that were classified incorrectly are less clear or less emphatic ab
 
 \subsubsection{Reviews with Negations}
 
-Some reviews that were classified incorrectly include sentiments that may indicate positive or negative sentiment but where this has been negated in some way, and the classifier fails to pick up on this. For example, a reviewer may state that they detest the films of a particular director, but that this film was an exception, or a positive adjective may follow the word 'not'. These types of misclassifications could possibly be improved by performing pre-processing on the reviews that allowed for detection of negation and appending some token to a word as an indication of negation. Alternatively, this may be improved by use of an architecture such as LSTMs that would allow for better understanding of a sentence as a whole and the interaction between words rather than them being viewed individually. 
+Some reviews that were classified incorrectly include sentiments that may indicate positive or negative sentiment but where this has been negated in some way, and the classifier fails to pick up on this. For example, a reviewer may state that they detest the films of a particular director, but that this film was an exception, or a positive adjective may follow the word "not". These types of misclassifications could possibly be improved by performing pre-processing on the reviews that allowed for detection of negation and appending some token to a word as an indication of negation. Alternatively, this may be improved by use of an architecture such as LSTMs that would allow for better understanding of a sentence as a whole and the interaction between words rather than them being viewed individually. 
 
 \subsubsection{Reviews Without Focus on Sentiment}
 
@@ -343,12 +344,12 @@ Without the need for additional data, the result could potential also be improve
 
 Further investigation could also be performed into the ideal parameters for training the \texttt{doc2vec} model, and whether a better model could be created than those used here. The performance of the \texttt{doc2vec} model could also potentially be improved by performing additional preprocessing on the training data and movie reviews. For example, removing stopwords or stemming the words in the review, and thus removing additional data that is unlikely to provide additional information as to the sentiment of the review.
 
-Additionally, some approaches to sentiment analysis have involved preprocessing such as changing a word in a review to demonstrate that it has been negated if preceded by 'not', so that, for example, the word 'good' is not considered to be positive in the phrase 'the film was not good' \cite{pang}.
+Additionally, some approaches to sentiment analysis have involved preprocessing such as changing a word in a review to demonstrate that it has been negated if preceded by "not", so that, for example, the word "good" is not considered to be positive in the phrase "the film was not good" \cite{pang}.
 
 Implementing some or all of these techniques could allow for the accuracy achieved in this work to be improved.
 
 
-\textbf{Word count: 3,899 words}
+\textbf{Word count: 3,922 words}
 
 \bibliography{L90ass2bib}{}
 \bibliographystyle{plain}
