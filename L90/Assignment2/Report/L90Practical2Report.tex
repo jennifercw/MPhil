@@ -34,7 +34,7 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-This works aims to improve work from the previous L90 Assignment on sentiment classification of movie reviews by using Support Vector Machines (SVMs) and doc2vec. It compares the performance of the SVM with and without the use of \texttt{doc2vec} to create document embeddings to use as input. It also compares a variety of models created with \texttt{doc2vec} and assess the impact that each one has on the performance of the classifier. It finds that SVMs using Bag of Words vectors perform comparably to the best Naive Bayes models. Additionally, it finds that with the use of a document embedding results can be improved further, reaching up to over 90\% accuracy on the blind test set.
+This work aims to improve work from the previous L90 Assignment on sentiment classification of movie reviews by using Support Vector Machines (SVMs) and \texttt{doc2vec}. It compares the performance of the SVM with and without the use of \texttt{doc2vec} to create document embeddings to use as input. It also compares a variety of models created with \texttt{doc2vec} and assesses the impact that each one has on the performance of the classifier. It finds that SVMs using Bag of Words vectors perform comparably to the best Naive Bayes models. Additionally, it finds that, with the use of a document embedding, results can be improved further, reaching up to over 90\% accuracy on the blind test set.
 \end{abstract}
 
 \section{Introduction}
@@ -43,7 +43,7 @@ Sentiment classification is a common task within Natural Language Processing (NL
 
 In the previous L90 Assignment, this task was approached using a Naive Bayes model with Laplace smoothing. Different configurations of the model were tested and evaluated in order to find the model that gave the best performance.
 
-However, Naive Bayes is a simple model and is unlikely to allow us to achieve the best possible performance on this task. Additionally, the data for each review was being given to the model as a Bag of Words (BoW) vector either showing which words were present in the review or providing the frequency of each word in the review. This does not allow the model to harness connections and similarities between any of the vocabulary words or between similar reviews. So it should be possible to improve on the results achieved previously by using a more sophisticated model and by feeding data into the model in a way that allows it to take advantage of this information.
+However, Naive Bayes is a simple model and is unlikely to allow us to achieve the best possible performance on this task. Additionally, the data for each review was being passed to the model as a Bag of Words (BoW) vector either showing which words were present in the review or providing the frequency of each word in the review. This does not allow the model to harness connections and similarities between any of the vocabulary words or between similar reviews. Thus, it should be possible to improve on the results achieved previously by using a more sophisticated model and by feeding data into the model in a way that allows it to take advantage of this information.
 
 This work investigates using Support Vector Machines (SVMs) for this task. SVMs aim to learn a hyperplane to separate the data such that the smallest distance from any point to the hyperplane is maximized. SVMs also allow the use of a kernel so that the model can learn to separate data that is not linearly separable. In this work, the choice of kernels was investigated in order to find which performed the best for each type of model tested.
 
@@ -52,7 +52,7 @@ Additionally, \texttt{doc2vec} is used to learn embeddings of the documents. The
 \subsection{Previous Work}
 
 
-In the previous L90 assignment, this task was attempted using a Naive Bayes model. The highest accuracy that was achieved by the best form of the Naive Bayes model was 84.15\%. This was achieved with a model that combined both unigrams and bigrams, took as input a vector indicating presence of a unigram or bigram in a document and used Laplace smoothing. This work builds on the work from the previous assignment and attempts to improve this accuracy by using SVMs and using \texttt{doc2vec} to create document embeddings to use as input to the model.
+In the previous L90 assignment, this task was attempted using a Naive Bayes model. The highest accuracy that was achieved by the best form of the Naive Bayes model was 84.15\%. This was achieved with a model that combined both unigrams and bigrams, that took as input a vector indicating presence of a unigram or bigram in a document and used Laplace smoothing. This work builds on the work from the previous assignment and attempts to improve this accuracy by using SVMs and using \texttt{doc2vec} to create document embeddings to use as input to the model.
 
 \section{Data}
 
@@ -62,9 +62,9 @@ In the previous L90 assignment, this task was attempted using a Naive Bayes mode
 
 The data used for training and testing of the SVM consisted of 2,000 IMDB Movie Reviews, of which 1,000 were positive, and 1,000 were negative. These reviews were available both as raw text and with additional Part of Speech tags. I chose to use the untagged reviews as Pang et al (2002) \cite{pang} found that using tags did not result in a statistically significant improvement for this task. 
 
-Of this data, 10\% was reserved to be used as an unseen test set. 9-fold cross-validation was performed using the remaining data. The classifier that performed best in cross-validation was then tested using the blind test set.
+Of this data, 10\% was reserved to be used as an unseen test set. 9-fold cross-validation was performed using the remaining data. The classifier that performed best in cross-validation was then evaluated using the blind test set.
 
-\subsection{Data for Training doc2vec}
+\subsection{Data for Training \texttt{doc2vec}}
 
 In order to train \texttt{doc2vec} to produce suitable document embeddings, a corpus of 100,000 IMDB movie reviews was used \cite{bigimdb}. This dataset was available as raw text. It contained some HTML tags which were stripped before use.
 
@@ -127,7 +127,7 @@ This principle was extended to deal with documents, creating a vector to represe
 
 When training a \texttt{doc2vec} model, it is possible to choose between two different approaches: Distributed Memory (DM) and Distributed Bag of Words (DBOW). They differ in the task used in training to obtain the embeddings. In the DM approach, a document vector is concatenated with word vectors from the document and used as input to predict the next word. In the DBOW approach, the document vector is taken as input and asked to predict a word from the document. Less data is needed to be stored in order to use this approach due to the absence of word vectors in the input.
 
-In this work, \texttt{doc2vec} was used to create document embeddings to be used as input to the SVM. Positive reviews should be more similar than negative reviews, so this should help us to classify reviews more accurately than using vectors indicating presence or frequency of words. Additionally, these vectors will much smaller than the Bag of Word vectors, so training of the SVM should be considerably faster and the resulting models much smaller.
+In this work, \texttt{doc2vec} was used to create document embeddings to be used as input to the SVM. Positive reviews should be more similar than negative reviews, so this should help us to classify reviews more accurately than using vectors indicating presence or frequency of words. Additionally, these vectors will be much smaller than the Bag of Word vectors, so training of the SVM should be considerably faster and the resulting models much smaller.
 
 In training a \texttt{doc2vec} model, multiple parameters can be changed. As described above, a DBOW or DM model can be chosen, but additionally the size of the embedding can be selected, the frequency cutoff for words to be considered can be changed and the number of training epochs can also be chosen. In this work, 10 models were trained and tested on the sentiment classifcation task. Their names and the parameters used to train them are shown in Table \ref{table:doc2vecparams}.
 
@@ -136,7 +136,7 @@ In training a \texttt{doc2vec} model, multiple parameters can be changed. As des
 \begin{table*}[]
 \centering
 \captionsetup{justification=centering}
-\caption{Table of accuracy achieved on the blind test set for non-\texttt{doc2vec} models}
+\caption{Table of accuracy achieved on the blind test set for BoW models}
 \label{table:nondoc2vecaccs}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
@@ -178,7 +178,7 @@ In these experiments reviews were compared to one another to see whether "simila
 
 Reviews were compared to reviews within their similarity group and outside these groups. If the embedding is performing well we would expect to see a higher similarity between "similar" reviews than with the full review set in general.
 
-The performance on this task was varied. Some models actually exhibited lower similarity between "similar" reviews than with any 2 reviews from the whole set. All of the embeddings that exhibited this were models that trained using the DM method rather than DBOW. This would be expected to result in worse performance on the classification task for the DM embeddings, which we will observe later is in fact the case.
+The performance on this task was varied. Some models actually exhibited lower similarity between "similar" reviews than with any 2 reviews from the whole set. All of the embeddings that exhibited this were models that trained using the DM method rather than DBOW. We would expect this to result in worse performance on the classification task for the DM embeddings, which we will observe later is in fact the case.
 
 Most of the DBOW embeddings showed an increase of on average between 1.8\% and 1.9\% in similarity when looking at reviews in "similar" groupings. The \texttt{dbowlarge} embedding showed the greatest increase with an average of 2.5\%, but the values for similarity were lower overall with this embedding. The DBOW embeddings did all show increases in similarity within "similar" groups, however these were generally small.
 
@@ -213,7 +213,7 @@ The classifiers using \texttt{doc2vec} were generally less significantly affecte
 \begin{table*}[]
 \centering
 \captionsetup{justification=centering}
-\caption{Table of accuracy achieved on the cross-validation test set for non-\texttt{doc2vec} models, with variance shown in brackets}
+\caption{Table of accuracy achieved on the cross-validation test set for BoW models, with variance shown in brackets}
 \label{table:nondoc2veccrossval}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
@@ -246,7 +246,7 @@ The classifiers using \texttt{doc2vec} were generally less significantly affecte
 \end{tabular}
 \end{table*}
 
-The Permutation Test was the test used to test for significance. The permutation test takes a set of paired results from two systems and examines how swapping a random selection of these would affect their means. In particular, it examines whether these permutations would change which mean is the larger one and uses this to determine whether the difference is significant or if it is likely to have occurred by chance. For the results presented here, a difference in means is considered significant if $p<0.05$.
+The Permutation Test was the test used to test for significance. The Permutation Test takes a set of paired results from two systems and examines how swapping a random selection of these would affect their means. In particular, it examines whether these permutations would change which mean is the larger one and uses this to determine whether the difference is significant or if it is likely to have occurred by chance. For the results presented here, a difference in means is considered significant if $p<0.05$.
 
 The significance tests were performed using the paired results of the two systems being compared from the 9-fold cross-validation tests. The average accuracies across cross-validation sets, along with the variance of these accuracy values, is presented in Tables \ref{table:nondoc2veccrossval} and \ref{table:doc2veccrossval}.
 
@@ -256,7 +256,7 @@ In some cases, a system that performed better than another system on the blind t
 \begin{table*}[]
 \centering
 \captionsetup{justification=centering}
-\caption{Table of accuracy achieved on the new review test set for non-\texttt{doc2vec} models}
+\caption{Table of accuracy achieved on the new review test set for BoW models}
 \label{table:newrevnond2v}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
@@ -349,7 +349,7 @@ Additionally, some approaches to sentiment analysis have involved preprocessing 
 Implementing some or all of these techniques could allow for the accuracy achieved in this work to be improved.
 
 
-\textbf{Word count: 3,926 words}
+\textbf{Word count: 3,928 words}
 
 \bibliography{L90ass2bib}{}
 \bibliographystyle{plain}
