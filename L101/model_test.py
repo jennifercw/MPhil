@@ -10,6 +10,68 @@ from nltk.translate.bleu_score import sentence_bleu
 from nltk.translate.meteor_score import meteor_score
 
 
+def delexicalise_both(mr_list, ref_list, delex_slots):
+    slot_dict = {"name": "_NAME_", "eatType": "_EATTYPE_", "priceRange": "_PRICERANGE_",
+                 "customer rating": "_CUSTOMERRATING_", "near": "_NEAR_", "food": "_FOOD_",
+                 "area": "_AREA_"}
+    assert(len(mr_list) == len(ref_list))
+    new_mr_list = []
+    new_ref_list = []
+    for i in range(len(mr_list)):
+        mr = mr_list[i]
+        ref = ref_list[i]
+        for slot in delex_slots:
+            if mr.find(slot) == -1:
+                continue
+            start = mr.find(slot) + len(slot) + 1
+            end = mr[start:].find(']') + start
+            val = mr[start:end]
+            if ref.find(val) == -1:
+                continue
+            mr = mr[:start] + slot_dict[slot] + mr[end:]
+            while ref.find(val) != -1:
+                start = ref.find(val)
+                end = start + len(val)
+                ref = ref[:start] + slot_dict[slot] + ref[end:]
+        new_mr_list.append(mr)
+        new_ref_list.append(ref)
+    return new_mr_list, new_ref_list
+
+
+def delexicalise_mrs(mr_list, delex_slots):
+    slot_dict = {"name": "_NAME_", "eatType": "_EATTYPE_", "priceRange": "_PRICERANGE_",
+                 "customer rating": "_CUSTOMERRATING_", "near": "_NEAR_", "food": "_FOOD_",
+                 "area": "_AREA_"}
+    new_mr_list = []
+    for i in range(len(mr_list)):
+        mr = mr_list[i]
+        for slot in delex_slots:
+            if mr.find(slot) == -1:
+                continue
+            start = mr.find(slot) + len(slot) + 1
+            end = mr[start:].find(']') + start
+            mr = mr[:start] + slot_dict[slot] + mr[end:]
+        new_mr_list.append(mr)
+    return new_mr_list
+
+
+def relexicalise_sentence(output_sent, original_mr, delex_slots):
+    slot_dict = {"name": "_NAME_", "eatType": "_EATTYPE_", "priceRange": "_PRICERANGE_",
+                 "customer rating": "_CUSTOMERRATING_", "near": "_NEAR_", "food": "_FOOD_",
+                 "area": "_AREA_"}
+    for slot in delex_slots:
+        if original_mr.find(slot) == -1:
+            continue
+        start = original_mr.find(slot) + len(slot) + 1
+        end = original_mr[start:].find(']') + start
+        val = original_mr[start:end]
+        while output_sent.find(slot_dict[slot]) != -1:
+            start = output_sent.find(slot_dict[slot])
+            end = start + len(slot_dict[slot])
+            output_sent = output_sent[:start] + val + output_sent[end:]
+    return output_sent
+
+
 def load_data_chars(filename="trainset.csv", delex_slots=(), delex_both=True):
     """
     Output is dictionary containing:
@@ -22,6 +84,7 @@ def load_data_chars(filename="trainset.csv", delex_slots=(), delex_both=True):
     end = '\n'
     file = pd.read_csv(filename)
     # Devset seem to be grouped so shuffle these
+    # Should probably save a shuffled version so we can compare
     mr_list = file['mr'].to_list()
     ref_list = file['ref'].to_list()
     pairs = [(mr, ref) for mr, ref in zip(mr_list, ref_list)]
@@ -109,7 +172,7 @@ def decode_beam_search(input, data, encoder, decoder, alpha=-1.0, beam_width=10,
     target = np.zeros((1, 1, data['num_chars']))
     target[0, 0, data['char_index']['\t']] = 1.
     input_val = [target] + states_value
-    output_tokens, h, c = decoder.predict(input_val)
+    output_tokens, h, c, attention = decoder.predict(input_val)
     sampled_token_indices = output_tokens[0, -1, :].argsort()[-beam_width:][::-1]
     probs = [math.log(output_tokens[0, -1, i], 2) for i in sampled_token_indices]
     sampled_chars = [data["reverse_char_index"][sampled_token_index] for sampled_token_index in sampled_token_indices]
@@ -134,7 +197,7 @@ def decode_beam_search(input, data, encoder, decoder, alpha=-1.0, beam_width=10,
             target = path[0]
             prob = path[1]
             input_val = [target] + path[4]
-            output_tokens, h, c = decoder.predict(input_val)
+            output_tokens, h, c, attention = decoder.predict(input_val)
             sampled_token_indices = output_tokens[0, -1, :].argsort()[-beam_width:][::-1]
             probs = [math.log(output_tokens[0, -1, i], 2) for i in sampled_token_indices]
             sampled_chars = [data["reverse_char_index"][sampled_token_index]
@@ -167,11 +230,12 @@ def decode_beam_search(input, data, encoder, decoder, alpha=-1.0, beam_width=10,
 
 
 def test_model_chars(model_name, num_examples=200, delex_slots=()):
-    data = load_data_chars("devset.csv", delex_slots=delex_slots)
+    # https://stackoverflow.com/questions/53867351/how-to-visualize-attention-weights
+    data = load_data_chars("devset.csv", delex_slots=delex_slots, delex_both=False)
     data = vectorise_chars(data)
     data = create_reverse_indices(data)
     model, encoder, decoder = load_models(model_name)
-
+    decoder = Model(inputs=decoder.input, outputs=[decoder.output, decoder.get_layer('attention').output])
     bleus = []
     max_bleus = []
     meteors = []
@@ -184,9 +248,11 @@ def test_model_chars(model_name, num_examples=200, delex_slots=()):
         paths = decode_beam_search(input, data, encoder, decoder)
 
         print('-')
+        print(paths)
+        if len(delex_slots) > 0:
+            for i in range(len(paths)):
+                paths[i] = relexicalise_sentence(paths[i], data['mr_input'][seq_index], delex_slots)
         decoded_sentence = paths[0]
-        """for i in range(len(paths)):
-            paths[i] = relexicalise_ref(paths[i], data[''])"""
         max_bleu = max(sentence_bleu(references=[correct], hypothesis=p) for p in paths)
 
         print('Input sentence:', data['mr_input'][seq_index])
@@ -211,4 +277,4 @@ def test_model_chars(model_name, num_examples=200, delex_slots=()):
     print("Average METEOR: ", sum(meteors) / len(meteors))
 
 
-test_model_chars("basic")
+test_model_chars("delex_test", delex_slots=("name", "priceRange", "near", "area"))
