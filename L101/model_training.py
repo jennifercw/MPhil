@@ -401,7 +401,7 @@ def train_reverse_model_chars(model_name, delex_slots=(), lstm_units=256, batch_
 
 
 #train_model_words("test")
-train_model_chars("basic2", epochs=25)
+#train_model_chars("basic2", epochs=25)
 #train_model_chars("delex_test", delex_slots=("name", "priceRange", "near", "area"), epochs=50)
-#train_reverse_model_chars("reverse_test", epochs=15)
+train_reverse_model_chars("reverse_1", epochs=50)
 #train_model_chars("basic512", lstm_units=512)

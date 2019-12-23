@@ -233,7 +233,8 @@ def create_reverse_indices(data):
     return data
 
 
-def decode_beam_search(input, data, encoder, decoder, mr="", reverse_models=None, alpha=-1.0, beam_width=10, beta=-1.0):
+def decode_beam_search(input, data, encoder, decoder, mr="", reverse_models=None, alpha=-1.0, beam_width=10, beta=-1.0,
+                       rev_pen=-1.0, p=-1.0):
     states_value = encoder.predict(input)
     target = np.zeros((1, 1, data['num_chars']))
     target[0, 0, data['char_index']['\t']] = 1.
@@ -285,6 +286,8 @@ def decode_beam_search(input, data, encoder, decoder, mr="", reverse_models=None
         for path in top_paths:
             if path[3] is False:
                 stop_condition = False
+    if p > 0 and p <= 1:
+        top_paths.append(p_nucleus_sample(input, data, encoder, decoder, p))
     for path in top_paths:
         if alpha == -1.0:
             lp = len(path[2])
@@ -306,13 +309,14 @@ def decode_beam_search(input, data, encoder, decoder, mr="", reverse_models=None
                 i_sum += math.log(min(j_sum , 1.0))
             cp = beta * i_sum
         if reverse_models == None:
-            rev_pen = 0
+            mr_dist_pen = 0
         else:
             rev_mr = decode_reverse(reverse_models, path[2], data)
-            rev_pen = diff_mrs(mr, rev_mr)
+            mr_dist_pen = rev_pen * diff_mrs(mr, rev_mr)
 
-        #path[1] = path[1] / lp + cp
-        path[1] = rev_pen
+        path[1] = path[1] / lp + cp - mr_dist_pen
+        # Need to incorporate this appropriately
+        #path[1] = rev_pen
     top_paths.sort(key=lambda x: x[1], reverse=True)
     return [p[2] for p in top_paths]
 
@@ -350,15 +354,55 @@ def decode_reverse(models, sentence, old_data):
     return decoded
 
 
-def test_model_chars(model_name, num_examples=200, delex_slots=(), alpha = -1.0, beta=-1.0, rev_pen=False):
-    # if reverse do both
+def p_nucleus_sample(input, data, encoder, decoder, p):
+    states_value = encoder.predict(input)
+    target = np.zeros((1, 1, data['num_chars']))
+    target[0, 0, data['char_index']['\t']] = 1.
+    stop_condition = False
+    decoded = ''
+    sent_prob = 0
+    sent_data = []
+    while not stop_condition:
+        input_val = [target] + states_value
+        output_tokens, h, c, attention = decoder.predict(input_val)
+        # Converting to float64 and normalising, because otherwise numpy ends up thinking the sum is >1 due to floating
+        # point issues
+        k = 1
+        sampled_token_indices = output_tokens[0, -1, :].argsort()[-k:][::-1]
+        probs = [output_tokens[0, -1, i] for i in sampled_token_indices]
+        while sum(probs) < p:
+            sampled_token_indices = output_tokens[0, -1, :].argsort()[-k:][::-1]
+            probs = [output_tokens[0, -1, i] for i in sampled_token_indices]
+            k += 1
+        x = probs
+        x = np.float64(x)
+        x = x / x.sum(0)
+        sampled_token_index = sampled_token_indices[np.argmax(np.random.multinomial(1, x))]
+        sampled_char = data["reverse_char_index"][sampled_token_index]
+        decoded += sampled_char
+        sent_prob += math.log(output_tokens[0, -1, sampled_token_index])
+        if sampled_char == '\n' or len(decoded) > data['max_ref_length']:
+            stop_condition = True
+        target = np.zeros((1, 1, data['num_chars']))
+        target[0, 0, sampled_token_index] = 1.
+        states_value = [h, c, states_value[2]]
+        if len(sent_data) == 0:
+            new_att = softmax(attention, axis=2)
+        else:
+            new_att = np.concatenate((sent_data[5], softmax(attention, axis=2)), axis=1)
+        sent_data = [target, sent_prob, decoded, stop_condition, states_value, new_att]
+    return sent_data
+
+
+def test_model_chars(model_name, num_examples=200, delex_slots=(), alpha=-1.0, beta=-1.0, rev_pen=-1.0, p=-1.0):
     data = load_data_chars("devset.csv", delex_slots=delex_slots, delex_both=False)
     data = vectorise_chars(data)
     data = create_reverse_indices(data)
     model, encoder, decoder = load_models(model_name)
     decoder = Model(inputs=decoder.input, outputs=[decoder.output, decoder.get_layer('attention').output])
-    rev_model, rev_encoder, rev_decoder = load_models("reverse_testreverse")
-    rev_decoder = Model(inputs=rev_decoder.input, outputs=[rev_decoder.output, rev_decoder.get_layer('attention').output])
+    rev_model, rev_encoder, rev_decoder = load_models("reverse_1reverse")
+    rev_decoder = Model(inputs=rev_decoder.input, outputs=[rev_decoder.output,
+                                                           rev_decoder.get_layer('attention').output])
     bleus = []
     max_bleus = []
     meteors = []
@@ -367,13 +411,14 @@ def test_model_chars(model_name, num_examples=200, delex_slots=(), alpha = -1.0,
         print("Test example: " + str(seq_index) + "/" + str(len(data["encoder_input"])))
 
         input = data["encoder_input"][seq_index: seq_index + 1]
-        print(input.shape)
         correct = data['ref_sentences'][seq_index].strip("\t\n")
         paths = decode_beam_search(input, data, encoder, decoder, mr=data['mr_input'][seq_index],
-                                   reverse_models=[rev_encoder, rev_decoder], beam_width=10, alpha=alpha, beta=beta)
+                                   reverse_models=[rev_encoder, rev_decoder], beam_width=10, alpha=alpha, beta=beta,
+                                   rev_pen=rev_pen, p=p)
 
         print('-')
         print(paths)
+
         if len(delex_slots) > 0:
             for i in range(len(paths)):
                 paths[i] = relexicalise_sentence(paths[i], data['mr_input'][seq_index], delex_slots)
@@ -401,4 +446,5 @@ def test_model_chars(model_name, num_examples=200, delex_slots=(), alpha = -1.0,
     print(sum(max_bleus) / len(max_bleus))
     print("Average METEOR: ", sum(meteors) / len(meteors))
 
-test_model_chars("basic2", beta=0.8)
+
+test_model_chars("basic2", p=0.7)
