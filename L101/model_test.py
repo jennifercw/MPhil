@@ -234,7 +234,7 @@ def create_reverse_indices(data):
 
 
 def decode_beam_search(input, data, encoder, decoder, mr="", reverse_models=None, alpha=-1.0, beam_width=10, beta=-1.0,
-                       rev_pen=-1.0, p=-1.0):
+                       gamma=-1.0, rev_pen=-1.0, p=-1.0):
     states_value = encoder.predict(input)
     target = np.zeros((1, 1, data['num_chars']))
     target[0, 0, data['char_index']['\t']] = 1.
@@ -261,6 +261,7 @@ def decode_beam_search(input, data, encoder, decoder, mr="", reverse_models=None
             if path[3]:
                 all_paths.append(path)
                 continue
+            sibling_paths = []
             target = path[0]
             prob = path[1]
             input_val = [target] + path[4]
@@ -279,14 +280,21 @@ def decode_beam_search(input, data, encoder, decoder, mr="", reverse_models=None
                 new_att = np.concatenate((path[5], softmax(attention, axis=2)), axis=1)
                 if sampled_chars[i] == '\n' or len(decoded) > data['max_ref_length']:
                     sent_stop = True
-                all_paths.append([target, prob, decoded, sent_stop, states_value, new_att])
-        all_paths.sort(key=lambda x: x[1], reverse=True)
+                sibling_paths.append([target, prob, decoded, sent_stop, states_value, new_att])
+            sibling_paths.sort(key=lambda x: x[1], reverse=True)
+            for i in range(len(sibling_paths)):
+                sibling_paths[i].append(i)
+                all_paths.append(sibling_paths[i])
+        if gamma == -1.0:
+            all_paths.sort(key=lambda x: x[1], reverse=True)
+        else:
+            all_paths.sort(key=lambda x: x[1] - gamma * x[6], reverse=True)
         top_paths = all_paths[:beam_width]
         stop_condition = True
         for path in top_paths:
             if path[3] is False:
                 stop_condition = False
-    if p > 0 and p <= 1:
+    if 0 < p <= 1:
         top_paths.append(p_nucleus_sample(input, data, encoder, decoder, p))
     for path in top_paths:
         if alpha == -1.0:
@@ -313,10 +321,12 @@ def decode_beam_search(input, data, encoder, decoder, mr="", reverse_models=None
         else:
             rev_mr = decode_reverse(reverse_models, path[2], data)
             mr_dist_pen = rev_pen * diff_mrs(mr, rev_mr)
+        if gamma==-1.0:
+            sib_pen = 0
+        else:
+            sib_pen = gamma * path[6]
 
-        path[1] = path[1] / lp + cp - mr_dist_pen
-        # Need to incorporate this appropriately
-        #path[1] = rev_pen
+        path[1] = path[1] / lp + cp - mr_dist_pen - sib_pen
     top_paths.sort(key=lambda x: x[1], reverse=True)
     return [p[2] for p in top_paths]
 
@@ -390,11 +400,12 @@ def p_nucleus_sample(input, data, encoder, decoder, p):
             new_att = softmax(attention, axis=2)
         else:
             new_att = np.concatenate((sent_data[5], softmax(attention, axis=2)), axis=1)
-        sent_data = [target, sent_prob, decoded, stop_condition, states_value, new_att]
+        sent_data = [target, sent_prob, decoded, stop_condition, states_value, new_att, 1]
     return sent_data
 
 
-def test_model_chars(model_name, num_examples=200, delex_slots=(), alpha=-1.0, beta=-1.0, rev_pen=-1.0, p=-1.0):
+def test_model_chars(model_name, num_examples=200, delex_slots=(), alpha=-1.0, beta=-1.0, rev_pen=-1.0, gamma=-1.0,
+                     p=-1.0):
     data = load_data_chars("devset.csv", delex_slots=delex_slots, delex_both=False)
     data = vectorise_chars(data)
     data = create_reverse_indices(data)
@@ -414,7 +425,7 @@ def test_model_chars(model_name, num_examples=200, delex_slots=(), alpha=-1.0, b
         correct = data['ref_sentences'][seq_index].strip("\t\n")
         paths = decode_beam_search(input, data, encoder, decoder, mr=data['mr_input'][seq_index],
                                    reverse_models=[rev_encoder, rev_decoder], beam_width=10, alpha=alpha, beta=beta,
-                                   rev_pen=rev_pen, p=p)
+                                   gamma=gamma, rev_pen=rev_pen, p=p)
 
         print('-')
         print(paths)
@@ -447,4 +458,4 @@ def test_model_chars(model_name, num_examples=200, delex_slots=(), alpha=-1.0, b
     print("Average METEOR: ", sum(meteors) / len(meteors))
 
 
-test_model_chars("basic2", p=0.7)
+test_model_chars("basic2", gamma=0.7)
