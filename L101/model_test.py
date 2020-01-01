@@ -73,7 +73,7 @@ def relexicalise_sentence(output_sent, original_mr, delex_slots):
     return output_sent
 
 
-def load_data_chars(filename="trainset.csv", delex_slots=(), delex_both=True):
+def load_data_chars(filename="trainset.csv", delex_slots=(), delex_both=True, shuffled=True):
     """
     Output is dictionary containing:
     "mr_input" : List of all MRs, "ref_list": List of all reference sentences
@@ -83,15 +83,15 @@ def load_data_chars(filename="trainset.csv", delex_slots=(), delex_both=True):
     """
     start = '\t'
     end = '\n'
-    file = pd.read_csv(filename)
-    # Devset seem to be grouped so shuffle these
-    # Should probably save a shuffled version so we can compare
-    mr_list = file['mr'].to_list()
-    ref_list = file['ref'].to_list()
-    pairs = [(mr, ref) for mr, ref in zip(mr_list, ref_list)]
-    random.shuffle(pairs)
-    mr_list = [p[0] for p in pairs]
-    ref_list = [p[1] for p in pairs]
+    if shuffled:
+        pairs = pickle.load(open("devset_shuffled.obj", "rb"))
+        mr_list = [p[0] for p in pairs]
+        ref_list = [p[1] for p in pairs]
+    else:
+        file = pd.read_csv(filename)
+        mr_list = file['mr'].to_list()
+        ref_list = file['ref'].to_list()
+
     ref_list = [start + ref + end for ref in ref_list]
     mr_list_delex = []
     ref_list_delex = []
@@ -234,7 +234,7 @@ def create_reverse_indices(data):
 
 
 def decode_beam_search(input, data, encoder, decoder, mr="", reverse_models=None, alpha=-1.0, beam_width=10, beta=-1.0,
-                       gamma=-1.0, rev_pen=-1.0, p=-1.0):
+                       gamma=-1.0, rev_pen=-1.0, p=-1.0, num_samp = -1):
     states_value = encoder.predict(input)
     target = np.zeros((1, 1, data['num_chars']))
     target[0, 0, data['char_index']['\t']] = 1.
@@ -294,8 +294,9 @@ def decode_beam_search(input, data, encoder, decoder, mr="", reverse_models=None
         for path in top_paths:
             if path[3] is False:
                 stop_condition = False
-    if 0 < p <= 1:
-        top_paths.append(p_nucleus_sample(input, data, encoder, decoder, p))
+    if num_samp > 0:
+        for i in range(num_samp):
+            top_paths.append(p_nucleus_sample(input, data, encoder, decoder, p))
     for path in top_paths:
         if alpha == -1.0:
             lp = len(path[2])
@@ -316,7 +317,7 @@ def decode_beam_search(input, data, encoder, decoder, mr="", reverse_models=None
                     j_sum += attention[i][j]
                 i_sum += math.log(min(j_sum , 1.0))
             cp = beta * i_sum
-        if reverse_models == None:
+        if rev_pen == -1.0:
             mr_dist_pen = 0
         else:
             rev_mr = decode_reverse(reverse_models, path[2], data)
@@ -405,13 +406,13 @@ def p_nucleus_sample(input, data, encoder, decoder, p):
 
 
 def test_model_chars(model_name, num_examples=200, delex_slots=(), alpha=-1.0, beta=-1.0, rev_pen=-1.0, gamma=-1.0,
-                     p=-1.0):
+                     p=-1.0, num_samp=-1):
     data = load_data_chars("devset.csv", delex_slots=delex_slots, delex_both=False)
     data = vectorise_chars(data)
     data = create_reverse_indices(data)
     model, encoder, decoder = load_models(model_name)
     decoder = Model(inputs=decoder.input, outputs=[decoder.output, decoder.get_layer('attention').output])
-    rev_model, rev_encoder, rev_decoder = load_models("reverse_1reverse")
+    rev_model, rev_encoder, rev_decoder = load_models("basicreverse")
     rev_decoder = Model(inputs=rev_decoder.input, outputs=[rev_decoder.output,
                                                            rev_decoder.get_layer('attention').output])
     bleus = []
@@ -425,7 +426,7 @@ def test_model_chars(model_name, num_examples=200, delex_slots=(), alpha=-1.0, b
         correct = data['ref_sentences'][seq_index].strip("\t\n")
         paths = decode_beam_search(input, data, encoder, decoder, mr=data['mr_input'][seq_index],
                                    reverse_models=[rev_encoder, rev_decoder], beam_width=10, alpha=alpha, beta=beta,
-                                   gamma=gamma, rev_pen=rev_pen, p=p)
+                                   gamma=gamma, rev_pen=rev_pen, p=p, num_samp=num_samp)
 
         print('-')
         print(paths)
@@ -458,4 +459,65 @@ def test_model_chars(model_name, num_examples=200, delex_slots=(), alpha=-1.0, b
     print("Average METEOR: ", sum(meteors) / len(meteors))
 
 
-test_model_chars("basic2", gamma=0.7)
+def run_tests_file_output(model_name, delex_slots=(), alpha=-1.0, beta=-1.0, rev_pen=-1.0, gamma=-1.0, p=-1.0,
+                          num_samp=-1, file_suff=""):
+    data = load_data_chars("devset.csv", delex_slots=delex_slots, delex_both=False, shuffled=False)
+    data = vectorise_chars(data)
+    data = create_reverse_indices(data)
+    model, encoder, decoder = load_models(model_name)
+    decoder = Model(inputs=decoder.input, outputs=[decoder.output, decoder.get_layer('attention').output])
+    rev_model, rev_encoder, rev_decoder = load_models("basicreverse")
+    rev_decoder = Model(inputs=rev_decoder.input, outputs=[rev_decoder.output,
+                                                           rev_decoder.get_layer('attention').output])
+    output_file = open(model_name + file_suff + "_output.txt", "w")
+    prev_mr = ""
+    for seq_index in range(len(data["mr_input"])):
+        print(seq_index)
+        input = data["encoder_input"][seq_index: seq_index + 1]
+        correct = data['ref_sentences'][seq_index].strip("\t\n")
+        mr = data["mr_input"][seq_index]
+        if mr == prev_mr:
+            continue
+        prev_mr = mr
+        paths = decode_beam_search(input, data, encoder, decoder, mr=data['mr_input'][seq_index],
+                                   reverse_models=[rev_encoder, rev_decoder], beam_width=10, alpha=alpha, beta=beta,
+                                   gamma=gamma, rev_pen=rev_pen, p=p, num_samp=num_samp)
+
+        if len(delex_slots) > 0:
+            for i in range(len(paths)):
+                paths[i] = relexicalise_sentence(paths[i], data['mr_input'][seq_index], delex_slots)
+        decoded_sentence = paths[0]
+        output_file.write(decoded_sentence)
+        print(decoded_sentence)
+    return
+
+
+def create_human_ref_file():
+    data = load_data_chars("devset.csv", delex_slots=(), delex_both=False, shuffled=False)
+    output_file = open("devset_refs.txt", "w")
+    prev_mr = ""
+    unique_mrs = 0
+    for seq_index in range(len(data["mr_input"])):
+        mr = data["mr_input"][seq_index]
+        ref = data['ref_sentences'][seq_index].strip("\t\n")
+        if prev_mr == mr:
+            output_file.write(ref)
+            output_file.write("\n")
+        else:
+            if prev_mr != "":
+                output_file.write("\n")
+            output_file.write(ref)
+            output_file.write("\n")
+            unique_mrs += 1
+        prev_mr = mr
+    output_file.close()
+    print(unique_mrs)
+    return
+
+
+for a in range(0, 11):
+    alpha = a / 10
+    print(alpha)
+    suff = "alpha" + str(alpha)
+    run_tests_file_output("basic_model", alpha=alpha, file_suff=suff)
+#create_human_ref_file()
