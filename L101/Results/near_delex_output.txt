@@ -1,0 +1,547 @@
+Alimentum is a restaurant near the _NEAR_.
+Alimentum is a restaurant located in the city centre. It is not family-friendly.
+Alimentum is a kid friendly restaurant located near the _NEAR_.
+Alimentum is a kid friendly restaurant located near the Burger King.
+Alimentum is a non-family friendly restaurant located near the _NEAR_.
+Alimentum is a restaurant providing sushi in the low price range. It is located near to the Burger King.
+There is a kid friendly place near _NEAR_ in the city centre called Alimentum.
+Alimentum is a kid friendly restaurant located near the Burger King.
+Aromi is a coffee shop providing Chinese food It is located in the riverside. Its customer rating is 1 out of 5.
+Aromi is a coffee shop providing Chinese food It is located in the riverside. Its customer rating is 3 out of 5.
+Aromi is a coffee shop providing Chinese food It is located in the city centre. Its customer rating is 5 out of 5.
+Aromi is a coffee shop providing Chinese food It is located in the city centre. Its customer rating is 5 out of 5.
+Aromi is a coffee shop providing Chinese food It is located in the riverside. Its customer rating is 5 out of 5.
+Aromi is a coffee shop providing Chinese food It is located in the riverside. Its customer rating is 5 out of 5.
+Aromi is a coffee shop providing Chinese food It is located in the city centre. Its customer rating is average.
+Aromi is a coffee shop providing Chinese food It is located in the city centre. Its customer rating is average.
+Aromi is a coffee shop providing Chinese food It is located in the riverside. Its customer rating is average.
+Aromi is a coffee shop providing Chinese food It is located in the riverside. Its customer rating is average.
+Aromi is a coffee shop providing Chinese food It is located in the riverside. Its customer rating is high.
+Aromi is a coffee shop providing Chinese food It is located in the city centre. Its customer rating is low.
+Aromi is a coffee shop providing Chinese food It is located in the city centre. Its customer rating is low.
+Aromi is a coffee shop providing Chinese food It is located in the riverside. Its customer rating is low.
+Aromi is a coffee shop providing Chinese food It is located in the riverside. Its customer rating is low.
+Aromi is a coffee shop serving English food in the riverside area. It is kid friendly and has a customer rating of 1 out of 5.
+Aromi is a coffee shop serving English food in the riverside area. It is kid friendly and has a customer rating of 3 out of 5.
+Aromi is a coffee shop serving English food in the city centre. It is not family-friendly and has a customer rating of 5 out of 5.
+Aromi is a coffee shop serving English food in the city centre. It is family-friendly and has a customer rating of 5 out of 5.
+Aromi is a coffee shop serving English food in the riverside area. It is not family-friendly and has a customer rating of 5 out of 5.
+Aromi is a coffee shop serving English food in the riverside area. It is family friendly and has a customer rating of 5 out of 5.
+Aromi is a coffee shop serving English food in the city centre. It is not family-friendly and has an average customer rating.
+Aromi is a family-friendly coffee shop serving English food in the city centre. It has an average customer rating.
+Aromi is a coffee shop serving English food in the riverside area. It is not family-friendly and has an average customer rating.
+Aromi is a coffee shop serving English food in the riverside area. It is family friendly and has an average customer rating.
+Aromi is a coffee shop serving English food in the riverside area. It is kid friendly and has a high customer rating.
+Aromi is a coffee shop serving English food in the city centre. It is not family-friendly and has a low customer rating.
+Aromi is a family-friendly coffee shop serving English food in the city centre. It has a low customer rating.
+Aromi is a coffee shop serving English food in the riverside area. It is not family-friendly and has a low customer rating.
+Aromi is a family friendly coffee shop serving English food in the riverside area with a low customer rating.
+Bibimbap House is a fast food restaurant near Café Sicilia.
+Bibimbap House serves Japanese food near Café Sicilia.
+Browns Cambridge is a coffee shop providing Chinese food It is located in the riverside. It is near Crowne Plaza Hotel. Its customer rating is 1 out of 5.
+Browns Cambridge is a coffee shop providing Chinese food It is located in the riverside. It is near Crowne Plaza Hotel. Its customer rating is 3 out of 5.
+Browns Cambridge is a coffee shop providing Chinese food It is located in the city centre. It is near Crowne Plaza Hotel. Its customer rating is 5 out of 5.
+Browns Cambridge is a coffee shop providing Chinese food It is located in the city centre. It is near Crowne Plaza Hotel. Its customer rating is 5 out of 5.
+Browns Cambridge is a coffee shop providing Chinese food It is located in the riverside. It is near Crowne Plaza Hotel. Its customer rating is 5 out of 5.
+Browns Cambridge is a coffee shop providing Chinese food It is located in the riverside. It is near Crowne Plaza Hotel. Its customer rating is 5 out of 5.
+Browns Cambridge is an average rated coffee shop serving Chinese food in the city centre. It is not family friendly and is located near the Crowne Plaza Hotel.
+Browns Cambridge is a coffee shop that serves Chinese food and has an average customer rating. It is located in the city centre near the Crowne Plaza Hotel and is family friendly.
+Browns Cambridge is a coffee shop providing Chinese food It is located in the riverside. It is near Crowne Plaza Hotel. Its customer rating is average.
+Browns Cambridge is a coffee shop providing Chinese food It is located in the riverside. It is near Crowne Plaza Hotel. Its customer rating is average.
+Browns Cambridge is a coffee shop providing Chinese food It is located in the riverside. It is near Crowne Plaza Hotel. Its customer rating is high.
+Browns Cambridge is a coffee shop providing Chinese food It is located in the city centre. It is near Crowne Plaza Hotel. Its customer rating is low.
+Browns Cambridge is a coffee shop providing Chinese food It is located in the city centre. It is near Crowne Plaza Hotel. Its customer rating is low.
+Browns Cambridge is a coffee shop providing Chinese food It is located in the riverside. It is near Crowne Plaza Hotel. Its customer rating is low.
+Browns Cambridge is a coffee shop providing Chinese food It is located in the riverside. It is near Crowne Plaza Hotel. Its customer rating is low.
+Browns Cambridge is an English coffee shop in the riverside area near the Crowne Plaza Hotel. It is kid friendly and has a customer rating of 1 out of 5.
+Browns Cambridge is an English coffee shop in the riverside area near the Crowne Plaza Hotel. It is kid friendly and has a customer rating of 3 out of 5.
+Browns Cambridge is an English coffee shop near the Crowne Plaza Hotel in the city centre. It is not family-friendly and has a customer rating of 5 out of 5.
+Browns Cambridge is a family-friendly coffee shop serving English food in the city centre near the Crowne Plaza Hotel. It has a customer rating of 5 out of 5.
+Browns Cambridge is an English coffee shop near the Crowne Plaza Hotel in the riverside area. It is not family-friendly and has a customer rating of 5 out of 5.
+Browns Cambridge is a family friendly coffee shop serving English food in the riverside area near the Crowne Plaza Hotel. It has a customer rating of 5 out of 5.
+Browns Cambridge is a coffee shop serving English food in the city centre near the Crowne Plaza Hotel. It is not family-friendly and has an average customer rating.
+Browns Cambridge is a family-friendly coffee shop serving English food in the city centre near the Crowne Plaza Hotel. It has an average customer rating.
+Browns Cambridge is a coffee shop serving English food near the Crowne Plaza Hotel in the riverside area. It is not family-friendly and has an average customer rating.
+Browns Cambridge is a coffee shop serving English food near the Crowne Plaza Hotel in the riverside area. It has an average customer rating and is family friendly.
+Browns Cambridge is a coffee shop serving English food in the riverside area near to the Crowne Plaza Hotel. It is kid friendly and has a high customer rating.
+Browns Cambridge is an English coffee shop near the Crowne Plaza Hotel in the city centre. It is not family-friendly and has a low customer rating.
+Browns Cambridge is a family-friendly coffee shop serving English food in the city centre near the Crowne Plaza Hotel. It has a low customer rating.
+Browns Cambridge is an English coffee shop near Crowne Plaza Hotel in the riverside area. It is not family-friendly and has a low customer rating.
+Browns Cambridge is a family friendly coffee shop serving English food in the riverside area near the Crowne Plaza Hotel. It has a low customer rating.
+Clowns is a coffee shop providing Chinese food It is located in the riverside. It is near Clare Hall. Its customer rating is 1 out of 5.
+Clowns is a coffee shop that serves Chinese food and has a customer rating of 3 out of 5. It is located near Clare Hall in the riverside area.
+Clowns is a coffee shop serving Chinese food in the city centre. It is located near Clare Hall and has a customer rating of 5 out of 5.
+Clowns is a coffee shop providing Chinese food It is located in the riverside. It is near Clare Hall. Its customer rating is 5 out of 5.
+Clowns is a coffee shop serving Chinese food in the city centre near Clare Hall. It has an average customer rating.
+Clowns is a coffee shop providing Chinese food It is located in the riverside. It is near Clare Hall. Its customer rating is average.
+Clowns is a coffee shop that serves Chinese food and has a high customer rating. It is in the riverside area near Clare Hall.
+Clowns is a coffee shop serving Chinese food in the city centre. It is located near Clare Hall and has a low customer rating.
+Clowns is a coffee shop that serves Chinese food and has a low customer rating. It is located near Clare Hall in the riverside area.
+Clowns is a coffee shop serving English food in the riverside area near Clare Hall. It has a customer rating of 1 out of 5.
+Clowns is a coffee shop serving English food in the riverside area near Clare Hall. It has a customer rating of 3 out of 5.
+Clowns is a coffee shop serving English food in the city centre near Clare Hall. It has a customer rating of 5 out of 5.
+Clowns is a coffee shop serving English food in the riverside area near Clare Hall. It has a customer rating of 5 out of 5.
+Clowns is a coffee shop serving English food in the city centre near Clare Hall. It has an average customer rating.
+Clowns is a coffee shop serving English food in the riverside area near Clare Hall. It has an average customer rating.
+Clowns is a coffee shop serving English food in the riverside area near Clare Hall. It has a high customer rating.
+There is a coffee shop named Clowns that serves English food in the city centre near Clare Hall with a low customer rating.
+Clowns is a coffee shop serving English food in the riverside area. It is located near Clare Hall and has a low customer rating.
+Cocum is a highly rated Chinese coffee shop with a price range of £20-25. It is not kid friendly.
+Cocum is a child friendly Chinese coffee shop with a high customer rating and a price range of £20-25.
+Cocum is a coffee shop that serves cheap Chinese food. It has a customer rating of 5 out of 5 and is not family friendly.
+Cocum is a cheap family friendly Chinese coffee shop. It has a customer rating of 5 out of 5.
+Cocum is a coffee shop that serves cheap Chinese food. It has an average customer rating and is not family friendly.
+Cocum is a cheap family friendly Chinese coffee shop with an average customer rating.
+Cocum is a coffee shop that serves Chinese food. It is not child friendly and has a high price range and a customer rating of 1 out of 5.
+Cocum is a children friendly Chinese coffee shop with a high price range and a customer rating of 1 out of 5.
+Cocum is a children friendly Chinese coffee shop with a high price range and an average customer rating.
+Cocum is a children friendly Chinese coffee shop with a high price range and average customer rating.
+Cocum is a coffee shop that serves Chinese food. It is not family friendly and has a low customer rating and a price range of less than £20.
+Cocum is a coffee shop that serves Chinese food. It has a low customer rating and a price range of less than £20. It is family friendly.
+Cocum is a coffee shop that serves Chinese food. It is not kid friendly and has a moderate price range. It has a customer rating of 1 out of 5.
+Cocum is a coffee shop that serves Chinese food. It has a moderate price range and a customer rating of 1 out of 5. It is kid friendly.
+Cocum is a coffee shop that serves Chinese food. It has a moderate price range and a customer rating of 3 out of 5. It is not kid friendly.
+Cocum is a coffee shop that serves Chinese food. It has a moderate price range and a customer rating of 3 out of 5. It is kid friendly.
+Cocum is a highly rated Chinese coffee shop with a price range of more than £30 and is not children friendly.
+Cocum is a children friendly Chinese coffee shop with a high customer rating and a price range of more than £30.
+Cocum is a highly rated coffee shop serving English food in the £20-25 price range. It is not kid friendly.
+Cocum is a highly rated coffee shop serving English food in the £20-25 price range. It is kid friendly.
+Cocum is a cheap coffee shop that serves English food. It has a customer rating of 5 out of 5 and is not family-friendly.
+Cocum is a cheap family friendly coffee shop serving English food. It has a customer rating of 5 out of 5.
+Cocum is a cheap coffee shop that serves English food. It has an average customer rating and is not family-friendly.
+Cocum is a cheap family friendly coffee shop serving English food. It has an average customer rating.
+Cocum is a coffee shop serving English food. It is not child friendly and has a high price range and a customer rating of 1 out of 5.
+Cocum is a coffee shop serving English food in the high price range. It has a customer rating of 1 out of 5 and is kid friendly.
+Cocum is a coffee shop serving English food in the high price range. It has an average customer rating and is not child friendly.
+Cocum is a children friendly English coffee shop with a high price range and average customer rating.
+Cocum is a cheap coffee shop that serves English food. It has a low customer rating and is not family-friendly.
+Cocum is a coffee shop serving English food and is family friendly. It has a low customer rating and a price range of less than £20.
+Cocum is a moderately priced coffee shop serving English food. It is not kid friendly and has a customer rating of 1 out of 5.
+Cocum is a coffee shop serving English food. It has a moderate price range and is kid friendly. It has a customer rating of 1 out of 5.
+Cocum is a moderately priced coffee shop that serves English food. It is not kid friendly and has a customer rating of 3 out of 5.
+Cocum is a moderately priced coffee shop that serves English food. It is kid friendly and has a customer rating of 3 out of 5.
+Cotto is a coffee shop providing Chinese food in the £20-25 price range. It is located in the city centre. Its customer rating is high.
+Cotto is a coffee shop providing Chinese food in the £20-25 price range. It is located in the riverside. It is near The Portland Arms. Its customer rating is high.
+Cotto is a coffee shop providing Chinese food in the cheap price range. It is located in the city centre. Its customer rating is 5 out of 5.
+Cotto is a coffee shop providing Chinese food in the cheap price range. It is located in the riverside. It is near The Portland Arms. Its customer rating is 5 out of 5.
+Cotto is a coffee shop providing Chinese food in the cheap price range. It is located in the city centre. Its customer rating is average.
+Cotto is a coffee shop providing Chinese food in the cheap price range. It is located in the riverside. It is near The Portland Arms. Its customer rating is average.
+Cotto is a coffee shop providing Chinese food in the high price range. It is located in the city centre. Its customer rating is 1 out of 5.
+Cotto is a coffee shop providing Chinese food in the high price range. It is located in the riverside. It is near The Portland Arms. Its customer rating is 1 out of 5.
+Cotto is a coffee shop providing Chinese food in the high price range. It is located in the city centre. Its customer rating is average.
+Cotto is a coffee shop providing Chinese food in the high price range. It is located in the riverside. It is near The Portland Arms. Its customer rating is average.
+Cotto is a coffee shop providing Chinese food in the less than £20 price range. It is located in the city centre. Its customer rating is low.
+Cotto is a coffee shop providing Chinese food in the less than £20 price range. It is located in the riverside. It is near The Portland Arms. Its customer rating is low.
+Cotto is a coffee shop providing Chinese food in the moderate price range. It is located in the city centre. Its customer rating is 1 out of 5.
+Cotto is a coffee shop providing Chinese food in the moderate price range. It is located in the riverside. It is near The Portland Arms. Its customer rating is 1 out of 5.
+Cotto is a coffee shop providing Chinese food in the moderate price range. It is located in the city centre. Its customer rating is 3 out of 5.
+Cotto is a coffee shop providing Chinese food in the moderate price range. It is located in the riverside. It is near The Portland Arms. Its customer rating is 3 out of 5.
+Cotto is a coffee shop providing Chinese food in the more than £30 price range. It is located in the city centre. Its customer rating is high.
+Cotto is a coffee shop providing Chinese food in the more than £30 price range. It is located in the riverside. It is near The Portland Arms. Its customer rating is high.
+There is an English coffee shop named Cotto near The Portland Arms in the city centre. It has a high customer rating and a price range of £20-25.
+There is an English coffee shop named Cotto near The Portland Arms in the riverside area. It has a high customer rating and a price range of £20-25.
+There is a cheap coffee shop named Cotto near The Portland Arms in the city centre. It serves English food and has a customer rating of 5 out of 5.
+There is a cheap coffee shop named Cotto near The Portland Arms that serves English food. It has a customer rating of 5 out of 5.
+There is a cheap coffee shop named Cotto near The Portland Arms in the city centre. It serves English food and has an average customer rating.
+There is a cheap coffee shop named Cotto near The Portland Arms that serves English food. It has an average customer rating.
+There is a coffee shop named Cotto near The Portland Arms in the city centre. It serves English food and has a high price range and a customer rating of 1 out of 5.
+There is an expensive coffee shop named Cotto near The Portland Arms that serves English food. It has a customer rating of 1 out of 5.
+There is an expensive coffee shop named Cotto near The Portland Arms in the city centre. It serves English food and has an average customer rating.
+There is a high priced coffee shop named Cotto near The Portland Arms that serves English food. It has an average customer rating.
+Cotto is a coffee shop serving English food in the city centre near The Portland Arms. It has a low customer rating and a price range of less than £20.
+Cotto is a coffee shop serving English food near The Portland Arms in the riverside area. It has a low customer rating and a price range of less than £20.
+Cotto is a coffee shop serving English food in the moderate price range. It is located in the city centre near The Portland Arms and has a customer rating of 1 out of 5.
+There is a moderately priced coffee shop named Cotto near The Portland Arms that serves English food. It has a customer rating of 1 out of 5.
+There is an English coffee shop named Cotto near The Portland Arms in the city centre. It has a customer rating of 3 out of 5 and a moderate price range.
+There is a moderately priced coffee shop named Cotto near The Portland Arms that serves English food. It has a customer rating of 3 out of 5.
+There is an expensive coffee shop named Cotto near The Portland Arms in the city centre. It serves English food and has a high customer rating.
+Fitzbillies is a coffee shop providing Chinese food in the £20-25 price range. It is located in the city centre. Its customer rating is high.
+Fitzbillies is a coffee shop providing Chinese food in the £20-25 price range. It is located in the city centre. Its customer rating is high.
+Fitzbillies is a coffee shop providing Chinese food in the £20-25 price range. It is located in the riverside. Its customer rating is high.
+Fitzbillies is a coffee shop providing Chinese food in the £20-25 price range. It is located in the riverside. Its customer rating is high.
+Fitzbillies is a coffee shop providing Chinese food in the cheap price range. It is located in the city centre. Its customer rating is 5 out of 5.
+Fitzbillies is a coffee shop providing Chinese food in the cheap price range. It is located in the city centre. Its customer rating is 5 out of 5.
+Fitzbillies is a coffee shop providing Chinese food in the cheap price range. It is located in the riverside. Its customer rating is 5 out of 5.
+Fitzbillies is a coffee shop providing Chinese food in the cheap price range. It is located in the riverside. Its customer rating is 5 out of 5.
+Fitzbillies is a coffee shop providing Chinese food in the cheap price range. It is located in the city centre. Its customer rating is average.
+Fitzbillies is a coffee shop providing Chinese food in the cheap price range. It is located in the city centre. Its customer rating is average.
+Fitzbillies is a coffee shop providing Chinese food in the cheap price range. It is located in the riverside. Its customer rating is average.
+Fitzbillies is a coffee shop providing Chinese food in the cheap price range. It is located in the riverside. Its customer rating is average.
+Fitzbillies is a coffee shop providing Chinese food in the high price range. It is located in the city centre. Its customer rating is 1 out of 5.
+Fitzbillies is a coffee shop providing Chinese food in the high price range. It is located in the city centre. Its customer rating is 1 out of 5.
+Fitzbillies is a coffee shop providing Chinese food in the high price range. It is located in the riverside. Its customer rating is 1 out of 5.
+Fitzbillies is a coffee shop providing Chinese food in the high price range. It is located in the riverside. Its customer rating is 1 out of 5.
+Fitzbillies is a coffee shop providing Chinese food in the high price range. It is located in the city centre. Its customer rating is average.
+Fitzbillies is a coffee shop providing Chinese food in the high price range. It is located in the city centre. Its customer rating is average.
+Fitzbillies is a coffee shop providing Chinese food in the high price range. It is located in the riverside. Its customer rating is average.
+Fitzbillies is a coffee shop providing Chinese food in the high price range. It is located in the riverside. Its customer rating is average.
+Fitzbillies is a coffee shop providing Chinese food in the less than £20 price range. It is located in the city centre. Its customer rating is low.
+Fitzbillies is a coffee shop providing Chinese food in the less than £20 price range. It is located in the city centre. Its customer rating is low.
+Fitzbillies is a coffee shop providing Chinese food in the less than £20 price range. It is located in the riverside. Its customer rating is low.
+Fitzbillies is a coffee shop providing Chinese food in the less than £20 price range. It is located in the riverside. Its customer rating is low.
+Fitzbillies is a coffee shop providing Chinese food in the moderate price range. It is located in the city centre. Its customer rating is 1 out of 5.
+Fitzbillies is a coffee shop providing Chinese food in the moderate price range. It is located in the city centre. Its customer rating is 1 out of 5.
+Fitzbillies is a coffee shop providing Chinese food in the moderate price range. It is located in the riverside. Its customer rating is 1 out of 5.
+Fitzbillies is a coffee shop providing Chinese food in the moderate price range. It is located in the riverside. Its customer rating is 1 out of 5.
+Fitzbillies is a coffee shop providing Chinese food in the moderate price range. It is located in the city centre. Its customer rating is 3 out of 5.
+Fitzbillies is a coffee shop providing Chinese food in the moderate price range. It is located in the city centre. Its customer rating is 3 out of 5.
+Fitzbillies is a coffee shop providing Chinese food in the moderate price range. It is located in the riverside. Its customer rating is 3 out of 5.
+Fitzbillies is a coffee shop providing Chinese food in the moderate price range. It is located in the riverside. Its customer rating is 3 out of 5.
+Fitzbillies is a coffee shop providing Chinese food in the more than £30 price range. It is located in the city centre. Its customer rating is high.
+Fitzbillies is a coffee shop providing Chinese food in the more than £30 price range. It is located in the city centre. Its customer rating is high.
+Fitzbillies is a coffee shop providing Chinese food in the more than £30 price range. It is located in the riverside. Its customer rating is high.
+Fitzbillies is a coffee shop providing Chinese food in the more than £30 price range. It is located in the riverside. Its customer rating is high.
+Fitzbillies is a coffee shop serving English food in the city centre. It is not kid friendly and has a high customer rating and a price range of £20-25.
+Fitzbillies is a coffee shop serving English food in the city centre. It is kid friendly and has a high customer rating and a price range of £20-25.
+Fitzbillies is a child friendly coffee shop serving English food in the riverside area with a high customer rating and a price range of £20-25.
+Fitzbillies is a kid friendly coffee shop serving English food in the riverside area with a high customer rating and a price range of £20-25.
+Fitzbillies is a cheap coffee shop serving English food in the city centre. It is not family-friendly and has a customer rating of 5 out of 5.
+Fitzbillies is a cheap family-friendly coffee shop serving English food in the city centre. It has a customer rating of 5 out of 5.
+Fitzbillies is a cheap coffee shop serving English food in the riverside area. It is not family-friendly and has a customer rating of 5 out of 5.
+Fitzbillies is a cheap, family friendly coffee shop serving English food in the riverside area. It has a customer rating of 5 out of 5.
+Fitzbillies is a cheap coffee shop serving English food in the city centre. It is not family-friendly and has an average customer rating.
+Fitzbillies is a cheap, family-friendly coffee shop serving English food in the city centre. It has an average customer rating.
+Fitzbillies is a cheap coffee shop serving English food in the riverside area. It is not family-friendly and has an average customer rating.
+Fitzbillies is a cheap, family friendly coffee shop serving English food in the riverside area. It has an average customer rating.
+Fitzbillies is a coffee shop serving English food in the city centre. It is not children friendly and has a high price range and a customer rating of 1 out of 5.
+Fitzbillies is a children friendly coffee shop serving English food in the high price range. It is located in the city centre and has a customer rating of 1 out of 5.
+Fitzbillies is a coffee shop serving English food in the high price range. It is located in the riverside area and has a customer rating of 1 out of 5. It is not children friendly.
+Fitzbillies is a children friendly coffee shop serving English food in the high price range. It is located in the riverside area and has a customer rating of 1 out of 5.
+Fitzbillies is an expensive coffee shop serving English food in the city centre. It is not children friendly and has an average customer rating.
+Fitzbillies is a children friendly coffee shop serving English food in the high price range. It is located in the city centre and has an average customer rating.
+Fitzbillies is a children friendly coffee shop serving English food in the high price range. It is located in the riverside area and has an average customer rating.
+Fitzbillies is a children friendly coffee shop serving English food in the high price range. It is located in the riverside area and has an average customer rating.
+Fitzbillies is a coffee shop serving English food in the city centre. It is not family-friendly and has a low customer rating and a price range of less than £20.
+Fitzbillies is a family-friendly coffee shop serving English food in the city centre with a low customer rating and a price range of less than £20.
+Fitzbillies is a coffee shop serving English food in the riverside area. It is not family-friendly and has a low customer rating.
+Fitzbillies is a family friendly coffee shop serving English food in the riverside area. It has a low customer rating and is in the less than £20 price range.
+Fitzbillies is a moderately priced coffee shop serving English food in the city centre. It is not kid friendly and has a customer rating of 1 out of 5.
+Fitzbillies is a moderately priced coffee shop serving English food in the city centre. It is kid friendly and has a customer rating of 1 out of 5.
+Fitzbillies is a moderately priced coffee shop serving English food in the riverside area. It is not kid friendly and has a customer rating of 1 out of 5.
+Fitzbillies is a coffee shop serving English food in the riverside area. It is kid friendly and has a moderate price range and a customer rating of 1 out of 5.
+Fitzbillies is a moderately priced coffee shop serving English food in the city centre. It is not kid friendly and has a customer rating of 3 out of 5.
+Fitzbillies is a coffee shop serving English food in the city centre. It is kid friendly and has a moderate price range and a customer rating of 3 out of 5.
+Fitzbillies is a moderately priced coffee shop serving English food in the riverside area. It is not kid friendly and has a customer rating of 3 out of 5.
+Fitzbillies is a coffee shop serving English food in the riverside area. It is kid friendly and has a moderate price range and a customer rating of 3 out of 5.
+Fitzbillies is a highly rated coffee shop serving English food in the city centre. It is not children friendly and has a price range of more than £30.
+Fitzbillies is a coffee shop serving English food in the city centre. It is children friendly and has a high customer rating and a price range of more than £30.
+Fitzbillies is a highly rated coffee shop serving English food in the riverside area. It is not children friendly and has a price range of more than £30.
+Midsummer House is a restaurant providing take-away deliveries in the low price range. It is located near The Bakers.
+Midsummer House is a restaurant providing take-away deliveries in the low price range. It is located near The Bakers.
+Midsummer House is a restaurant providing take-away deliveries in the low price range. It is located near The Bakers.
+Midsummer House is a restaurant providing take-away deliveries in the low price range. It is located near The Bakers.
+There is a high priced restaurant called Midsummer House.
+Midsummer House is a low priced restaurant near The Bakers.
+Taste of Cambridge is a coffee shop serving Chinese food. It is located in the city centre near the Crowne Plaza Hotel and is not family friendly.
+Taste of Cambridge is a coffee shop that serves Chinese food. It is located in the city centre near the Crown Plaza Hotel. It is family friendly.
+Taste of Cambridge is a coffee shop providing Chinese food It is located in the riverside. It is near Crowne Plaza Hotel.
+Taste of Cambridge is a coffee shop providing Chinese food It is located in the riverside. It is near Crowne Plaza Hotel.
+Taste of Cambridge is a coffee shop serving English food. It is located in the city centre near the Crowne Plaza Hotel and is not family-friendly.
+Taste of Cambridge is a family-friendly coffee shop serving English food in the city centre near the Crown Plaza Hotel.
+Taste of Cambridge is a coffee shop serving English food in the riverside area near the Crowne Plaza Hotel. It is not family friendly.
+Taste of Cambridge is a family friendly coffee shop serving English food in the riverside area near Crown Plaza Hotel.
+The Cambridge Blue is a coffee shop which serves moderately priced fast food. It is located in the riverside area.
+The Cambridge Blue is a coffee shop which serves moderately priced fast food. It is located in the riverside area.
+With a 5 out of 5 customer rating, The Cambridge Blue is a coffee shop near Burger King in the city centre.
+With a 5 out of 5 customer rating, The Cambridge Blue is a coffee shop near Burger King in the city centre.
+With a 5 out of 5 customer rating, The Cambridge Blue is a coffee shop near Burger King in the riverside area.
+With a 5 out of 5 customer rating, The Cambridge Blue is a coffee shop near Burger King in the riverside area.
+With an average customer rating, The Cambridge Blue is a coffee shop near Burger King in the city centre.
+The Cambridge Blue is a fast food restaurant with an average customer rating. It is located in the city centre.
+With an average customer rating, The Cambridge Blue is a coffee shop near Burger King in the riverside area.
+With an average customer rating, The Cambridge Blue is a fast food restaurant in the riverside area near Burger King.
+The Cambridge Blue is a highly rated fast food restaurant in the riverside area near Burger King.
+With a low customer rating, The Cambridge Blue is a coffee shop near Burger King in the city centre.
+The Cambridge Blue is a coffee shop which serves fast food near Burger King in the city centre. It has a low customer rating.
+There is a low rated coffee shop named The Cambridge Blue near the river next to Burger King.
+There is a coffee shop named The Cambridge Blue near Burger King in the riverside area that serves fast food and has a low customer rating.
+The Cricketers is a coffee shop providing Chinese food It is near The Portland Arms. Its customer rating is 1 out of 5.
+The Cricketers is a coffee shop providing Chinese food It is near The Portland Arms. Its customer rating is 3 out of 5.
+The Cricketers is a coffee shop providing Chinese food It is near The Portland Arms. Its customer rating is 5 out of 5.
+The Cricketers is a coffee shop providing Chinese food It is near The Portland Arms. Its customer rating is 5 out of 5.
+The Cricketers is a coffee shop that serves Chinese food. It has an average customer rating and is not family friendly. It is located near The Portland Arms.
+The Cricketers is a coffee shop that serves Chinese food. It is located near The Portland Arms. It has an average customer rating and is family friendly.
+The Cricketers is a coffee shop providing Chinese food It is near The Portland Arms. Its customer rating is high.
+The Cricketers is a coffee shop that serves Chinese food. It has a low customer rating and is not family friendly. It is located near The Portland Arms.
+The Cricketers is a coffee shop that serves Chinese food. It is located near The Portland Arms. It has a low customer rating and is family friendly.
+The Cricketers is a coffee shop serving English food near The Portland Arms. It has a customer rating of 1 out of 5 and is kid friendly.
+The Cricketers is a coffee shop serving English food near The Portland Arms. It is kid friendly and has a customer rating of 3 out of 5.
+The Cricketers is a coffee shop serving English food near The Portland Arms. It has a customer rating of 5 out of 5 and is not family-friendly.
+The Cricketers is a coffee shop serving English food near The Portland Arms. It is children friendly and has a customer rating of 5 out of 5.
+The Cricketers is a coffee shop serving English food near The Portland Arms. It is not family-friendly and has an average customer rating.
+The Cricketers is a coffee shop serving English food near The Portland Arms. It is family friendly and has an average customer rating.
+The Cricketers is a coffee shop serving English food near The Portland Arms. It has a high customer rating and is kid friendly.
+The Cricketers is a coffee shop serving English food near The Portland Arms. It is not family-friendly and has a low customer rating.
+The Cricketers is a coffee shop serving English food near The Portland Arms. It has a low customer rating and is family friendly.
+The Eagle is a kid friendly Fast food restaurant with a customer rating of 1 out of 5. It is located near Café Brazil.
+The Eagle is a children friendly Fast food restaurant in the riverside area near Café Brazil. It has a customer rating of 3 out of 5.
+Located in city centre, The Eagle is a 5 star restaurant that is not family-friendly.
+The Eagle is a family friendly restaurant in the city centre near Café Brazil. They serve fast food and have a customer rating of 5 out of 5.
+The Eagle is a 5 star restaurant located near Café Brazil.
+The Eagle is a five star restaurant located near Café Brazil.
+The Eagle is a moderately priced restaurant in the city centre near Café Brazil. It is not family-friendly.
+The Eagle is a family friendly restaurant in the city centre near Café Brazil.
+The Eagle is a moderately priced restaurant in the riverside area. It is not family friendly.
+The Eagle is a kid friendly riverside restaurant with a moderate price range.
+Located in the riverside area, The Eagle has a high price range and a customer rating of 5 out of 5. It is a children friendly restaurant.
+The Eagle is a fast food restaurant in the city centre near Café Brazil. It is not family-friendly and has a  customer rating of five out of five.
+The Eagle is a fast food restaurant in the city centre near Café Brazil. It is family friendly and has a  customer rating of five out of five.
+The Eagle is a moderately priced restaurant in the riverside area. It is not family friendly.
+The Eagle is a family friendly restaurant in the riverside area that has a price range of more than £30.
+The Eagle is a coffee shop providing Chinese food in the £20-25 price range. It is located in the city centre. It is near Burger King. Its customer rating is high.
+The Eagle is a coffee shop providing Chinese food in the £20-25 price range. It is located in the city centre. It is near Burger King. Its customer rating is high.
+The Eagle is a coffee shop providing Chinese food in the £20-25 price range. It is located in the riverside. It is near Burger King. Its customer rating is high.
+The Eagle is a coffee shop providing Chinese food in the £20-25 price range. It is located in the riverside. It is near Burger King. Its customer rating is high.
+The Eagle is a coffee shop providing Chinese food in the cheap price range. It is located in the city centre. It is near Burger King. Its customer rating is 5 out of 5.
+The Eagle is a coffee shop providing Chinese food in the cheap price range. It is located in the city centre. It is near Burger King. Its customer rating is 5 out of 5.
+The Eagle is a coffee shop providing Chinese food in the cheap price range. It is located in the riverside. It is near Burger King. Its customer rating is 5 out of 5.
+The Eagle is a coffee shop providing Chinese food in the cheap price range. It is located in the riverside. It is near Burger King. Its customer rating is 5 out of 5.
+The Eagle is a coffee shop providing Chinese food in the cheap price range. It is located in the city centre. It is near Burger King. Its customer rating is average.
+The Eagle is a coffee shop providing Chinese food in the cheap price range. It is located in the city centre. It is near Burger King. Its customer rating is average.
+The Eagle is a coffee shop providing Chinese food in the cheap price range. It is located in the riverside. It is near Burger King. Its customer rating is average.
+The Eagle is a coffee shop providing Chinese food in the cheap price range. It is located in the riverside. It is near Burger King. Its customer rating is average.
+The Eagle is a coffee shop providing Chinese food in the high price range. It is located in the city centre. It is near Burger King. Its customer rating is 1 out of 5.
+The Eagle is a coffee shop providing Chinese food in the high price range. It is located in the city centre. It is near Burger King. Its customer rating is 1 out of 5.
+The Eagle is a coffee shop providing Chinese food in the high price range. It is located in the riverside. It is near Burger King. Its customer rating is 1 out of 5.
+The Eagle is a coffee shop providing Chinese food in the high price range. It is located in the riverside. It is near Burger King. Its customer rating is 1 out of 5.
+The Eagle is a coffee shop providing Chinese food in the high price range. It is located in the city centre. It is near Burger King. Its customer rating is average.
+The Eagle is a coffee shop providing Chinese food in the high price range. It is located in the city centre. It is near Burger King. Its customer rating is average.
+The Eagle is a coffee shop providing Chinese food in the high price range. It is located in the riverside. It is near Burger King. Its customer rating is average.
+The Eagle is a coffee shop providing Chinese food in the high price range. It is located in the riverside. It is near Burger King. Its customer rating is average.
+The Eagle is a coffee shop providing Chinese food in the less than £20 price range. It is located in the city centre. It is near Burger King. Its customer rating is low.
+The Eagle is a coffee shop providing Chinese food in the less than £20 price range. It is located in the city centre. It is near Burger King. Its customer rating is low.
+The Eagle is a coffee shop providing Chinese food in the less than £20 price range. It is located in the riverside. It is near Burger King. Its customer rating is low.
+The Eagle is a coffee shop providing Chinese food in the less than £20 price range. It is located in the riverside. It is near Burger King. Its customer rating is low.
+The Eagle is a coffee shop providing Chinese food in the moderate price range. It is located in the city centre. It is near Burger King. Its customer rating is 1 out of 5.
+The Eagle is a coffee shop providing Chinese food in the moderate price range. It is located in the city centre. It is near Burger King. Its customer rating is 1 out of 5.
+The Eagle is a coffee shop providing Chinese food in the moderate price range. It is located in the riverside. It is near Burger King. Its customer rating is 1 out of 5.
+The Eagle is a coffee shop providing Chinese food in the moderate price range. It is located in the riverside. It is near Burger King. Its customer rating is 1 out of 5.
+The Eagle is a coffee shop providing Chinese food in the moderate price range. It is located in the city centre. It is near Burger King. Its customer rating is 3 out of 5.
+The Eagle is a coffee shop providing Chinese food in the moderate price range. It is located in the city centre. It is near Burger King. Its customer rating is 3 out of 5.
+The Eagle is a coffee shop providing Chinese food in the moderate price range. It is located in the riverside. It is near Burger King. Its customer rating is 3 out of 5.
+The Eagle is a coffee shop providing Chinese food in the moderate price range. It is located in the riverside. It is near Burger King. Its customer rating is 3 out of 5.
+The Eagle is a coffee shop providing Chinese food in the more than £30 price range. It is located in the city centre. It is near Burger King. Its customer rating is high.
+The Eagle is a coffee shop providing Chinese food in the more than £30 price range. It is located in the city centre. It is near Burger King. Its customer rating is high.
+The Eagle is a coffee shop providing Chinese food in the more than £30 price range. It is located in the riverside. It is near Burger King. Its customer rating is high.
+The Eagle is a coffee shop providing Chinese food in the more than £30 price range. It is located in the riverside. It is near Burger King. Its customer rating is high.
+The Eagle is an English coffee shop near Burger King in the city centre. It is not kid friendly and has a high customer rating and a price range of £20-25.
+The Eagle is a coffee shop serving English food in the city centre near Burger King. It is kid friendly and has a high customer rating and a price range of £20-25.
+The Eagle is a coffee shop serving English food in the riverside area near Burger King. It is not kid friendly and has a high customer rating and a price range of £20-25.
+The Eagle is a coffee shop serving English food in the riverside area near Burger King. It is kid friendly and has a high customer rating and a price range of £20-25.
+The Eagle is a cheap coffee shop serving English food in the city centre near Burger King. It is not family-friendly and has a customer rating of 5 out of 5.
+The Eagle is a cheap, family-friendly coffee shop serving English food in the city centre near Burger King with a customer rating of 5 out of 5.
+The Eagle is a cheap coffee shop serving English food in the riverside area near Burger King. It is not family-friendly and has a customer rating of 5 out of 5.
+The Eagle is a cheap family friendly coffee shop serving English food in the riverside area near Burger King. It has a customer rating of 5 out of 5.
+The Eagle is a cheap coffee shop serving English food in the city centre near Burger King. It is not family-friendly and has an average customer rating.
+The Eagle is a cheap, family-friendly coffee shop serving English food in the city centre near Burger King with an average customer rating.
+The Eagle is a cheap coffee shop serving English food in the riverside area near Burger King. It is not family-friendly and has an average customer rating.
+The Eagle is a cheap, family friendly coffee shop serving English food in the riverside area near Burger King. It has an average customer rating.
+The Eagle is a coffee shop serving English food in the high price range. It is located in the city centre near Burger King. It is not children friendly and has a customer rating of 1 out of 5.
+The Eagle is a children friendly coffee shop serving English food in the high price range. It is located in the city centre near Burger King and has a customer rating of 1 out of 5.
+The Eagle is a coffee shop serving English food in the riverside area near Burger King. It is not children friendly and has a high price range and a customer rating of 1 out of 5.
+The Eagle is a children friendly coffee shop serving English food in the high price range. It is located near Burger King in the riverside area and has a customer rating of 1 out of 5.
+The Eagle is a coffee shop serving English food in the high price range. It is located in the city centre near Burger King. It is not children friendly and has an average customer rating.
+The Eagle is a children friendly coffee shop serving English food in the high price range. It is located in the city centre near Burger King and has an average customer rating.
+The Eagle is a coffee shop serving English food in the high price range. It is located in the riverside area near Burger King. It is not children friendly and has an average customer rating.
+The Eagle is a children friendly coffee shop serving English food in the high price range. It is located near Burger King in the riverside area and has an average customer rating.
+The Eagle is a coffee shop serving English food in the city centre near Burger King. It is not family-friendly and has a low customer rating and a price range of less than £20.
+The Eagle is a family-friendly coffee shop serving English food in the city centre near Burger King with a low customer rating and a price range of less than £20.
+The Eagle is a coffee shop serving English food in the riverside area near Burger King. It is not family-friendly and has a low customer rating and a price range of less than £20.
+The Eagle is a family friendly coffee shop serving English food in the riverside area near Burger King. It has a low customer rating and a price range of less than £20.
+The Eagle is a moderately priced coffee shop serving English food in the city centre near Burger King. It is not kid friendly and has a customer rating of 1 out of 5.
+The Eagle is a moderately priced coffee shop serving English food in the city centre near Burger King. It is kid friendly and has a customer rating of 1 out of 5.
+The Eagle is a moderately priced coffee shop serving English food in the riverside area near Burger King. It is not kid friendly and has a customer rating of 1 out of 5.
+The Eagle is a moderately priced coffee shop serving English food in the riverside area near Burger King. It is kid friendly and has a customer rating of 1 out of 5.
+The Eagle is a moderately priced coffee shop serving English food in the city centre near Burger King. It is not kid friendly and has a customer rating of 3 out of 5.
+The Eagle is a moderately priced coffee shop serving English food in the city centre near Burger King. It is kid friendly and has a customer rating of 3 out of 5.
+The Eagle is a moderately priced coffee shop serving English food in the riverside area near Burger King. It is not kid friendly and has a customer rating of 3 out of 5.
+The Eagle is a moderately priced coffee shop serving English food in the riverside area near Burger King. It is kid friendly and has a customer rating of 3 out of 5.
+The Eagle is an English coffee shop near Burger King in the city centre. It is not children friendly and has a high customer rating and a price range of more than £30.
+The Eagle is a children friendly coffee shop serving English food in the city centre near Burger King with a high customer rating and a price range of more than £30.
+The Eagle is an English coffee shop in the riverside area near Burger King. It is not children friendly and has a high customer rating and a price range of more than £30.
+The Golden Palace is a coffee shop providing Chinese food in the £20-25 price range. It is located in the city centre. Its customer rating is high.
+The Golden Palace is a coffee shop providing Chinese food in the £20-25 price range. It is located in the riverside. Its customer rating is high.
+The Golden Palace is a coffee shop providing Chinese food in the cheap price range. It is located in the city centre. Its customer rating is 5 out of 5.
+The Golden Palace is a coffee shop providing Chinese food in the cheap price range. It is located in the riverside. Its customer rating is 5 out of 5.
+The Golden Palace is a coffee shop providing Chinese food in the cheap price range. It is located in the city centre. Its customer rating is average.
+The Golden Palace is a coffee shop providing Chinese food in the cheap price range. It is located in the riverside. Its customer rating is average.
+The Golden Palace is a coffee shop providing Chinese food in the high price range. It is located in the city centre. Its customer rating is 1 out of 5.
+The Golden Palace is a coffee shop providing Chinese food in the high price range. It is located in the riverside. Its customer rating is 1 out of 5.
+The Golden Palace is a coffee shop providing Chinese food in the high price range. It is located in the city centre. Its customer rating is average.
+The Golden Palace is a coffee shop providing Chinese food in the high price range. It is located in the riverside. Its customer rating is average.
+The Golden Palace is a coffee shop providing Chinese food in the less than £20 price range. It is located in the city centre. Its customer rating is low.
+The Golden Palace is a coffee shop providing Chinese food in the less than £20 price range. It is located in the riverside. Its customer rating is low.
+The Golden Palace is a coffee shop providing Chinese food in the moderate price range. It is located in the city centre. Its customer rating is 1 out of 5.
+The Golden Palace is a coffee shop providing Chinese food in the moderate price range. It is located in the riverside. Its customer rating is 1 out of 5.
+The Golden Palace is a coffee shop providing Chinese food in the moderate price range. It is located in the city centre. Its customer rating is 3 out of 5.
+The Golden Palace is a coffee shop providing Chinese food in the moderate price range. It is located in the riverside. Its customer rating is 3 out of 5.
+The Golden Palace is a coffee shop providing Chinese food in the more than £30 price range. It is located in the city centre. Its customer rating is high.
+The Golden Palace is a coffee shop providing Chinese food in the more than £30 price range. It is located in the riverside. Its customer rating is high.
+The Golden Palace is an English coffee shop in the city centre with a high customer rating and a price range of £20-25.
+The Golden Palace is an English coffee shop in the riverside area with a high customer rating and a price range of £20-25.
+The Golden Palace is a cheap coffee shop serving English food in the city centre. It has a customer rating of 5 out of 5.
+The Golden Palace is a cheap coffee shop serving English food in the riverside area. It has a customer rating of 5 out of 5.
+The Golden Palace is a cheap coffee shop serving English food in the city centre. It has an average customer rating.
+The Golden Palace is a cheap coffee shop serving English food in the riverside area. It has an average customer rating.
+The Golden Palace is a coffee shop that serves English food in the high price range. It is located in the city centre and has a customer rating of 1 out of 5.
+The Golden Palace is a coffee shop that serves English food in the high price range. It is located in the riverside area and has a customer rating of 1 out of 5.
+The Golden Palace is a coffee shop that serves English food in the city centre. It has a high price range and an average customer rating.
+The Golden Palace is a coffee shop that serves English food in the high price range. It is located in the riverside area and has an average customer rating.
+The Golden Palace is a coffee shop that serves English food in the city centre. It has a low customer rating and a price range of less than £20.
+The Golden Palace is a coffee shop that serves English food in the riverside area. It has a low customer rating and a price range of less than £20.
+The Golden Palace is a moderately priced coffee shop serving English food in the city centre. It has a customer rating of 1 out of 5.
+The Golden Palace is a moderately priced coffee shop that serves English food. It is located in the riverside area and has a customer rating of 1 out of 5.
+The Golden Palace is a moderately priced coffee shop serving English food in the city centre. It has a customer rating of 3 out of 5.
+The Golden Palace is a moderately priced coffee shop that serves English food. It is located in the riverside area and has a customer rating of 3 out of 5.
+The Golden Palace is an English coffee shop in the city centre with a high customer rating and a price range of more than £30.
+The Golden Palace is an expensive coffee shop that serves English food. It is located in the riverside area and has a high customer rating.
+The Mill is a coffee shop providing Chinese food in the £20-25 price range. It is located in the riverside.
+The Mill is a coffee shop providing Chinese food in the cheap price range. It is located in the riverside.
+The Mill is a coffee shop providing Chinese food in the high price range. It is located in the city centre.
+The Mill is a coffee shop providing Chinese food in the high price range. It is located in the riverside.
+The Mill is a coffee shop providing Chinese food in the less than £20 price range. It is located in the city centre.
+The Mill is a coffee shop providing Chinese food in the less than £20 price range. It is located in the riverside.
+The Mill is a coffee shop providing Chinese food in the moderate price range. It is located in the city centre.
+The Mill is a coffee shop providing Chinese food in the moderate price range. It is located in the riverside.
+The Mill is a coffee shop providing Chinese food in the more than £30 price range. It is located in the riverside.
+The Mill is an English coffee shop in the riverside area near The Sorrento. It has a price range of £20-25.
+The Mill is a cheap coffee shop serving English food in the riverside area.
+The Mill coffee shop serves English food in the high price range. It is located in the city centre.
+The Mill is an expensive coffee shop serving English food in the riverside area.
+The Mill is a coffee shop that serves English food in the city centre near The Sorrento. The price range is less than £20.
+The Mill is an English coffee shop in the riverside area near The Sorrento. The price range is less than £20.
+The Mill is a moderately priced coffee shop serving English food in the city centre. It is located in the city centre.
+The Mill is a moderately priced coffee shop serving English food in the riverside area.
+The Mill is an English coffee shop in the riverside area near The Sorrento. It has a price range of more than £30.
+The Phoenix is a restaurant that serves Fast food. It is located in the riverside area and has a customer rating of 1 out of 5.
+Located in the riverside area, The Phoenix has a customer rating of 3 out of 5.
+The Phoenix is a restaurant that serves fast food. It is located in the city centre.
+The Phoenix is a restaurant that serves Fast food. It is located in the riverside area.
+There is a restaurant called The Phoenix in the city centre. It serves Italian food.
+The Phoenix is a restaurant that serves sushi. It is located in the riverside area.
+The Phoenix is a high priced riverside area restaurant.
+The Phoenix is a place in the city centre that delivers Japanese food.
+Located in the riverside area, The Phoenix has a price range of more than £30.
+There is a kid friendly restaurant named The Punter that serves Fast food and has a customer rating of 1 out of 5.
+There is a children friendly restaurant named The Punter that serves Fast food and has a customer rating of 3 out of 5.
+The Punter is a 5 star restaurant that serves fast food.
+The Punter is a five star restaurant that serves fast food.
+The Punter is a 5 star restaurant that serves fast food.
+The Punter is a five star restaurant that serves fast food.
+The Punter has a moderate price range and serves Italian food. It is not family-friendly.
+The Punter has a moderate price range and serves Italian food.
+The Punter has a moderate price range and serves Italian food.
+The Punter is a moderately priced restaurant that serves sushi.
+The Punter is a high priced riverside area restaurant.
+The Punter has a price range of less than £20 and is not family-friendly.
+The Punter is a fast food restaurant with a price range of less than £20.
+Located in the riverside area, The Punter is a more than £30 price ranged restaurant.
+In the riverside area there is a family friendly restaurant named The Punter that serves moderately priced fast food.
+The Punter is a coffee shop providing Chinese food in the £20-25 price range. It is near Café Sicilia. Its customer rating is high.
+The Punter is a coffee shop providing Chinese food in the £20-25 price range. It is near Café Sicilia. Its customer rating is high.
+The Punter is a coffee shop providing Chinese food in the cheap price range. It is near Café Sicilia. Its customer rating is 5 out of 5.
+The Punter is a coffee shop providing Chinese food in the cheap price range. It is near Café Sicilia. Its customer rating is 5 out of 5.
+The Punter is a coffee shop providing Chinese food in the cheap price range. It is near Café Sicilia. Its customer rating is average.
+The Punter is a coffee shop providing Chinese food in the cheap price range. It is near Café Sicilia. Its customer rating is average.
+The Punter is a coffee shop providing Chinese food in the high price range. It is near Café Sicilia. Its customer rating is 1 out of 5.
+The Punter is a coffee shop providing Chinese food in the high price range. It is near Café Sicilia. Its customer rating is 1 out of 5.
+The Punter is a coffee shop providing Chinese food in the high price range. It is near Café Sicilia. Its customer rating is average.
+The Punter is a coffee shop providing Chinese food in the high price range. It is near Café Sicilia. Its customer rating is average.
+The Punter is a coffee shop providing Chinese food in the less than £20 price range. It is near Café Sicilia. Its customer rating is low.
+The Punter is a coffee shop providing Chinese food in the less than £20 price range. It is near Café Sicilia. Its customer rating is low.
+The Punter is a coffee shop providing Chinese food in the moderate price range. It is near Café Sicilia. Its customer rating is 1 out of 5.
+The Punter is a coffee shop providing Chinese food in the moderate price range. It is near Café Sicilia. Its customer rating is 1 out of 5.
+The Punter is a coffee shop providing Chinese food in the moderate price range. It is near Café Sicilia. Its customer rating is 3 out of 5.
+The Punter is a coffee shop providing Chinese food in the moderate price range. It is near Café Sicilia. Its customer rating is 3 out of 5.
+The Punter is a coffee shop providing Chinese food in the more than £30 price range. It is near Café Sicilia. Its customer rating is high.
+The Punter is a coffee shop providing Chinese food in the more than £30 price range. It is near Café Sicilia. Its customer rating is high.
+The Punter is an English coffee shop near Café Sicilia. It is not kid friendly and has a high customer rating and a price range of £20-25.
+The Punter is an English coffee shop near Café Sicilia. It is kid friendly and has a high customer rating and a price range of £20-25.
+There is a cheap coffee shop named The Punter near Café Sicilia that serves English food. It has a customer rating of 5 out of 5 and is not family-friendly.
+The Punter is a cheap family friendly coffee shop near Café Sicilia that serves English food. It has a customer rating of 5 out of 5.
+There is a cheap coffee shop named The Punter near Café Sicilia that serves English food. It has an average customer rating and is not family-friendly.
+The Punter is a cheap family friendly coffee shop near Café Sicilia that serves English food. It has an average customer rating.
+The Punter is a coffee shop serving English food near Café Sicilia. It is not children friendly and has a high price range and a customer rating of 1 out of 5.
+The Punter is a children friendly coffee shop serving English food in the high price range. It is located near Café Sicilia and has a customer rating of 1 out of 5.
+The Punter is a high priced coffee shop near Café Sicilia that serves English food. It has an average customer rating and is not children friendly.
+The Punter is a children friendly coffee shop serving English food in the high price range. It is located near Café Sicilia and has an average customer rating.
+Located near Café Sicilia, The Punter is a coffee shop serving English food for less than £20. It is not family-friendly and has a low customer rating.
+Located near Café Sicilia, The Punter is a coffee shop serving English food for less than £20. It is family friendly and has a low customer rating.
+The Punter is a moderately priced coffee shop near Café Sicilia that serves English food. It is not kid friendly and has a customer rating of 1 out of 5.
+There is a moderately priced coffee shop named The Punter near Café Sicilia that serves English food. It has a customer rating of 1 out of 5 and is kid friendly.
+The Punter is a moderately priced coffee shop near Café Sicilia that serves English food. It is not kid friendly and has a customer rating of 3 out of 5.
+There is a moderately priced coffee shop named The Punter near Café Sicilia that serves English food. It has a customer rating of 3 out of 5 and is kid friendly.
+The Wrestlers is a restaurant that serves fast food. It is kid friendly and has a price range of more than  £30.
+The Wrestlers is a family-friendly restaurant that serves fast food. It is located near The Sorrento.
+The Wrestlers is a restaurant that serves fast food. It is kid friendly and has a customer rating of 3 out of 5.
+The Wrestlers is a restaurant providing take-away deliveries in the low price range. It is located in the city centre.
+The Wrestlers is a non family-friendly restaurant serving fast food.
+The Wrestlers is a family friendly restaurant that serves fast food. It is located near The Sorrento.
+The Wrestlers is a five star restaurant that is children friendly.
+The Wrestlers is a five star restaurant located in the city centre.
+The Wrestlers is a restaurant that is not family-friendly.
+The Wrestlers is a restaurant providing take-away deliveries in the low price range. It is located in the city centre.
+The Wrestlers is a restaurant that is children friendly and has an average customer rating.
+The Wrestlers is a restaurant that is children friendly and is located near The Sorrento.
+The Wrestlers is a high priced kid friendly restaurant serving Italian food.
+The Wrestlers is a high priced kid friendly restaurant serving Italian food.
+The Wrestlers is a restaurant that serves fast food and is not family friendly.
+The Wrestlers is a restaurant providing fast food in the low price range. It is located near The Sorrento.
+The Wrestlers is a family friendly restaurant that serves fast food.
+The Wrestlers is a family friendly restaurant that serves fast food. It is located near The Sorrento.
+The Wrestlers is a coffee shop providing Chinese food in the £20-25 price range. It is located in the riverside.
+The Wrestlers is a coffee shop that serves cheap Chinese food in the riverside area near Raja Indian Cuisine. It is kid friendly and has an average customer rating.
+The Wrestlers is a coffee shop providing Chinese food in the high price range. It is located in the city centre.
+The Wrestlers is a coffee shop providing Chinese food in the high price range. It is located in the city centre.
+The Wrestlers is a coffee shop providing Chinese food in the high price range. It is located in the riverside. Its customer rating is high.
+The Wrestlers is a coffee shop providing Chinese food in the high price range. It is located in the riverside. It is near Raja Indian Cuisine.
+The Wrestlers is a coffee shop providing Chinese food in the less than £20 price range. It is located in the city centre.
+The Wrestlers is a coffee shop providing Chinese food in the less than £20 price range. It is located in the city centre.
+The Wrestlers is a coffee shop providing Chinese food in the less than £20 price range. It is located in the riverside.
+The Wrestlers is a coffee shop providing Chinese food in the less than £20 price range. It is located in the riverside. Its customer rating is low.
+The Wrestlers is a coffee shop providing Chinese food in the moderate price range. It is located in the city centre.
+The Wrestlers is a coffee shop providing Chinese food in the moderate price range. It is located in the city centre.
+The Wrestlers is a coffee shop providing Chinese food in the moderate price range. It is located in the riverside. Its customer rating is low.
+The Wrestlers is a coffee shop providing Chinese food in the moderate price range. It is located in the riverside. It is near Raja Indian Cuisine.
+The Wrestlers is a coffee shop providing Chinese food in the more than £30 price range. It is located in the riverside.
+The Wrestlers is an English coffee shop in the riverside area near Raja Indian Cuisine. It is kid friendly and has a price range of £20-25.
+The Wrestlers is a cheap, family friendly coffee shop serving English food in the riverside area near Raja Indian Cuisine.
+The Wrestlers is a coffee shop serving English food in the high price range. It is located in the city centre near Raja Indian Cuisine and is not children friendly.
+The Wrestlers is a coffee shop serving English food in the high price range. It is located in the city centre near Raja Indian Cuisine and is children friendly.
+The Wrestlers is a coffee shop serving English food in the high price range. It is located near Raja Indian Cuisine in the riverside area and is not children friendly.
+The Wrestlers is a coffee shop serving English food in the high price range. It is located near Raja Indian Cuisine in the riverside area and is children friendly.
+The Wrestlers is a coffee shop serving English food in the less than £20 price range. It is located in the city centre near Raja Indian Cuisine and is not family-friendly.
+Located in the city centre, The Wrestlers coffee shop serves English food for less than £20. It is family-friendly and is located near Raja Indian Cuisine.
+The Wrestlers is a coffee shop serving English food in the riverside area near Raja Indian Cuisine. It has a price range of less than £20 and is not family-friendly.
+The Wrestlers is a coffee shop serving English food in the riverside area near Raja Indian Cuisine. It has a price range of less than £20 and is family friendly.
+The Wrestlers is a moderately priced coffee shop serving English food in the city centre. It is not kid friendly and is located near Raja Indian Cuisine.
+The Wrestlers is a moderately priced coffee shop serving English food in the city centre. It is kid friendly and is located near Raja Indian Cuisine.
+The Wrestlers is a moderately priced coffee shop serving English food in the riverside area near Raja Indian Cuisine. It is not kid friendly.
+The Wrestlers is a moderately priced coffee shop serving English food in the riverside area near Raja Indian Cuisine. It is kid friendly.
+The Wrestlers is a coffee shop serving English food in the riverside area near Raja Indian Cuisine. It is children friendly and has a price range of more than £30.
+The riverside Travellers Rest Beefeater has a customer rating of 1 out of 5.
+With a 3 out of 5 customer rating, Travellers Rest Beefeater is located in the riverside area.
+Rated 5 out of 5, Travellers Rest Beefeater is located in the city centre.
+The riverside Travellers Rest Beefeater has a 5 out of 5 customer rating.
+With an average customer rating, Travellers Rest Beefeater is located in the city centre.
+The riverside Travellers Rest Beefeater has an average customer rating.
+Travellers Rest Beefeater has a high customer rating and a high price range. It is located in the riverside area.
+With a low customer rating, Travellers Rest Beefeater is located in the city centre.
+With a low customer rating, Travellers Rest Beefeater is located in the riverside area.
+Wildwood is a coffee shop providing Chinese food in the £20-25 price range. It is near Ranch. Its customer rating is high.
+Wildwood is a coffee shop providing Chinese food in the cheap price range. It is near Ranch. Its customer rating is 5 out of 5.
+Wildwood is a coffee shop providing Chinese food in the cheap price range. It is near Ranch. Its customer rating is average.
+Wildwood is a coffee shop providing Chinese food in the high price range. It is near Ranch. Its customer rating is 1 out of 5.
+Wildwood is a coffee shop providing Chinese food in the high price range. It is near Ranch. Its customer rating is average.
+Wildwood is a coffee shop providing Chinese food in the less than £20 price range. It is near Ranch. Its customer rating is low.
+Wildwood is a coffee shop providing Chinese food in the moderate price range. It is near Ranch. Its customer rating is 1 out of 5.
+Wildwood is a coffee shop providing Chinese food in the moderate price range. It is near Ranch. Its customer rating is 3 out of 5.
+Wildwood is a coffee shop providing Chinese food in the more than £30 price range. It is near Ranch. Its customer rating is high.
+Wildwood is a highly rated coffee shop serving English food at an average price range. It is located near the Ranch.
+There is a cheap coffee shop named Wildwood near Ranch that serves English food. It has a customer rating of 5 out of 5.
+There is a cheap coffee shop named Wildwood near Ranch that serves English food. It has an average customer rating.
+There is a high priced coffee shop named Wildwood near Ranch that serves English food. It has a customer rating of 1 out of 5.
+There is a high priced coffee shop named Wildwood near Ranch that serves English food. It has an average customer rating.
+Wildwood is a coffee shop serving English food near Ranch. It has a low customer rating and a price range of less than £20.
+Wildwood is a moderately priced coffee shop near Ranch that serves English food. It has a customer rating of 1 out of 5.
+Wildwood is a moderately priced coffee shop near Ranch that serves English food. It has a customer rating of 3 out of 5.
