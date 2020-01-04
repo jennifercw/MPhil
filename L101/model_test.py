@@ -7,11 +7,14 @@ from scipy.special import softmax
 import math
 import random
 import pickle
+import os
 from nltk.translate.bleu_score import sentence_bleu
-from nltk.translate.meteor_score import meteor_score
 
 
 def delexicalise_both(mr_list, ref_list, delex_slots):
+    """
+    Delexicalises both MR and corresponding reference sentence. Only delexicalises slots given in delex_slots.
+    """
     slot_dict = {"name": "_NAME_", "eatType": "_EATTYPE_", "priceRange": "_PRICERANGE_",
                  "customer rating": "_CUSTOMERRATING_", "near": "_NEAR_", "food": "_FOOD_",
                  "area": "_AREA_"}
@@ -40,6 +43,9 @@ def delexicalise_both(mr_list, ref_list, delex_slots):
 
 
 def delexicalise_mrs(mr_list, delex_slots):
+    """
+    Delexicalises only the MR
+    """
     slot_dict = {"name": "_NAME_", "eatType": "_EATTYPE_", "priceRange": "_PRICERANGE_",
                  "customer rating": "_CUSTOMERRATING_", "near": "_NEAR_", "food": "_FOOD_",
                  "area": "_AREA_"}
@@ -57,6 +63,9 @@ def delexicalise_mrs(mr_list, delex_slots):
 
 
 def relexicalise_sentence(output_sent, original_mr, delex_slots):
+    """
+    Relexicalises a generated sentence
+    """
     slot_dict = {"name": "_NAME_", "eatType": "_EATTYPE_", "priceRange": "_PRICERANGE_",
                  "customer rating": "_CUSTOMERRATING_", "near": "_NEAR_", "food": "_FOOD_",
                  "area": "_AREA_"}
@@ -73,7 +82,7 @@ def relexicalise_sentence(output_sent, original_mr, delex_slots):
     return output_sent
 
 
-def load_data_chars(filename="trainset.csv", delex_slots=(), delex_both=True, shuffled=True):
+def load_data_chars(filename="trainset.csv", delex_slots=(), delex_both=True):
     """
     Output is dictionary containing:
     "mr_input" : List of all MRs, "ref_list": List of all reference sentences
@@ -83,14 +92,10 @@ def load_data_chars(filename="trainset.csv", delex_slots=(), delex_both=True, sh
     """
     start = '\t'
     end = '\n'
-    if shuffled:
-        pairs = pickle.load(open("devset_shuffled.obj", "rb"))
-        mr_list = [p[0] for p in pairs]
-        ref_list = [p[1] for p in pairs]
-    else:
-        file = pd.read_csv(filename)
-        mr_list = file['mr'].to_list()
-        ref_list = file['ref'].to_list()
+
+    file = pd.read_csv(filename)
+    mr_list = file['mr'].to_list()
+    ref_list = file['ref'].to_list()
 
     ref_list = [start + ref + end for ref in ref_list]
     mr_list_delex = []
@@ -116,13 +121,9 @@ def load_data_chars(filename="trainset.csv", delex_slots=(), delex_both=True, sh
     return data_details
 
 
-def load_data_chars_reverse(filename="trainset.csv", delex_slots=(), delex_both=True):
+def load_data_chars_reverse(filename="trainset.csv", delex_slots=()):
     """
-    Output is dictionary containing:
-    "mr_input" : List of all MRs, "ref_list": List of all reference sentences
-    "char_set" : List of all characters in MRs and references
-    "num_chars" : number of characters that appear
-    "max_mr_length" : max length of MR seqs, "max_ref_length: max length of reference seqs
+    As above but for reverse model
     """
     start = '\t'
     end = '\n'
@@ -144,7 +145,6 @@ def load_data_chars_reverse(filename="trainset.csv", delex_slots=(), delex_both=
     data_details = {'mr_input': mr_list, 'ref_sentences': ref_list, 'char_set': char_set, 'num_chars': num_chars,
                     'max_mr_length': max_mr_length, 'max_ref_length': max_ref_length}
     return data_details
-
 
 
 def vectorise_chars(data, delex=False):
@@ -187,14 +187,9 @@ def vectorise_chars(data, delex=False):
     return data
 
 
-def vectorise_chars_reverse(data, delex=False):
+def vectorise_chars_reverse(data):
     """
-    Output is data as before but additionally:
-    "char_index" : char -> num index
-    "encoder_input": matrix containing all of the encoder inputs. dimensions: number of texts * max length * number
-    of tokens. One hot encoded
-    "decoder_input" : same but for output sequences
-    "decoder_target" : same but one step along
+    As above but for reverse direction
     """
     chars = data['char_set']
     mr_list = data['mr_input']
@@ -222,19 +217,30 @@ def vectorise_chars_reverse(data, delex=False):
 
 
 def load_models(model_name):
-    model = load_model(model_name + '.h5')
-    encoder = load_model(model_name + '_encoder.h5')
-    decoder = load_model(model_name + '_decoder.h5')
+    """
+    Loads models
+    """
+    model = load_model(os.path.join('models', model_name + '.h5'))
+    encoder = load_model(os.path.join('models', model_name + '_encoder.h5'))
+    decoder = load_model(os.path.join('models', model_name + '_decoder.h5'))
     return [model, encoder, decoder]
 
 
 def create_reverse_indices(data):
+    """
+    Creates reverse dictionary (index -> character)
+    """
     data['reverse_char_index'] = dict((i, char) for char, i in data["char_index"].items())
     return data
 
 
-def decode_beam_search(input, data, encoder, decoder, mr="", reverse_models=None, alpha=-1.0, beam_width=10, beta=-1.0,
+def decode_beam_search(input, data, encoder, decoder, mr="", reverse_models=None, beam_width=10, alpha=-1.0, beta=-1.0,
                        gamma=-1.0, rev_pen=-1.0, p=-1.0, num_samp = -1):
+    """
+    Beam search to generate sentence. alpha is parameter for length penalty, beta for coverage penalty, gamma for
+    sibling renalty and rev_pen for reverse MR penalty. p is value for p-nucleus sampling and num_samp is the number
+    of sampling sentences to add
+    """
     states_value = encoder.predict(input)
     target = np.zeros((1, 1, data['num_chars']))
     target[0, 0, data['char_index']['\t']] = 1.
@@ -342,6 +348,9 @@ def get_mr_dict(mr):
 
 
 def diff_mrs(mr1, mr2):
+    """
+    Calculates difference between two MRs
+    """
     mr1_dict = get_mr_dict(mr1)
     mr2_dict = get_mr_dict(mr2)
     diff = 0
@@ -355,6 +364,9 @@ def diff_mrs(mr1, mr2):
 
 
 def decode_reverse(models, sentence, old_data):
+    """
+    Get MR from sentence according to reverse model
+    """
     sentence = '\t' + sentence + '\n'
     input = np.zeros((1, old_data['max_ref_length'], old_data['num_chars']), dtype='float32')
     for i, c in enumerate(sentence):
@@ -366,6 +378,9 @@ def decode_reverse(models, sentence, old_data):
 
 
 def p_nucleus_sample(input, data, encoder, decoder, p):
+    """
+    Obtains sentence using p-nucleus sampling
+    """
     states_value = encoder.predict(input)
     target = np.zeros((1, 1, data['num_chars']))
     target[0, 0, data['char_index']['\t']] = 1.
@@ -376,8 +391,6 @@ def p_nucleus_sample(input, data, encoder, decoder, p):
     while not stop_condition:
         input_val = [target] + states_value
         output_tokens, h, c, attention = decoder.predict(input_val)
-        # Converting to float64 and normalising, because otherwise numpy ends up thinking the sum is >1 due to floating
-        # point issues
         k = 1
         sampled_token_indices = output_tokens[0, -1, :].argsort()[-k:][::-1]
         probs = [output_tokens[0, -1, i] for i in sampled_token_indices]
@@ -385,6 +398,8 @@ def p_nucleus_sample(input, data, encoder, decoder, p):
             sampled_token_indices = output_tokens[0, -1, :].argsort()[-k:][::-1]
             probs = [output_tokens[0, -1, i] for i in sampled_token_indices]
             k += 1
+        # Converting to float64 and normalising, because otherwise numpy ends up thinking the sum is >1 due to floating
+        # point issues
         x = probs
         x = np.float64(x)
         x = x / x.sum(0)
@@ -405,63 +420,12 @@ def p_nucleus_sample(input, data, encoder, decoder, p):
     return sent_data
 
 
-def test_model_chars(model_name, num_examples=200, delex_slots=(), alpha=-1.0, beta=-1.0, rev_pen=-1.0, gamma=-1.0,
-                     p=-1.0, num_samp=-1):
-    data = load_data_chars("devset.csv", delex_slots=delex_slots, delex_both=False)
-    data = vectorise_chars(data)
-    data = create_reverse_indices(data)
-    model, encoder, decoder = load_models(model_name)
-    decoder = Model(inputs=decoder.input, outputs=[decoder.output, decoder.get_layer('attention').output])
-    rev_model, rev_encoder, rev_decoder = load_models("basicreverse")
-    rev_decoder = Model(inputs=rev_decoder.input, outputs=[rev_decoder.output,
-                                                           rev_decoder.get_layer('attention').output])
-    bleus = []
-    max_bleus = []
-    meteors = []
-    print(decoder.summary())
-    for seq_index in range(num_examples):
-        print("Test example: " + str(seq_index) + "/" + str(len(data["encoder_input"])))
-
-        input = data["encoder_input"][seq_index: seq_index + 1]
-        correct = data['ref_sentences'][seq_index].strip("\t\n")
-        paths = decode_beam_search(input, data, encoder, decoder, mr=data['mr_input'][seq_index],
-                                   reverse_models=[rev_encoder, rev_decoder], beam_width=10, alpha=alpha, beta=beta,
-                                   gamma=gamma, rev_pen=rev_pen, p=p, num_samp=num_samp)
-
-        print('-')
-        print(paths)
-
-        if len(delex_slots) > 0:
-            for i in range(len(paths)):
-                paths[i] = relexicalise_sentence(paths[i], data['mr_input'][seq_index], delex_slots)
-        decoded_sentence = paths[0]
-        max_bleu = max(sentence_bleu(references=[correct], hypothesis=p) for p in paths)
-
-        print('Input sentence:', data['mr_input'][seq_index])
-        print('Decoded sentence:', decoded_sentence)
-        print("Correct: ", correct)
-
-        bleu = sentence_bleu(references=[correct], hypothesis=decoded_sentence)
-        bleus.append(bleu)
-        max_bleus.append(max_bleu)
-
-        meteor = meteor_score(references=[correct], hypothesis=decoded_sentence)
-        meteors.append(meteor)
-
-        print("BLEU: ", bleu)
-        print("Average BLEU so far: ", sum(bleus) / len(bleus))
-        print("METEOR: ", meteor)
-        print("Average METEOR so far: ", sum(meteors) / len(meteors))
-    print("Average BLEU score:")
-    print(sum(bleus) / len(bleus))
-    print("Average max possible BLEU score:")
-    print(sum(max_bleus) / len(max_bleus))
-    print("Average METEOR: ", sum(meteors) / len(meteors))
-
-
 def run_tests_file_output(model_name, delex_slots=(), alpha=-1.0, beta=-1.0, rev_pen=-1.0, gamma=-1.0, p=-1.0,
-                          num_samp=-1, file_suff=""):
-    data = load_data_chars("devset.csv", delex_slots=delex_slots, delex_both=False, shuffled=False)
+                          num_samp=-1, file_suff="", maximise_bleu=False):
+    """
+    Runs tests and outputs to file
+    """
+    data = load_data_chars("devset.csv", delex_slots=delex_slots, delex_both=False)
     data = vectorise_chars(data)
     data = create_reverse_indices(data)
     model, encoder, decoder = load_models(model_name)
@@ -486,14 +450,27 @@ def run_tests_file_output(model_name, delex_slots=(), alpha=-1.0, beta=-1.0, rev
         if len(delex_slots) > 0:
             for i in range(len(paths)):
                 paths[i] = relexicalise_sentence(paths[i], data['mr_input'][seq_index], delex_slots)
-        decoded_sentence = paths[0]
+        if not maximise_bleu:
+            decoded_sentence = paths[0]
+        else:
+            max_bleu = 0
+            max_sent = ""
+            for p in paths:
+                bleu = sentence_bleu(references=[correct], hypothesis=p)
+                if bleu > max_bleu:
+                    max_bleu = bleu
+                    max_sent = p
+            decoded_sentence = max_sent
         output_file.write(decoded_sentence)
         print(decoded_sentence)
     return
 
 
 def create_human_ref_file():
-    data = load_data_chars("devset.csv", delex_slots=(), delex_both=False, shuffled=False)
+    """
+    Creates correctly formatted file of human references
+    """
+    data = load_data_chars("devset.csv", delex_slots=(), delex_both=False)
     output_file = open("devset_refs.txt", "w")
     prev_mr = ""
     unique_mrs = 0
@@ -515,9 +492,86 @@ def create_human_ref_file():
     return
 
 
+def run_tests_file_output_all_sample(model_name, p=-1.0, file_suff=""):
+    """
+    Runs tests using sampling and outputs to file
+    """
+    data = load_data_chars("devset.csv", delex_slots=(), delex_both=False)
+    data = vectorise_chars(data)
+    data = create_reverse_indices(data)
+    model, encoder, decoder = load_models(model_name)
+    decoder = Model(inputs=decoder.input, outputs=[decoder.output, decoder.get_layer('attention').output])
+
+    output_file = open(model_name + file_suff + "_output.txt", "w")
+    prev_mr = ""
+    for seq_index in range(len(data["mr_input"])):
+        print(seq_index)
+        input = data["encoder_input"][seq_index: seq_index + 1]
+        mr = data["mr_input"][seq_index]
+        if mr == prev_mr:
+            continue
+        prev_mr = mr
+        paths = p_nucleus_sample(input, data, encoder, decoder, p=p)
+
+        decoded_sentence = paths[2]
+        output_file.write(decoded_sentence)
+        print(decoded_sentence)
+    return
+
+
+for p in range(1, 10):
+    P = p / 10
+    print(P)
+    suff = "samplep" + str(P)
+    run_tests_file_output_all_sample("basic_model", p=P, file_suff=suff)
 for a in range(0, 11):
     alpha = a / 10
     print(alpha)
     suff = "alpha" + str(alpha)
     run_tests_file_output("basic_model", alpha=alpha, file_suff=suff)
-#create_human_ref_file()
+for b in range(1, 11):
+    beta = b * 1000
+    print(beta)
+    suff = "beta" + str(beta)
+    run_tests_file_output("basic_model", beta=beta, file_suff=suff)
+for c in range(1, 11):
+    gamma = c / 10
+    print(gamma)
+    suff = "gamma" + str(gamma)
+    run_tests_file_output("basic_model", gamma=gamma, file_suff=suff)
+for r in range(1, 11):
+    rev_pen = r / 100
+    print(rev_pen)
+    suff = "rev_pen" + str(rev_pen)
+    run_tests_file_output("basic_model", rev_pen=rev_pen, file_suff=suff)
+for num in range(1, 11):
+    print(num)
+    suff = "samples" + str(num) + "p0.4"
+    run_tests_file_output("basic_model", p=0.4, num_samp=num, file_suff=suff)
+
+print("name")
+run_tests_file_output("name_delex", delex_slots=("name",))
+print("near")
+run_tests_file_output("near_delex", delex_slots=("near",))
+print("area")
+run_tests_file_output("area_delex", delex_slots=("area",))
+print("food")
+run_tests_file_output("food_delex", delex_slots=("food",))
+print("price")
+run_tests_file_output("priceRange_delex", delex_slots=("priceRange",))
+print("eatType")
+run_tests_file_output("eatType_delex", delex_slots=("eatType",))
+print("rating")
+run_tests_file_output("customer_rating_delex", delex_slots=("customer rating",))
+print("all")
+run_tests_file_output("all_delex", delex_slots=("name", "priceRange", "near", "area", "food", "eatType",
+                                                "customer rating"))
+
+run_tests_file_output("near_name_area_delex", delex_slots=("near","name", "area"))
+run_tests_file_output("near_area_delex", delex_slots=("near","area"))
+
+run_tests_file_output("near_delex", delex_slots=("near",), alpha=0.7, gamma=0.1)
+
+run_tests_file_output("near_delex", delex_slots=("near",), alpha=0.7, gamma=0.1, beta=2000, file_suff="finalplusbeta")
+
+run_tests_file_output("basic_model", file_suff="max", maximise_bleu=True)

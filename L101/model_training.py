@@ -12,7 +12,15 @@ import numpy as np
 import os
 
 
+"""
+Code used for L101 Assignment to train models.
+"""
+
+
 def delexicalise_both(mr_list, ref_list, delex_slots):
+    """
+    Delexicalises both MR and corresponding reference sentence. Only delexicalises slots given in delex_slots.
+    """
     slot_dict = {"name": "_NAME_", "eatType": "_EATTYPE_", "priceRange": "_PRICERANGE_",
                  "customer rating": "_CUSTOMERRATING_", "near": "_NEAR_", "food": "_FOOD_",
                  "area": "_AREA_"}
@@ -42,6 +50,9 @@ def delexicalise_both(mr_list, ref_list, delex_slots):
 
 
 def delexicalise_mrs(mr_list, delex_slots):
+    """
+    Delexicalises only the MR
+    """
     slot_dict = {"name": "_NAME_", "eatType": "_EATTYPE_", "priceRange": "_PRICERANGE_",
                  "customer rating": "_CUSTOMERRATING_", "near": "_NEAR_", "food": "_FOOD_",
                  "area": "_AREA_"}
@@ -58,7 +69,7 @@ def delexicalise_mrs(mr_list, delex_slots):
     return new_mr_list
 
 
-def load_data_chars(filename="trainset.csv", delex_slots=(), delex_both=True):
+def load_data_chars(filename="trainset.csv", delex_slots=()):
     """
     Output is dictionary containing:
     "mr_input" : List of all MRs, "ref_list": List of all reference sentences
@@ -88,13 +99,9 @@ def load_data_chars(filename="trainset.csv", delex_slots=(), delex_both=True):
     return data_details
 
 
-def load_data_chars_reverse(filename="trainset.csv", delex_slots=(), delex_both=True):
+def load_data_chars_reverse(filename="trainset.csv", delex_slots=()):
     """
-    Output is dictionary containing:
-    "mr_input" : List of all MRs, "ref_list": List of all reference sentences
-    "char_set" : List of all characters in MRs and references
-    "num_chars" : number of characters that appear
-    "max_mr_length" : max length of MR seqs, "max_ref_length: max length of reference seqs
+    As above but for reverse direction
     """
     start = '\t'
     end = '\n'
@@ -118,45 +125,7 @@ def load_data_chars_reverse(filename="trainset.csv", delex_slots=(), delex_both=
     return data_details
 
 
-def load_data_words(filename="trainset.csv", delex_slots=(), delex_both=True):
-    """
-    Output is dictionary containing:
-    "mr_input" : List of all MRs, "ref_list": List of all reference sentences
-    "input_word_set" : List of all words in MRs, "output_word_set": all words in reference sentences
-    "num_input_words" : number of words that appear in MRs, "num_output_words": number of words in ref sentences,
-    "max_mr_length" : max length of MR seqs, "max_ref_length: max length of reference seqs
-    """
-    start = '\t'
-    end = '\n'
-    file = pd.read_csv(filename)
-    mr_list = file['mr'].to_list()
-    ref_list = file['ref'].to_list()
-    ref_list = [start + ref + end for ref in ref_list]
-    if len(delex_slots) > 0:
-        # will need to add delex to word sets
-        if delex_both:
-            mr_list, ref_list = delexicalise_both(mr_list, ref_list, delex_slots)
-        else:
-            mr_list = delexicalise_mrs(mr_list, delex_slots)
-    assert(len(mr_list) == len(ref_list))
-    input_word_set = pickle.load(open("mr_word_set.obj", "rb"))
-    output_word_set = pickle.load(open("ref_word_set.obj", "rb"))
-
-    input_word_set = sorted(list(input_word_set))
-    output_word_set = sorted(list(output_word_set))
-    num_input_words = len(input_word_set)
-    num_output_words = len(output_word_set)
-    max_mr_length = max([len(word_tokenize(mr)) for mr in mr_list])
-    max_ref_length = max([len(word_tokenize(ref)) for ref in ref_list])
-
-    data_details = {'mr_input': mr_list, 'ref_sentences': ref_list, 'input_word_set': input_word_set,
-                    'output_word_set' : output_word_set,'num_input_words': num_input_words,
-                    'num_output_words': num_output_words, 'max_mr_length': max_mr_length,
-                    'max_ref_length': max_ref_length}
-    return data_details
-
-
-def vectorise_chars(data, delex=False):
+def vectorise_chars(data):
     """
     Output is data as before but additionally:
     "char_index" : char -> num index
@@ -192,14 +161,9 @@ def vectorise_chars(data, delex=False):
     return data
 
 
-def vectorise_chars_reverse(data, delex=False):
+def vectorise_chars_reverse(data):
     """
-    Output is data as before but additionally:
-    "char_index" : char -> num index
-    "encoder_input": matrix containing all of the encoder inputs. dimensions: number of texts * max length * number
-    of tokens. One hot encoded
-    "decoder_input" : same but for output sequences
-    "decoder_target" : same but one step along
+    As above but for reverse direction.
     """
     chars = data['char_set']
     mr_list = data['mr_input']
@@ -228,53 +192,7 @@ def vectorise_chars_reverse(data, delex=False):
     return data
 
 
-def vectorise_words(data, delex=False):
-    """
-    Output is data as before but additionally:
-    "input_word_index" : word -> num index for word in MR
-    "output_word_index" : word -> num index for word in ref sentence
-    "encoder_input": matrix containing all of the encoder inputs. dimensions: number of texts * max length * number
-    of tokens. One hot encoded
-    "decoder_input" : same but for output sequences
-    "decoder_target" : same but one step along
-    """
-    input_words = data['input_word_set']
-    output_words = data['output_word_set']
-
-    if not delex:
-        mr_list = data['mr_input']
-        ref_list = data['ref_sentences']
-    else:
-        mr_list = data["mr_list_delex"]
-        ref_list = data["ref_list_delex"]
-    num_input_words = data['num_input_words']
-    num_output_words = data['num_output_words']
-    max_mr_length = data['max_mr_length']
-    max_ref_length = data['max_ref_length']
-
-    input_word_index = dict([(w, i) for i, w in enumerate(input_words)])
-    output_word_index = dict([(w, i) for i, w in enumerate(output_words)])
-    encoder_input = np.zeros((len(mr_list), max_mr_length, num_input_words), dtype='float32')
-    decoder_input = np.zeros((len(mr_list), max_ref_length), dtype='float32')
-    decoder_target = np.zeros((len(mr_list), max_ref_length), dtype='float32')
-
-    for i, (mr, ref) in enumerate(zip(mr_list, ref_list)):
-        for j, w in enumerate(word_tokenize(mr)):
-            encoder_input[i, j, input_word_index[w]] = 1.0
-        for j, w in enumerate(word_tokenize(ref)):
-            decoder_input[i, j] = output_word_index[w]
-            if j > 0:
-                decoder_target[i, j - 1] = output_word_index[w]
-
-    data['input_word_index'] = input_word_index
-    data['output_word_index'] = output_word_index
-    data['encoder_input'] = encoder_input
-    data['decoder_input'] = decoder_input
-    data['decoder_target'] = decoder_target
-    return data
-
-
-def build_model_chars(num_chars, lstm_units=256, layers=1, optimiser='adam'):
+def build_model_chars(num_chars, lstm_units=256, optimiser='adam'):
     """
     encoder_input will be the large matrix with all the information
     Outputs from encoder LSTM are: encoder_outputs: hidden_state at every timestep; state_h: final hidden state;
@@ -310,7 +228,6 @@ def build_model_chars(num_chars, lstm_units=256, layers=1, optimiser='adam'):
     decoder_state_input_enc = Input(shape=[None, lstm_units])
     decoder_states_inputs = [decoder_state_input_h, decoder_state_input_c]
     decoder_outputs, state_h, state_c = decoder_lstm(decoder_input, initial_state=decoder_states_inputs)
-    #dec_attention = Attention(name='attention')([decoder_outputs, decoder_state_input_enc])
     dec_attention = attention([decoder_outputs, decoder_state_input_enc])
     concat_output = concat([decoder_outputs, dec_attention])
     decoder_states = [state_h, state_c]
@@ -321,87 +238,45 @@ def build_model_chars(num_chars, lstm_units=256, layers=1, optimiser='adam'):
     return model, encoder_model, decoder_model
 
 
-def build_model_words(num_input_words, num_output_words, lstm_units=256, layers=1, optimiser='adam'):
+def train_model_chars(model_name, delex_slots=(), lstm_units=256, batch_size=64, epochs=25):
     """
-    encoder_input will be the large matrix with all the information
-    Outputs from encoder LSTM are: encoder_outputs: hidden_state at every timestep; state_h: final hidden state;
-    state_c: final cell state
-    decoder_input will be matrix with each letter of output
-    Initial state for decoder lstm is encoder states
+    Trains character model with given parameters
     """
-    encoder_input = Input(shape=(None, num_input_words), name='encoder_input')
-    # Need to add embedding layer but it seems that that takes list of ints
-    encoder_outputs, state_h, state_c = CuDNNLSTM(lstm_units, return_sequences=True, return_state=True,
-                                                  name="encoder_lstm")(encoder_input)
-    encoder_states = [state_h, state_c]
-
-    decoder_input = Input(shape=(None, num_output_words), name='decoder_input')
-    """input_embed_layer = Embedding(input_dim=num_output_words, output_dim=200)
-    input_embed = input_embed_layer(decoder_input)
-    input_embed.set_shape([None, None, None, None])"""
-    decoder_lstm = CuDNNLSTM(lstm_units, return_sequences=True, return_state=True, name="decoder_lstm")
-    decoder_outputs, _, _ = decoder_lstm(decoder_input, initial_state=encoder_states)
-    attention = Attention(name="attention")([decoder_outputs, encoder_outputs])
-    attention.set_shape([None, None, lstm_units])
-    decoder_dense = Dense(num_output_words, input_shape=[None, None, lstm_units], activation='softmax',
-                          name='softmax_output')
-    decoder_output = decoder_dense(attention)
-
-    model = Model([encoder_input, decoder_input], decoder_output)
-    model.compile(optimizer=optimiser, loss='categorical_crossentropy')
-
-    encoder_info = [state_h, state_c, encoder_outputs]
-    encoder_model = Model(encoder_input, encoder_info)
-
-    decoder_state_input_h = Input(shape=(lstm_units,))
-    decoder_state_input_c = Input(shape=(lstm_units,))
-    decoder_state_input_enc = Input(shape=[None, lstm_units])
-    decoder_states_inputs = [decoder_state_input_h, decoder_state_input_c]
-    #input_embed = input_embed_layer(decoder_input)
-    decoder_outputs, state_h, state_c = decoder_lstm(decoder_input, initial_state=decoder_states_inputs)
-    dec_attention = Attention()([decoder_outputs, decoder_state_input_enc])
-    decoder_states = [state_h, state_c]
-    decoder_outputs = decoder_dense(dec_attention)
-    dec_state_inputs = [decoder_state_input_h, decoder_state_input_c, decoder_state_input_enc]
-    decoder_model = Model([decoder_input] + dec_state_inputs, [decoder_outputs] + decoder_states)
-
-    return model, encoder_model, decoder_model
-
-
-def train_model_chars(model_name, delex_slots=(), lstm_units=256, batch_size=64, epochs=25, layers=1):
     training_data = load_data_chars(delex_slots=delex_slots)
     training_data = vectorise_chars(training_data)
-    model, encoder_model, decoder_model = build_model_chars(training_data['num_chars'], lstm_units, layers=layers)
+    model, encoder_model, decoder_model = build_model_chars(training_data['num_chars'], lstm_units)
     model.fit(x=[training_data["encoder_input"], training_data["decoder_input"]], y=training_data["decoder_target"],
-              batch_size=batch_size, epochs=epochs, validation_split=0.2)
+              batch_size=batch_size, epochs=epochs, validation_split=0.1)
     model.save(model_name + '.h5')
     encoder_model.save(model_name + '_encoder.h5')
     decoder_model.save(model_name + '_decoder.h5')
 
 
-def train_model_words(model_name, delex_slots=(), lstm_units=256, batch_size=64, epochs=25, layers=1):
-    training_data = load_data_words(delex_slots=delex_slots)
-    training_data = vectorise_words(training_data)
-    model, encoder_model, decoder_model = build_model_words(training_data["num_input_words"],
-                                                            training_data["num_output_words"], lstm_units,
-                                                            layers=layers)
-    model.fit(x=[training_data["encoder_input"], training_data["decoder_input"]], y=training_data["decoder_target"],
-              batch_size=batch_size, epochs=epochs, validation_split=0.2)
-
-
-def train_reverse_model_chars(model_name, delex_slots=(), lstm_units=256, batch_size=64, epochs=25, layers=1):
+def train_reverse_model_chars(model_name, delex_slots=(), lstm_units=256, batch_size=64, epochs=25):
+    """
+    Trains reverse model with given parameters
+    """
     training_data = load_data_chars_reverse(delex_slots=delex_slots)
     training_data = vectorise_chars_reverse(training_data)
-    model, encoder_model, decoder_model = build_model_chars(training_data['num_chars'], lstm_units, layers=layers)
+    model, encoder_model, decoder_model = build_model_chars(training_data['num_chars'], lstm_units)
     model.fit(x=[training_data["encoder_input"], training_data["decoder_input"]], y=training_data["decoder_target"],
-              batch_size=batch_size, epochs=epochs, validation_split=0.2)
+              batch_size=batch_size, epochs=epochs, validation_split=0.1)
     model.save(model_name + 'reverse.h5')
     encoder_model.save(model_name + 'reverse_encoder.h5')
     decoder_model.save(model_name + 'reverse_decoder.h5')
 
 
-#train_model_words("test")
-#train_model_chars("basic2", epochs=25)
-#train_model_chars("delex_test", delex_slots=("name", "priceRange", "near", "area"), epochs=50)
-train_reverse_model_chars("reverse_1", epochs=50)
-#train_model_chars("basic512", lstm_units=512)
+train_reverse_model_chars("basic", epochs=50)
+train_model_chars("basic_model", epochs=50)
+train_model_chars("name_delex", epochs=50, delex_slots=("name",))
+train_model_chars("near_delex", epochs=50, delex_slots=("near",))
+train_model_chars("area_delex", epochs=50, delex_slots=("area",))
+train_model_chars("food_delex", epochs=50, delex_slots=("food",))
+train_model_chars("priceRange_delex", epochs=50, delex_slots=("priceRange",))
+train_model_chars("eatType_delex", epochs=50, delex_slots=("eatType",))
+train_model_chars("customer_rating_delex", epochs=50, delex_slots=("customer rating",))
+train_model_chars("all_delex", epochs=50, delex_slots=("name", "priceRange", "near", "area", "food", "eatType",
+                                                       "customer rating"))
+train_model_chars("near_area_delex", epochs=50, delex_slots=("near","area"))
+train_model_chars("near_name_area_delex", epochs=50, delex_slots=("near","name", "area"))
+

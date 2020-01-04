@@ -3,6 +3,12 @@ import pickle
 from collections import Counter
 from nltk import word_tokenize
 
+
+"""
+File creates a set of all characters that may be used in MRs and sentences
+"""
+
+
 start_char = '\t'
 end_char = '\n'
 train_set = pd.read_csv("trainset.csv")
@@ -28,20 +34,3 @@ for c in need_included:
         characters.add(c)
 
 pickle.dump(characters, open("char_set.obj", "wb"))
-
-mr_words = Counter()
-sentence_words = Counter()
-for i in range(len(inputs)):
-    for w in word_tokenize(inputs[i]):
-        mr_words[w] += 1
-for i in range(len(outputs)):
-    for w in word_tokenize(outputs[i]):
-        sentence_words[w] += 1
-
-print(sentence_words.most_common(10))
-sentence_word_set = set(sentence_words)
-sentence_word_set.add('\t')
-sentence_word_set.add('\n')
-
-pickle.dump(set(mr_words), open("mr_word_set.obj", "wb"))
-pickle.dump(sentence_word_set, open("ref_word_set.obj", "wb"))
