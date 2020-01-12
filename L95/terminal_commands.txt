@@ -1,0 +1,15 @@
+Below are commands used to:
+
+Run Stanford NN parser:
+java -cp "*" edu.stanford.nlp.pipeline.StanfordCoreNLP -file input.txt -outputFormat conll -depparse.model stanford-corenlp-3.9.2-models/edu/stanford/nlp/models/parser/nndep/english_SD.gz -originalDependencies
+
+Run Stanford SR parser:
+java -cp "*" edu.stanford.nlp.pipeline.StanfordCoreNLP -file input.txt -outputFormat conll -parse.model stanford-srparser-2014-10-23-models/edu/stanford/nlp/models/srparser/englishSR.ser.gz -annotators "tokenize,ssplit,pos,parse" -parse.originalDependencies
+
+
+Run MaltEval
+
+java -jar MaltEval.jar -e eval.xml -s sr_output_for_eval.conll -g gs_for_eval.conll 
+
+java -jar MaltEval.jar -e eval.xml -s nn_output_for_eval.conll -g gs_for_eval.conll 
+

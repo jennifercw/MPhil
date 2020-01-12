@@ -1,0 +1,11 @@
+<evaluation>
+<parameter name="GroupBy">
+<value>Deprel</value>
+</parameter>
+<parameter name="Metric">
+<value>self</value>
+</parameter>
+<parameter name="GroupBy">
+<value format="precision|recall|fscore|parsercounter">Deprel</value>
+</parameter>
+</evaluation>
